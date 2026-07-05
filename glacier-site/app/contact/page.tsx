@@ -3,6 +3,7 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/ContactForm";
+import Mascot from "@/components/Mascot";
 import { Phone, MapPin, Clock, Check } from "@/components/Icons";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
@@ -61,15 +62,20 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="mt-8 rounded-2xl bg-navy-800 p-6 text-white">
-              <h3 className="iced text-lg uppercase">Why homeowners call Glacier first</h3>
-              <ul className="mt-4 space-y-2 text-sm text-white/85">
-                {["Same-day &amp; 24/7 emergency service","Upfront, honest pricing — no surprises","Certified, background-checked technicians","Financing available on qualifying installs","100% satisfaction guarantee"].map((t) => (
-                  <li key={t} className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-turquoise" /> <span dangerouslySetInnerHTML={{ __html: t }} />
-                  </li>
-                ))}
-              </ul>
+            <div className="mt-8 flex items-center gap-4 rounded-2xl bg-navy-800 p-6 text-white">
+              <div className="flex-1">
+                <h3 className="iced text-lg uppercase">Why homeowners call Glacier first</h3>
+                <ul className="mt-4 space-y-2 text-sm text-white/85">
+                  {["Same-day &amp; 24/7 emergency service","Upfront, honest pricing — no surprises","Certified, background-checked technicians","Financing available on qualifying installs","100% satisfaction guarantee"].map((t) => (
+                    <li key={t} className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-turquoise" /> <span dangerouslySetInnerHTML={{ __html: t }} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Mascot alt="Glacier yeti mascot waving hello" width={200} height={267}
+                sizes="120px"
+                className="hidden h-40 w-auto shrink-0 self-end object-contain drop-shadow-xl sm:block" />
             </div>
           </div>
 

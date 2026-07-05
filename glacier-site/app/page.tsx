@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Mascot from "@/components/Mascot";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { services } from "@/lib/services";
@@ -65,13 +65,22 @@ function Hero() {
         </div>
 
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-          <div className="animate-float">
-            <Image
-              src={site.mascotUrl}
+          {/* frosty glow halo behind the mascot */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-turquoise/30 blur-3xl" aria-hidden />
+          <div className="relative animate-float">
+            <Mascot
               alt="Glacier Heating & Air yeti mascot giving a thumbs up"
               width={896} height={1200} priority
-              className="mx-auto h-auto w-[78%] max-w-sm object-contain drop-shadow-[0_20px_40px_rgba(0,20,45,0.45)] lg:w-full lg:max-w-lg"
+              sizes="(max-width: 1024px) 80vw, 40vw"
+              className="mx-auto h-auto w-[82%] max-w-sm object-contain drop-shadow-[0_28px_50px_rgba(0,20,45,0.55)] lg:w-full lg:max-w-lg"
             />
+          </div>
+          {/* floating trust badge */}
+          <div className="absolute -bottom-2 left-0 hidden rounded-2xl bg-white/95 px-4 py-3 shadow-xl ring-1 ring-ice-100 backdrop-blur sm:block lg:-left-4">
+            <div className="flex items-center gap-1 text-gold">
+              {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4" />)}
+            </div>
+            <p className="mt-0.5 text-xs font-bold text-navy-800">{site.ratingValue}★ · {site.reviewCount}+ reviews</p>
           </div>
         </div>
       </div>
@@ -211,8 +220,8 @@ function LocalService() {
         <div className="relative">
           <div className="aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-to-br from-ice-200 to-ice-500 shadow-xl ring-1 ring-ice-100">
             <div className="flex h-full flex-col items-center justify-center p-8 text-center text-white">
-              <Image src={site.mascotUrl} alt="Glacier technician mascot" width={300} height={400}
-                className="h-48 w-auto object-contain drop-shadow-xl" />
+              <Mascot alt="Glacier technician mascot" width={300} height={400}
+                className="h-56 w-auto object-contain drop-shadow-xl" />
               <p className="mt-4 max-w-xs text-sm font-semibold text-white/90">
                 Certified local technicians serving San Antonio neighborhoods since {site.foundedYear}.
               </p>

@@ -12,8 +12,8 @@ export const site = {
   foundedYear: 2009,
 
   // ---- Contact (PLACEHOLDERS — replace with real business details) ----
-  phoneDisplay: "(210) 794-5433",
-  phoneHref: "tel:+12107945433",
+  phoneDisplay: "(205) 601-3797",
+  phoneHref: "tel:+12056013797",
   email: "hello@glacierheatingair.com",
   address: {
     street: "1100 NW Loop 410",

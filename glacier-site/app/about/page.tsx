@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Mascot from "@/components/Mascot";
 import { site } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
@@ -72,7 +72,8 @@ export default function AboutPage() {
             <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-b from-ice-500 to-navy-800 p-8 shadow-xl">
               <div className="hero-mountains absolute inset-0 opacity-70" aria-hidden />
               <div className="relative flex flex-col items-center text-center">
-                <Image src={site.mascotUrl} alt="Glacier's yeti mascot" width={280} height={375}
+                <Mascot alt="Glacier's yeti mascot" width={280} height={375}
+                  sizes="(max-width: 1024px) 60vw, 280px"
                   className="animate-float drop-shadow-2xl" priority />
                 <p className="iced iced-light mt-4 text-xl">Meet the crew&apos;s coolest member</p>
                 <p className="mt-1 text-sm text-white/80">Our mascot keeps things cool — our technicians keep them running.</p>
