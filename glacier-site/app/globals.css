@@ -156,6 +156,11 @@ body {
     drop-shadow(1.5px 1.5px 0 #fff) drop-shadow(-1.5px 1.5px 0 #fff)
     drop-shadow(1.5px -1.5px 0 #fff) drop-shadow(-1.5px -1.5px 0 #fff)
     drop-shadow(0 22px 26px rgba(0, 20, 45, 0.5));
+  /* The source art bakes a text banner into its bottom quarter. Clip that zone
+     with a soft fade so the character reads head-to-hips as a clean bust and NO
+     baked lettering can ever show, regardless of the source art. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 68%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 68%);
 }
 
 details > summary { list-style: none; }
