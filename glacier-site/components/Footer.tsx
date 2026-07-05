@@ -14,7 +14,7 @@ export default function Footer() {
           {/* Brand / contact */}
           <div>
             <div className="flex items-center gap-2.5">
-              <GlacierMark className="h-11 w-11" />
+              <GlacierMark className="h-12 w-auto" />
               <span className="leading-none">
                 <span className="block font-[family-name:var(--font-montserrat)] text-xl font-extrabold uppercase tracking-tight">Glacier</span>
                 <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-ice-300">Heating &amp; Air</span>

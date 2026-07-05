@@ -1,4 +1,6 @@
 import type { SVGProps } from "react";
+import Image from "next/image";
+import logoMark from "../public/logo-mark.png";
 import type { ServiceIcon } from "@/lib/services";
 
 type P = SVGProps<SVGSVGElement>;
@@ -58,11 +60,14 @@ export const serviceIcons: Record<ServiceIcon, (p: P) => React.ReactElement> = {
   split: Split, building: Building, droplet: Droplet, shield: Shield,
 };
 
-/** Glacier "G" mark — arc + wordmark used until final logo art drops in. */
-export const GlacierMark = (p: P) => (
-  <svg viewBox="0 0 48 48" fill="none" {...p}>
-    <path d="M39 17A17 17 0 1 0 41 28" stroke="#1f8fd6" strokeWidth="6" strokeLinecap="round" />
-    <path d="M24 24h16v3a13 13 0 0 1-13 13" stroke="#e11f26" strokeWidth="6" strokeLinecap="round" />
-    <circle cx="24" cy="24" r="4" fill="#e6f4fc" />
-  </svg>
+/** Glacier brand mark — snowflake (cool) + sun (heat) HVAC emblem.
+ *  Real logo art in /public/logo-mark.png (transparent, trimmed to the artwork).
+ *  Pass a height class + `w-auto` so the ~1:1 mark keeps its exact proportions. */
+export const GlacierMark = ({ className }: { className?: string }) => (
+  <Image
+    src={logoMark}
+    alt="Glacier Heating & Air logo"
+    priority
+    className={["object-contain", className].filter(Boolean).join(" ")}
+  />
 );

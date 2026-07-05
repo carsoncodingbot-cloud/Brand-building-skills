@@ -23,7 +23,7 @@ export default function Header() {
     >
       <div className="container-x flex h-20 items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5" aria-label={site.name}>
-          <GlacierMark className="h-10 w-10 shrink-0" />
+          <GlacierMark className="h-11 w-auto shrink-0" />
           <span className="leading-none">
             <span className="block font-[family-name:var(--font-montserrat)] text-xl font-900 font-extrabold uppercase tracking-tight text-white">
               Glacier
