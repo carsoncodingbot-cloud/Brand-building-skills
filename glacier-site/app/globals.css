@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Glacier Heating & Air — design tokens
+   Palette: deep navy + red CTA + ice-blue accents (winter / yeti theme).
+   ========================================================================== */
+@theme {
+  --color-navy-950: #001a38;
+  --color-navy-900: #002247;
+  --color-navy-800: #002b58; /* primary navy — navbar, dark cards */
+  --color-navy-700: #0a3a6b;
+  --color-navy-600: #14497f;
+
+  --color-red-brand: #e11f26; /* primary CTA */
+  --color-red-brandhover: #c4161c;
+
+  --color-ice-700: #0b6d8f;
+  --color-ice-600: #1573a8;
+  --color-ice-500: #1f8fd6; /* icon blue / links */
+  --color-ice-400: #4fa9e0;
+  --color-ice-300: #8fcdee;
+  --color-ice-200: #cfeafa;
+  --color-ice-100: #e6f4fc; /* light section bg */
+  --color-ice-50: #f2f9fe;
+
+  --color-turquoise: #3fd0e0; /* snowflake accent */
+  --color-gold: #f5a623;      /* stars */
+
+  --font-heading: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  --font-body: var(--font-opensans), "Open Sans", system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f2038;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* --------------------------------------------------------------------------
+   Signature "iced" headline — chunky Montserrat with layered frost glow.
+   -------------------------------------------------------------------------- */
+.iced {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.98;
+}
+.iced-light {
+  color: #ffffff;
+  text-shadow:
+    0 1px 0 #bfe2f7,
+    0 2px 0 #9fd2f2,
+    0 3px 0 #4fa9e0,
+    0 4px 0 #1f8fd6,
+    0 6px 14px rgba(31, 143, 214, 0.55);
+}
+.iced-dark {
+  color: #062a55;
+  text-shadow:
+    0 1px 0 #cfeafa,
+    0 2px 0 #a9d9f4,
+    0 3px 8px rgba(31, 143, 214, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-radius: 9999px;
+  padding: 0.9rem 1.75rem;
+  font-size: 0.95rem;
+  transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--color-red-brand);
+  color: #fff;
+  box-shadow: 0 10px 22px -8px rgba(225, 31, 38, 0.6);
+}
+.btn-primary:hover { background: var(--color-red-brandhover); }
+
+.btn-outline-light {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+}
+.btn-outline-light:hover { background: rgba(255, 255, 255, 0.12); }
+
+.btn-outline-navy {
+  background: transparent;
+  color: var(--color-navy-800);
+  border: 2px solid var(--color-navy-800);
+}
+.btn-outline-navy:hover { background: var(--color-navy-800); color: #fff; }
+
+/* --------------------------------------------------------------------------
+   Layout helpers
+   -------------------------------------------------------------------------- */
+.container-x {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-x { padding-inline: 2rem; }
+}
+
+/* Faint mountain-silhouette texture for hero / dark bands */
+.hero-mountains {
+  background-image:
+    linear-gradient(180deg, rgba(0, 27, 58, 0) 0%, rgba(0, 27, 58, 0.72) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 600' preserveAspectRatio='xMidYMax slice'%3E%3Cpath d='M0 600 L0 340 L240 180 L430 320 L620 120 L820 360 L1010 200 L1220 380 L1440 240 L1440 600 Z' fill='%23093a6b' fill-opacity='0.5'/%3E%3Cpath d='M0 600 L0 420 L180 300 L380 440 L560 260 L780 460 L980 320 L1200 470 L1440 360 L1440 600 Z' fill='%230a2f5c' fill-opacity='0.65'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center bottom;
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: floatY 5s ease-in-out infinite; }
+
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
