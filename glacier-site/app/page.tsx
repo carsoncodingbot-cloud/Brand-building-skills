@@ -72,7 +72,7 @@ function Hero() {
               alt="Glacier Heating & Air yeti mascot giving a thumbs up"
               width={896} height={1200} priority
               sizes="(max-width: 1024px) 80vw, 40vw"
-              className="mx-auto h-auto w-[82%] max-w-sm object-contain drop-shadow-[0_28px_50px_rgba(0,20,45,0.55)] lg:w-full lg:max-w-lg"
+              className="mx-auto h-auto w-[82%] max-w-sm object-contain lg:w-full lg:max-w-lg"
             />
           </div>
           {/* floating trust badge */}
@@ -221,7 +221,7 @@ function LocalService() {
           <div className="aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-to-br from-ice-200 to-ice-500 shadow-xl ring-1 ring-ice-100">
             <div className="flex h-full flex-col items-center justify-center p-8 text-center text-white">
               <Mascot alt="Glacier technician mascot" width={300} height={400}
-                className="h-56 w-auto object-contain drop-shadow-xl" />
+                className="h-56 w-auto object-contain" />
               <p className="mt-4 max-w-xs text-sm font-semibold text-white/90">
                 Certified local technicians serving San Antonio neighborhoods since {site.foundedYear}.
               </p>

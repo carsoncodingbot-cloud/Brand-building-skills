@@ -74,7 +74,7 @@ export default function AboutPage() {
               <div className="relative flex flex-col items-center text-center">
                 <Mascot alt="Glacier's yeti mascot" width={280} height={375}
                   sizes="(max-width: 1024px) 60vw, 280px"
-                  className="animate-float drop-shadow-2xl" priority />
+                  className="animate-float" priority />
                 <p className="iced iced-light mt-4 text-xl">Meet the crew&apos;s coolest member</p>
                 <p className="mt-1 text-sm text-white/80">Our mascot keeps things cool — our technicians keep them running.</p>
               </div>

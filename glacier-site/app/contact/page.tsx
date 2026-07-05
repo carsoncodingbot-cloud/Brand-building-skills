@@ -75,7 +75,7 @@ export default function ContactPage() {
               </div>
               <Mascot alt="Glacier yeti mascot waving hello" width={200} height={267}
                 sizes="120px"
-                className="hidden h-40 w-auto shrink-0 self-end object-contain drop-shadow-xl sm:block" />
+                className="hidden h-40 w-auto shrink-0 self-end object-contain sm:block" />
             </div>
           </div>
 

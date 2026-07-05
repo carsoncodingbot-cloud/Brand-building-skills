@@ -58,7 +58,7 @@ export default function Mascot({
       priority={priority}
       sizes={sizes}
       unoptimized={!local}
-      className={className}
+      className={["mascot-sticker", className].filter(Boolean).join(" ")}
     />
   );
 }

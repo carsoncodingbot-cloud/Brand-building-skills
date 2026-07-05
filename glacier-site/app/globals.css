@@ -146,5 +146,17 @@ body {
 }
 .animate-float { animation: floatY 5s ease-in-out infinite; }
 
+/* Mascot "die-cut sticker" treatment: a clean white keyline around the
+   transparent cutout plus a soft navy ground shadow, so the yeti reads as a
+   premium branded sticker on any background (matches the reference look). */
+.mascot-sticker {
+  filter:
+    drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff)
+    drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff)
+    drop-shadow(1.5px 1.5px 0 #fff) drop-shadow(-1.5px 1.5px 0 #fff)
+    drop-shadow(1.5px -1.5px 0 #fff) drop-shadow(-1.5px -1.5px 0 #fff)
+    drop-shadow(0 22px 26px rgba(0, 20, 45, 0.5));
+}
+
 details > summary { list-style: none; }
 details > summary::-webkit-details-marker { display: none; }

@@ -42,10 +42,11 @@ export const site = {
   ratingValue: "4.9",
   reviewCount: "687",
 
-  // Original AI-generated yeti mascot (Glacier's own art).
-  // TODO: download to /public/mascot.png for production hosting.
+  // Original AI-generated yeti mascot (Glacier's own art), background removed so
+  // it's a transparent die-cut that blends onto any section. Run `npm run mascot`
+  // to self-host it to /public/mascot.png for production.
   mascotUrl:
-    "https://d8j0ntlcm91z4.cloudfront.net/user_3EFHqkjAJw1tPqwYodNRagIPXqe/hf_20260705_165739_bc57cc04-aae9-42f8-a036-8ae20b45aebf.png",
+    "https://d8j0ntlcm91z4.cloudfront.net/user_3EFHqkjAJw1tPqwYodNRagIPXqe/hf_20260705_195320_621ad0fd-34f0-469c-8fa7-290b1b05be94.png",
 } as const;
 
 export const NAV_SERVICES = [
