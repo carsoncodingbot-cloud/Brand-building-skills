@@ -46,7 +46,7 @@ export const site = {
   // it's a transparent die-cut that blends onto any section. Run `npm run mascot`
   // to self-host it to /public/mascot.png for production.
   mascotUrl:
-    "https://d8j0ntlcm91z4.cloudfront.net/user_3EFHqkjAJw1tPqwYodNRagIPXqe/hf_20260705_195320_621ad0fd-34f0-469c-8fa7-290b1b05be94.png",
+    "https://d8j0ntlcm91z4.cloudfront.net/user_3EFHqkjAJw1tPqwYodNRagIPXqe/hf_20260705_200156_a2663776-36a3-4700-9d06-42231a078ccf.png",
 } as const;
 
 export const NAV_SERVICES = [
