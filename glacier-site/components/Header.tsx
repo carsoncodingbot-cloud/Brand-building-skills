@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { site, NAV_SERVICES, NAV_QUICK } from "@/lib/site";
-import { GlacierMark, ChevronDown, Phone } from "@/components/Icons";
+import { GlacierMark, ChevronDown, ChevronRight, Phone, Star } from "@/components/Icons";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -14,6 +14,8 @@ export default function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const close = () => setOpenMobile(false);
 
   return (
     <header
@@ -57,23 +59,29 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — short, collapsible, CTA-first */}
       {openMobile && (
-        <div className="lg:hidden border-t border-white/10 bg-navy-800">
-          <div className="container-x space-y-1 py-4">
-            <MobileLink href="/contact" onClick={() => setOpenMobile(false)}>Contact</MobileLink>
-            <MobileLink href="/glacier-club" onClick={() => setOpenMobile(false)}>Glacier Club</MobileLink>
-            <p className="px-1 pt-3 pb-1 text-xs font-bold uppercase tracking-wider text-ice-300">Services</p>
-            {NAV_SERVICES.map((s) => (
-              <MobileLink key={s.href} href={s.href} onClick={() => setOpenMobile(false)}>{s.label}</MobileLink>
-            ))}
-            <p className="px-1 pt-3 pb-1 text-xs font-bold uppercase tracking-wider text-ice-300">Quick Links</p>
-            {NAV_QUICK.map((s) => (
-              <MobileLink key={s.href} href={s.href} onClick={() => setOpenMobile(false)}>{s.label}</MobileLink>
-            ))}
-            <Link href={site.phoneHref} className="btn btn-primary mt-4 w-full">
-              <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
-            </Link>
+        <div className="lg:hidden border-t border-white/10 bg-gradient-to-b from-navy-800 to-[#001a36]">
+          <div className="container-x max-h-[calc(100dvh-5rem)] overflow-y-auto py-3">
+            <nav className="divide-y divide-white/10">
+              <MobileTop href="/contact" onClick={close}>Contact</MobileTop>
+              <MobileTop href="/glacier-club" onClick={close}>Glacier Club</MobileTop>
+              <MobileAccordion label="Services" items={NAV_SERVICES} onNavigate={close} />
+              <MobileAccordion label="Quick Links" items={NAV_QUICK.filter((i) => i.href !== "/contact")} onNavigate={close} />
+            </nav>
+
+            <div className="mt-5 space-y-3 pb-3">
+              <Link href="/contact" onClick={close} className="btn btn-primary w-full text-base">Schedule Online</Link>
+              <Link href={site.phoneHref} onClick={close} className="btn btn-outline-light w-full">
+                <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
+              </Link>
+              <p className="flex items-center justify-center gap-1.5 pt-1 text-center text-xs text-ice-200">
+                <span className="flex gap-0.5 text-gold">
+                  {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5" />)}
+                </span>
+                {site.ratingValue} · San Antonio&apos;s coolest team
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -101,11 +109,37 @@ function Dropdown({ label, items }: { label: string; items: { label: string; hre
   );
 }
 
-function MobileLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) {
+function MobileTop({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) {
   return (
     <Link href={href} onClick={onClick}
-      className="block rounded-lg px-1 py-2 font-semibold text-white/90 hover:text-white">
+      className="flex items-center justify-between py-3.5 text-lg font-semibold text-white transition active:text-ice-300">
       {children}
+      <ChevronRight className="h-4 w-4 text-ice-400" />
     </Link>
+  );
+}
+
+function MobileAccordion({ label, items, onNavigate }: { label: string; items: { label: string; href: string }[]; onNavigate: () => void }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}
+        className="flex w-full items-center justify-between py-3.5 text-lg font-semibold text-white">
+        {label}
+        <ChevronDown className={`h-5 w-5 text-ice-400 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+      </button>
+      <div className={`grid transition-all duration-300 ease-out ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="overflow-hidden">
+          <div className="mb-2 ml-1 space-y-0.5 border-l-2 border-ice-500/50 pl-4">
+            {items.map((it) => (
+              <Link key={it.href} href={it.href} onClick={onNavigate}
+                className="block rounded-lg py-2.5 text-[0.95rem] font-medium text-white/75 transition hover:text-white active:text-ice-300">
+                {it.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
