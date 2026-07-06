@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import PageHero from "@/components/PageHero";
-import ContactForm from "@/components/ContactForm";
+import ServiceFunnel from "@/components/ServiceFunnel";
 import Mascot from "@/components/Mascot";
 import { Phone, MapPin, Clock, Check } from "@/components/Icons";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
@@ -79,11 +79,11 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Form column */}
+          {/* Funnel column */}
           <div>
-            <h2 className="iced iced-dark text-2xl sm:text-3xl">Request service online</h2>
-            <p className="mt-4 text-slate-600">Fill out the form and we&apos;ll reach out to confirm your appointment.</p>
-            <div className="mt-6"><ContactForm /></div>
+            <h2 className="iced iced-dark text-2xl sm:text-3xl">Book service in 60 seconds</h2>
+            <p className="mt-4 text-slate-600">Answer a few quick questions and we&apos;ll match you with the right tech — no phone tag required.</p>
+            <div className="mt-6"><ServiceFunnel /></div>
           </div>
         </div>
       </section>

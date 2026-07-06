@@ -146,6 +146,16 @@ body {
 }
 .animate-float { animation: floatY 5s ease-in-out infinite; }
 
+/* Multi-step funnel — silky step entrance */
+@keyframes stepIn {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.animate-step { animation: stepIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-step { animation: none; }
+}
+
 /* Scroll-reveal (used by components/Reveal.tsx) — slow, silky ease-out */
 .reveal { opacity: 0; transition: opacity 1s ease, transform 1.25s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; transform: translateZ(0); backface-visibility: hidden; }
 .reveal[data-reveal="right"] { transform: translate3d(56px, 0, 0); }
