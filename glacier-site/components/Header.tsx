@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { site, NAV_SERVICES, NAV_QUICK } from "@/lib/site";
-import { GlacierMark, ChevronDown, ChevronRight, Phone, Star } from "@/components/Icons";
+import { GlacierMark, ChevronDown, ChevronRight, Phone, Star, GoogleG } from "@/components/Icons";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -76,6 +76,9 @@ export default function Header() {
                 <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
               </Link>
               <p className="flex items-center justify-center gap-1.5 pt-1 text-center text-xs text-ice-200">
+                <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/40">
+                  <GoogleG className="h-2.5 w-2.5" />
+                </span>
                 <span className="flex gap-0.5 text-gold">
                   {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5" />)}
                 </span>
