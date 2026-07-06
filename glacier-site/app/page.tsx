@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { services } from "@/lib/services";
-import { serviceIcons, Star, Phone, ChevronRight, Snowflake, Check, Clock, Shield, MapPin, GoogleG } from "@/components/Icons";
+import { serviceIcons, Star, Phone, ChevronRight, Snowflake, Check, Clock, Shield, MapPin, GoogleG, Wrench } from "@/components/Icons";
 import Faq from "@/components/Faq";
 import Reviews from "@/components/Reviews";
 import { FaqJsonLd } from "@/components/JsonLd";
@@ -45,11 +45,14 @@ function Hero() {
       <div className="hero-mountains absolute inset-0" aria-hidden />
       <div className="container-x relative grid items-center gap-8 py-14 sm:py-20 lg:grid-cols-2 lg:py-24">
         <div>
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1 text-gold">
-              {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-5 w-5" />)}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/40">
+              <GoogleG className="h-4 w-4" />
+            </span>
+            <div className="flex gap-0.5 text-gold">
+              {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5" />)}
             </div>
-            <span className="font-[family-name:var(--font-montserrat)] text-sm font-bold uppercase tracking-wider text-ice-200">
+            <span className="font-[family-name:var(--font-montserrat)] text-xs font-bold uppercase tracking-wider text-ice-200 sm:text-sm">
               Top-Rated San Antonio HVAC
             </span>
           </div>
@@ -153,6 +156,19 @@ function ServicesSection() {
               </Link>
             );
           })}
+          {/* Plumbing — sits between Water Heaters and the Emergency card */}
+          <Link href="/plumbing"
+            className="group flex flex-col rounded-[var(--radius-card)] bg-navy-800 p-7 text-center text-white shadow-sm transition hover:-translate-y-1">
+            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ice-500 text-white">
+              <Wrench className="h-7 w-7" />
+            </span>
+            <h3 className="iced mt-4 text-lg font-extrabold uppercase text-white">Plumbing</h3>
+            <p className="mt-2 flex-1 text-sm text-white/80">From leaks and clogged drains to water heater installs and fixture upgrades — we keep your home&apos;s plumbing running smoothly.</p>
+            <span className="mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-bold text-ice-300 group-hover:text-white">
+              Learn More <ChevronRight className="h-4 w-4" />
+            </span>
+          </Link>
+
           <Link href={site.phoneHref}
             className="group flex flex-col items-center justify-center rounded-[var(--radius-card)] bg-red-brand p-7 text-center text-white shadow-sm transition hover:-translate-y-1">
             <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15">
@@ -173,19 +189,17 @@ function ServicesSection() {
 /* ------------------------------------------------------------ Glacier Club */
 function GlacierClubCta() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-ice-600 to-ice-700 py-20">
-      <WaveTop />
-
-      {/* Wrapped van — slides in from the right */}
+    <section className="relative overflow-hidden bg-gradient-to-b from-ice-100 via-ice-500 to-ice-700 pt-16 pb-20 sm:pt-8">
+      {/* Wrapped van — slides in from the right, floating on a blended gradient */}
       <div className="container-x relative">
         <Reveal from="right" className="relative mx-auto max-w-4xl">
-          <div className="pointer-events-none absolute inset-x-16 bottom-4 h-10 rounded-[50%] bg-black/35 blur-2xl" aria-hidden />
+          <div className="pointer-events-none absolute inset-x-16 bottom-3 h-10 rounded-[50%] bg-black/30 blur-2xl" aria-hidden />
           <Image
             src={vanImg}
             alt="Glacier Heating & Air wrapped Mercedes-Benz Sprinter service van"
             priority
             sizes="(max-width: 1024px) 92vw, 900px"
-            className="relative mx-auto h-auto w-full drop-shadow-[0_30px_45px_rgba(0,20,45,0.45)]"
+            className="relative mx-auto h-auto w-full drop-shadow-[0_30px_45px_rgba(0,20,45,0.4)]"
           />
         </Reveal>
       </div>
@@ -329,15 +343,6 @@ function EmergencyCta() {
 }
 
 /* --------------------------------------------------------- wave dividers */
-function WaveTop() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 leading-[0] text-ice-500">
-      <svg viewBox="0 0 1440 120" className="h-16 w-full" preserveAspectRatio="none" fill="currentColor">
-        <path d="M0 0h1440v40c-180 40-360 60-720 40C420 104 200 90 0 60z" />
-      </svg>
-    </div>
-  );
-}
 function WaveBottom() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 leading-[0] text-white">

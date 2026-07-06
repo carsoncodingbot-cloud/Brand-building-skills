@@ -56,6 +56,7 @@ export const NAV_SERVICES = [
   { label: "Ductless Mini-Splits", href: "/services/ductless-mini-splits" },
   { label: "Commercial HVAC", href: "/services/commercial-hvac" },
   { label: "Water Heaters", href: "/services/water-heaters" },
+  { label: "Plumbing", href: "/plumbing" },
 ];
 
 export const NAV_QUICK = [

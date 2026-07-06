@@ -55,6 +55,10 @@ export const Star = (p: P) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...p}><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.9 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9L12 2.5z" /></svg>
 );
 
+export const Wrench = (p: P) => (
+  <svg {...base(p)}><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>
+);
+
 export const serviceIcons: Record<ServiceIcon, (p: P) => React.ReactElement> = {
   home: Home, snowflake: Snowflake, flame: Flame, wind: Wind,
   split: Split, building: Building, droplet: Droplet, shield: Shield,

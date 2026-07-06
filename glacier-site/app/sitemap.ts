@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/financing`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/glacier-club`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/service-areas`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/plumbing`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
   ];
 
   const serviceRoutes: MetadataRoute.Sitemap = services.map((s) => ({
