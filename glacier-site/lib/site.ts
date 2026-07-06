@@ -14,7 +14,7 @@ export const site = {
   // ---- Contact (PLACEHOLDERS — replace with real business details) ----
   phoneDisplay: "(205) 601-3797",
   phoneHref: "tel:+12056013797",
-  email: "hello@glacierheatingair.com",
+  email: "hello@callglacier.com",
   address: {
     street: "1100 NW Loop 410",
     city: "San Antonio",
@@ -32,7 +32,7 @@ export const site = {
   priceRange: "$$",
 
   // ---- Web ----
-  url: "https://glacierheatingair.com",
+  url: "https://callglacier.com",
   bookingUrl: "/contact", // swap for external scheduler when live
   social: {
     facebook: "https://www.facebook.com/",

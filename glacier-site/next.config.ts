@@ -6,14 +6,13 @@ import type { NextConfig } from "next";
  * are untouched so local development still serves from the root.
  */
 const isExport = process.env.EXPORT === "true";
-// Repo name → GitHub Pages serves a project site at /<repo>/.
-const repoBasePath = "/Brand-building-skills";
+// Served from the root of the custom domain (callglacier.com), so no basePath.
+// (As a github.io project site it needed basePath "/Brand-building-skills".)
 
 const nextConfig: NextConfig = {
   ...(isExport
     ? {
         output: "export",
-        basePath: repoBasePath,
         trailingSlash: true,
       }
     : {}),
