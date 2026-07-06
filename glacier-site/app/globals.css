@@ -146,6 +146,16 @@ body {
 }
 .animate-float { animation: floatY 5s ease-in-out infinite; }
 
+/* Scroll-reveal (used by components/Reveal.tsx) */
+.reveal { opacity: 0; transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); will-change: opacity, transform; }
+.reveal[data-reveal="right"] { transform: translateX(70px); }
+.reveal[data-reveal="left"]  { transform: translateX(-70px); }
+.reveal[data-reveal="up"]    { transform: translateY(44px); }
+.reveal[data-visible="true"] { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
 /* Mascot "die-cut sticker" treatment: a clean white keyline around the
    transparent cutout plus a soft navy ground shadow, so the yeti reads as a
    premium branded sticker on any background (matches the reference look). */

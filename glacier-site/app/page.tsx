@@ -1,11 +1,15 @@
 import Mascot from "@/components/Mascot";
+import Reveal from "@/components/Reveal";
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { services } from "@/lib/services";
-import { serviceIcons, Star, Phone, ChevronRight, Snowflake, Check, Clock, Shield, MapPin } from "@/components/Icons";
+import { serviceIcons, Star, Phone, ChevronRight, Snowflake, Check, Clock, Shield, MapPin, GoogleG } from "@/components/Icons";
 import Faq from "@/components/Faq";
 import Reviews from "@/components/Reviews";
 import { FaqJsonLd } from "@/components/JsonLd";
+import vanImg from "../public/van.webp";
+import techImg from "../public/tech.webp";
 
 const HOME_FAQS = [
   { q: "What HVAC services do you offer?", a: "We provide air conditioning repair and installation, heating and furnace service, indoor air quality solutions, ductless mini-splits, water heaters, and commercial HVAC across greater San Antonio — plus 24/7 emergency service." },
@@ -75,12 +79,16 @@ function Hero() {
               className="mx-auto h-auto w-[82%] max-w-sm object-contain lg:w-full lg:max-w-lg"
             />
           </div>
-          {/* floating trust badge */}
+          {/* floating Google-reviews trust badge */}
           <div className="absolute -bottom-2 left-0 hidden rounded-2xl bg-white/95 px-4 py-3 shadow-xl ring-1 ring-ice-100 backdrop-blur sm:block lg:-left-4">
-            <div className="flex items-center gap-1 text-gold">
-              {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4" />)}
+            <div className="flex items-center gap-2">
+              <GoogleG className="h-5 w-5" />
+              <span className="font-[family-name:var(--font-montserrat)] text-sm font-extrabold text-navy-800">{site.ratingValue}</span>
+              <div className="flex gap-0.5 text-gold">
+                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5" />)}
+              </div>
             </div>
-            <p className="mt-0.5 text-xs font-bold text-navy-800">{site.ratingValue}★ · {site.reviewCount}+ reviews</p>
+            <p className="mt-1 text-[0.7rem] font-semibold uppercase tracking-wide text-slate-500">{site.reviewCount}+ Google reviews</p>
           </div>
         </div>
       </div>
@@ -167,7 +175,22 @@ function GlacierClubCta() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-ice-600 to-ice-700 py-20">
       <WaveTop />
-      <div className="container-x relative grid items-center gap-10 lg:grid-cols-2">
+
+      {/* Wrapped van — slides in from the right */}
+      <div className="container-x relative">
+        <Reveal from="right" className="relative mx-auto max-w-4xl">
+          <div className="pointer-events-none absolute inset-x-16 bottom-4 h-10 rounded-[50%] bg-black/35 blur-2xl" aria-hidden />
+          <Image
+            src={vanImg}
+            alt="Glacier Heating & Air wrapped Mercedes-Benz Sprinter service van"
+            priority
+            sizes="(max-width: 1024px) 92vw, 900px"
+            className="relative mx-auto h-auto w-full drop-shadow-[0_30px_45px_rgba(0,20,45,0.45)]"
+          />
+        </Reveal>
+      </div>
+
+      <div className="container-x relative mt-10 grid items-center gap-10 lg:grid-cols-2">
         <div className="text-white">
           <p className="font-[family-name:var(--font-montserrat)] text-lg font-bold uppercase tracking-wide text-ice-100">
             Save money by joining the
@@ -217,17 +240,24 @@ function LocalService() {
   return (
     <section className="bg-white py-16 sm:py-24">
       <div className="container-x grid items-center gap-12 lg:grid-cols-2">
-        <div className="relative">
-          <div className="aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-to-br from-ice-200 to-ice-500 shadow-xl ring-1 ring-ice-100">
-            <div className="flex h-full flex-col items-center justify-center p-8 text-center text-white">
-              <Mascot alt="Glacier technician mascot" width={300} height={400}
-                className="h-56 w-auto object-contain" />
-              <p className="mt-4 max-w-xs text-sm font-semibold text-white/90">
-                Certified local technicians serving San Antonio neighborhoods since {site.foundedYear}.
+        <Reveal from="left" className="relative">
+          <div className="relative overflow-hidden rounded-3xl shadow-[0_30px_60px_-24px_rgba(0,43,88,0.5)] ring-1 ring-ice-100">
+            <Image
+              src={techImg}
+              alt="Glacier Heating & Air technician servicing an AC condenser in San Antonio"
+              sizes="(max-width: 1024px) 92vw, 560px"
+              className="aspect-[4/5] w-full object-cover sm:aspect-[4/3]"
+            />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-800/90 via-navy-800/45 to-transparent p-6 pt-16">
+              <div className="flex items-center gap-2 text-gold">
+                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4" />)}
+              </div>
+              <p className="mt-1.5 text-sm font-semibold text-white">
+                Certified local technicians serving San Antonio since {site.foundedYear}.
               </p>
             </div>
           </div>
-        </div>
+        </Reveal>
         <div>
           <h2 className="iced iced-dark text-3xl sm:text-4xl">Local Service You Can Count On</h2>
           <p className="mt-5 text-slate-600">

@@ -1,5 +1,5 @@
 import { site } from "@/lib/site";
-import { Star } from "@/components/Icons";
+import { Star, GoogleG } from "@/components/Icons";
 import Link from "next/link";
 
 /**
@@ -27,13 +27,19 @@ export default function Reviews({ reviews = sampleReviews, heading = "What our c
         <div className="rounded-3xl bg-white p-6 shadow-[0_20px_60px_-30px_rgba(0,43,88,0.35)] sm:p-10">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
             <h2 className="font-[family-name:var(--font-montserrat)] text-2xl font-extrabold text-navy-800 sm:text-3xl">{heading}</h2>
-            <div className="flex items-center gap-5">
-              <div className="text-right">
-                <div className="font-[family-name:var(--font-montserrat)] text-4xl font-extrabold leading-none text-navy-800">{site.ratingValue}</div>
-                <div className="mt-1 flex items-center justify-end gap-1 text-gold">
-                  {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4" />)}
+            <div className="flex flex-wrap items-center gap-4">
+              {/* Google Reviews badge */}
+              <div className="flex items-center gap-3 rounded-2xl border border-ice-100 bg-white px-4 py-2.5 shadow-sm">
+                <GoogleG className="h-8 w-8 shrink-0" />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-[family-name:var(--font-montserrat)] text-2xl font-extrabold leading-none text-navy-800">{site.ratingValue}</span>
+                    <span className="flex gap-0.5 text-gold">
+                      {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4" />)}
+                    </span>
+                  </div>
+                  <div className="mt-0.5 text-xs font-semibold text-slate-500">Google Reviews · {site.reviewCount} reviews</div>
                 </div>
-                <div className="mt-1 text-xs text-slate-500">{site.reviewCount} reviews</div>
               </div>
               <Link href="/contact" className="btn btn-primary !py-3 text-sm">Write a review</Link>
             </div>
@@ -57,7 +63,10 @@ export default function Reviews({ reviews = sampleReviews, heading = "What our c
                     <span className="mr-1 font-bold text-navy-800">5</span>
                     {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4" />)}
                   </div>
-                  <time className="text-xs text-slate-400">{r.date}</time>
+                  <div className="flex items-center gap-1.5">
+                    <GoogleG className="h-4 w-4" />
+                    <time className="text-xs text-slate-400">{r.date}</time>
+                  </div>
                 </div>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{r.text}</p>
                 <div className="mt-4 flex items-center gap-3 border-t border-ice-100 pt-4">
