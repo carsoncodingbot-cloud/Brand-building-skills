@@ -44,7 +44,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-ice-500 to-navy-800 pt-24">
       <div className="hero-mountains absolute inset-0" aria-hidden />
-      <div className="container-x relative grid items-center gap-8 pt-14 pb-6 sm:py-20 lg:grid-cols-2 lg:py-24">
+      <div className="container-x relative grid items-center gap-8 pt-4 pb-6 sm:py-20 lg:grid-cols-2 lg:py-24">
         <div>
           <div className="flex items-center gap-2 sm:gap-2.5">
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/40">
