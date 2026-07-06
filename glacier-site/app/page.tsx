@@ -41,7 +41,7 @@ export default function Home() {
 /* ------------------------------------------------------------------ Hero */
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-ice-500 to-navy-800 pt-20">
+    <section className="relative overflow-hidden bg-gradient-to-b from-ice-500 to-navy-800 pt-24">
       <div className="hero-mountains absolute inset-0" aria-hidden />
       <div className="container-x relative grid items-center gap-8 py-14 sm:py-20 lg:grid-cols-2 lg:py-24">
         <div>

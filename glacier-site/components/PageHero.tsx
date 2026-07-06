@@ -9,7 +9,7 @@ export default function PageHero({
   breadcrumb?: { name: string; href: string }[];
 }) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-ice-500 to-navy-800 pt-20">
+    <section className="relative overflow-hidden bg-gradient-to-b from-ice-500 to-navy-800 pt-24">
       <div className="hero-mountains absolute inset-0" aria-hidden />
       <div className="container-x relative py-14 sm:py-20">
         {breadcrumb && (

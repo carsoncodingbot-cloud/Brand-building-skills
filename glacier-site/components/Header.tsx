@@ -23,14 +23,14 @@ export default function Header() {
         scrolled || openMobile ? "bg-navy-800 shadow-[0_8px_24px_rgba(0,0,0,0.18)]" : "bg-transparent"
       }`}
     >
-      <div className="container-x flex h-20 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5" aria-label={site.name}>
-          <GlacierMark className="h-11 w-auto shrink-0" />
+      <div className="container-x flex h-24 items-center justify-between">
+        <Link href="/" className="flex items-center gap-3" aria-label={site.name}>
+          <GlacierMark className="h-14 w-auto shrink-0 drop-shadow-[0_2px_6px_rgba(0,0,0,0.25)] sm:h-16" />
           <span className="leading-none">
-            <span className="block font-[family-name:var(--font-montserrat)] text-xl font-900 font-extrabold uppercase tracking-tight text-white">
+            <span className="block font-[family-name:var(--font-montserrat)] text-2xl font-900 font-extrabold uppercase tracking-tight text-white sm:text-[1.7rem]">
               Glacier
             </span>
-            <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-ice-300">
+            <span className="mt-0.5 block text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-ice-300 sm:text-[0.78rem]">
               Heating &amp; Air
             </span>
           </span>
