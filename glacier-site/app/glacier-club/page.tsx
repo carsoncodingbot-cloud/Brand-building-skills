@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
-import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
 import Faq from "@/components/Faq";
-import { Check, Snowflake, Star, Shield, Clock, Phone } from "@/components/Icons";
+import Mascot from "@/components/Mascot";
+import Reveal from "@/components/Reveal";
+import { Check, Snowflake, Star, Shield, Clock, Phone, ChevronRight } from "@/components/Icons";
 import { BreadcrumbJsonLd, FaqJsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
   description: `Join the ${site.membership} for two precision tune-ups a year, priority service, exclusive discounts, and no overtime fees. Protect your comfort and your system in San Antonio's brutal climate.`,
   alternates: { canonical: "/glacier-club" },
 };
+
+const HERO_BENEFITS = ["15% Off All Repairs", "2 Precision Tune-Ups / Year", "Front-of-Line Priority Service", "Zero Overtime Fees"];
 
 const benefits = [
   { icon: Snowflake, title: "2 precision tune-ups a year", body: "A spring AC tune-up and a fall heating check keep your system running efficiently through every season." },
@@ -23,24 +26,12 @@ const benefits = [
 ];
 
 const tiers = [
-  {
-    name: "Comfort",
-    price: "$14", per: "/mo",
-    highlight: false,
-    features: ["1 system", "2 tune-ups per year", "Priority scheduling", "10% repair discount", "No overtime fees"],
-  },
-  {
-    name: "Comfort Plus",
-    price: "$21", per: "/mo",
-    highlight: true,
-    features: ["1 system", "2 tune-ups per year", "Front-of-line priority", "15% repair discount", "No overtime fees", "Waived diagnostic fee", "Filters included"],
-  },
-  {
-    name: "Whole Home",
-    price: "$34", per: "/mo",
-    highlight: false,
-    features: ["Up to 2 systems", "2 tune-ups per system", "Front-of-line priority", "20% repair discount", "No overtime fees", "Waived diagnostic fee", "Filters included"],
-  },
+  { name: "Comfort", price: "$14", per: "/mo", highlight: false,
+    features: ["1 system", "2 tune-ups per year", "Priority scheduling", "10% repair discount", "No overtime fees"] },
+  { name: "Comfort Plus", price: "$21", per: "/mo", highlight: true,
+    features: ["1 system", "2 tune-ups per year", "Front-of-line priority", "15% repair discount", "No overtime fees", "Waived diagnostic fee", "Filters included"] },
+  { name: "Whole Home", price: "$34", per: "/mo", highlight: false,
+    features: ["Up to 2 systems", "2 tune-ups per system", "Front-of-line priority", "20% repair discount", "No overtime fees", "Waived diagnostic fee", "Filters included"] },
 ];
 
 const faqs = [
@@ -56,57 +47,109 @@ export default function GlacierClubPage() {
     <>
       <BreadcrumbJsonLd items={[{ name: "Home", url: "/" }, { name: "Glacier Club", url: "/glacier-club" }]} />
       <FaqJsonLd faqs={faqs} />
-      <PageHero
-        title="Join the Glacier Club"
-        subtitle="Two tune-ups a year, priority service, exclusive discounts, and zero overtime fees. Membership that pays for itself — and protects your comfort year-round."
-        breadcrumb={[{ name: "Home", href: "/" }, { name: "Glacier Club", href: "/glacier-club" }]}
-      />
 
-      {/* Benefits */}
-      <section className="bg-white py-16 sm:py-20">
+      {/* ---------------- Immersive hero ---------------- */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-ice-500 via-ice-700 to-navy-800 pt-24 pb-14">
+        <div className="hero-mountains absolute inset-0 opacity-50" aria-hidden />
+        <div className="pointer-events-none absolute left-1/2 top-40 -z-0 h-96 w-96 -translate-x-1/2 rounded-full bg-turquoise/25 blur-[100px]" aria-hidden />
+
+        <div className="container-x relative">
+          <nav aria-label="Breadcrumb" className="mb-6">
+            <ol className="flex items-center gap-1 text-sm text-ice-200/90">
+              <li><Link href="/" className="hover:text-white">Home</Link></li>
+              <li><ChevronRight className="h-3.5 w-3.5 text-ice-300" /></li>
+              <li className="font-semibold text-white">Glacier Club</li>
+            </ol>
+          </nav>
+
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="font-[family-name:var(--font-montserrat)] text-sm font-bold uppercase tracking-[0.2em] text-ice-100">Save money by joining the</p>
+            <h1 className="iced iced-light mt-2 text-5xl sm:text-6xl lg:text-7xl">Glacier Club</h1>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-white/90">
+              Expert HVAC maintenance and member-only perks that protect your comfort — and your wallet — through every San Antonio season.
+            </p>
+
+            <ul className="mx-auto mt-8 flex max-w-md flex-col gap-3">
+              {HERO_BENEFITS.map((b) => (
+                <li key={b} className="flex items-center justify-center gap-3 font-[family-name:var(--font-montserrat)] text-lg font-extrabold uppercase tracking-wide text-white sm:text-xl">
+                  <Snowflake className="h-5 w-5 shrink-0 text-turquoise" /> {b}
+                </li>
+              ))}
+              <li className="mt-1 font-[family-name:var(--font-montserrat)] text-lg font-extrabold uppercase tracking-wide text-turquoise">…and more!</li>
+            </ul>
+
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <Link href="#plans" className="btn btn-primary text-base">Join the Club</Link>
+              <Link href={site.phoneHref} className="btn btn-outline-light text-base"><Phone className="h-4 w-4" /> Call {site.phoneDisplay}</Link>
+            </div>
+          </div>
+
+          <div className="relative mt-6 flex justify-center">
+            <div className="pointer-events-none absolute bottom-4 h-8 w-56 rounded-[50%] bg-black/30 blur-2xl" aria-hidden />
+            <Mascot alt="Glacier Club yeti mascot" width={520} height={700} priority
+              sizes="(max-width:640px) 60vw, 320px"
+              className="relative h-auto w-56 animate-float object-contain sm:w-72" />
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- Why join / perks ---------------- */}
+      <section className="bg-gradient-to-b from-ice-50 to-white py-16 sm:py-20">
         <div className="container-x">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-sm font-bold uppercase tracking-wide text-ice-600">Membership perks</p>
-            <h2 className="iced iced-dark mt-2 text-2xl sm:text-3xl">Everything a member gets</h2>
+            <p className="text-sm font-bold uppercase tracking-wide text-ice-600">Why join the Glacier Club</p>
+            <h2 className="iced iced-dark mt-2 text-3xl sm:text-4xl">Membership that pays for itself</h2>
+            <p className="mt-4 text-slate-600">One avoided breakdown covers a year of dues. Here&apos;s everything you get.</p>
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {benefits.map((b) => {
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {benefits.map((b, i) => {
               const Icon = b.icon;
               return (
-                <div key={b.title} className="rounded-2xl border border-ice-100 bg-ice-50 p-6">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-ice-500 text-white"><Icon className="h-6 w-6" /></span>
+                <Reveal key={b.title} from="up" delay={i * 60}
+                  className="group rounded-2xl bg-white p-6 shadow-[0_18px_40px_-24px_rgba(0,43,88,0.4)] ring-1 ring-ice-100 transition hover:-translate-y-1">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-ice-400 to-ice-600 text-white shadow-md">
+                    <Icon className="h-6 w-6" />
+                  </span>
                   <h3 className="mt-4 font-[family-name:var(--font-montserrat)] text-lg font-bold text-navy-800">{b.title}</h3>
                   <p className="mt-2 text-sm text-slate-600">{b.body}</p>
-                </div>
+                </Reveal>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Pricing tiers */}
-      <section className="bg-ice-100 py-16 sm:py-20">
-        <div className="container-x">
+      {/* ---------------- Pricing ---------------- */}
+      <section id="plans" className="relative overflow-hidden bg-gradient-to-b from-navy-800 to-[#001a36] py-16 sm:py-20">
+        <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-ice-500/20 blur-[90px]" aria-hidden />
+        <div className="container-x relative">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="iced iced-dark text-2xl sm:text-3xl">Choose your plan</h2>
-            <p className="mt-4 text-slate-600">Simple monthly pricing. No contracts. Cancel anytime.</p>
+            <h2 className="iced iced-light text-3xl sm:text-4xl">Choose your plan</h2>
+            <p className="mt-4 text-ice-100/85">Simple monthly pricing. No contracts. Cancel anytime.</p>
           </div>
-          <div className="mt-10 grid items-start gap-6 lg:grid-cols-3">
+          <div className="mt-12 grid items-start gap-6 lg:grid-cols-3">
             {tiers.map((t) => (
               <div key={t.name}
-                className={`relative rounded-3xl p-7 shadow-sm ${t.highlight ? "bg-navy-800 text-white ring-2 ring-turquoise shadow-xl lg:-mt-4 lg:mb-4" : "border border-ice-100 bg-white"}`}>
+                className={`relative rounded-3xl p-7 transition ${
+                  t.highlight
+                    ? "bg-gradient-to-b from-ice-500 to-ice-700 text-white shadow-[0_30px_70px_-20px_rgba(31,143,214,0.6)] ring-2 ring-turquoise lg:-mt-5 lg:mb-5"
+                    : "bg-white text-navy-800 shadow-xl ring-1 ring-white/10"
+                }`}>
                 {t.highlight && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-turquoise px-4 py-1 text-xs font-extrabold uppercase tracking-wide text-navy-800">Most popular</span>
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gold px-4 py-1 text-xs font-extrabold uppercase tracking-wide text-navy-800 shadow">Most Popular</span>
                 )}
                 <h3 className={`font-[family-name:var(--font-montserrat)] text-xl font-extrabold ${t.highlight ? "text-white" : "text-navy-800"}`}>{t.name}</h3>
                 <div className="mt-3 flex items-end gap-1">
-                  <span className={`iced text-4xl font-extrabold ${t.highlight ? "iced-light" : "iced-dark"}`}>{t.price}</span>
-                  <span className={`pb-1 text-sm ${t.highlight ? "text-white/70" : "text-slate-500"}`}>{t.per}</span>
+                  <span className={`font-[family-name:var(--font-montserrat)] text-5xl font-black ${t.highlight ? "text-white" : "text-navy-800"}`}>{t.price}</span>
+                  <span className={`pb-1.5 text-sm ${t.highlight ? "text-white/80" : "text-slate-500"}`}>{t.per}</span>
                 </div>
-                <ul className={`mt-6 space-y-2.5 text-sm ${t.highlight ? "text-white/90" : "text-slate-600"}`}>
+                <ul className={`mt-6 space-y-2.5 text-sm ${t.highlight ? "text-white/95" : "text-slate-600"}`}>
                   {t.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2">
-                      <Check className={`h-4 w-4 ${t.highlight ? "text-turquoise" : "text-ice-600"}`} /> {f}
+                    <li key={f} className="flex items-center gap-2.5">
+                      <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${t.highlight ? "bg-white/20" : "bg-ice-500"}`}>
+                        <Check className={`h-3.5 w-3.5 ${t.highlight ? "text-white" : "text-white"}`} />
+                      </span>
+                      {f}
                     </li>
                   ))}
                 </ul>
@@ -117,14 +160,13 @@ export default function GlacierClubPage() {
               </div>
             ))}
           </div>
-          <p className="mx-auto mt-8 max-w-3xl text-center text-xs text-slate-500">
-            Pricing shown is representative for illustration. Final membership pricing is confirmed at enrollment
-            and may vary by system type and home size.
+          <p className="mx-auto mt-8 max-w-3xl text-center text-xs text-ice-200/60">
+            Pricing shown is representative for illustration. Final membership pricing is confirmed at enrollment and may vary by system type and home size.
           </p>
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* ---------------- FAQ ---------------- */}
       <section className="bg-white py-16">
         <div className="container-x">
           <h2 className="iced iced-dark text-center text-2xl sm:text-3xl">Glacier Club — Common Questions</h2>
