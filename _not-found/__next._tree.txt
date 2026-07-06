@@ -1,2 +1,2 @@
-:HL["/Brand-building-skills/_next/static/chunks/1ep-7b41stfiv.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"xVyoEOR1miuHZJM5bGh5U"}
+:HL["/Brand-building-skills/_next/static/chunks/1um1lywn_bcy0.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"Ka7NffK8Y1UVjgNU08CoE"}
