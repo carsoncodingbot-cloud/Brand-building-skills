@@ -238,7 +238,7 @@ function GlacierClubCta() {
 /* --------------------------------------------------------- Local service */
 function LocalService() {
   return (
-    <section className="bg-white py-16 sm:py-24">
+    <section className="bg-white pt-6 pb-16 sm:pt-14 sm:pb-24">
       <div className="container-x grid items-center gap-12 lg:grid-cols-2">
         <Reveal from="left" className="relative">
           <div className="relative overflow-hidden rounded-3xl shadow-[0_30px_60px_-24px_rgba(0,43,88,0.5)] ring-1 ring-ice-100">
