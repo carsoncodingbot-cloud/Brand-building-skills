@@ -1,4 +1,6 @@
 import { site } from "@/lib/site";
+import { services } from "@/lib/services";
+import { cities } from "@/lib/cities";
 
 function Ld({ data }: { data: object }) {
   return (
@@ -36,7 +38,32 @@ const baseBusiness = () => ({
 });
 
 export function LocalBusinessJsonLd() {
-  return <Ld data={{ "@context": "https://schema.org", ...baseBusiness() }} />;
+  return (
+    <Ld
+      data={{
+        "@context": "https://schema.org",
+        ...baseBusiness(),
+        logo: `${site.url}/og.png`,
+        slogan: site.tagline,
+        areaServed: cities.map((c) => ({
+          "@type": "City",
+          name: `${c.name}, TX`,
+        })),
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "HVAC & Plumbing Services",
+          itemListElement: services.map((s) => ({
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: s.name,
+              url: `${site.url}/services/${s.slug}`,
+            },
+          })),
+        },
+      }}
+    />
+  );
 }
 
 export function ServiceJsonLd({ name, description, url, areaServed = "San Antonio, TX" }: {

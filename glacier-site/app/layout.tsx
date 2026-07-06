@@ -37,8 +37,14 @@ export const metadata: Metadata = {
     title: `${site.name} | Reliable HVAC in San Antonio, TX`,
     description: "Expert AC repair, heating & 24/7 emergency HVAC across greater San Antonio.",
     url: site.url,
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${site.name} — San Antonio HVAC` }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} | Reliable HVAC in San Antonio, TX`,
+    description: "Expert AC repair, heating & 24/7 emergency HVAC across greater San Antonio.",
+    images: ["/og.png"],
+  },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
   // Real anti-framing / CSP / HSTS are served as HTTP headers at the edge
