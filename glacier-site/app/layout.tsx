@@ -41,6 +41,10 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
+  // Real anti-framing / CSP / HSTS are served as HTTP headers at the edge
+  // (see public/_headers, vercel.json, and SECURITY.md). This is the one signal
+  // GitHub Pages can carry via <meta>.
+  referrer: "strict-origin-when-cross-origin",
 };
 
 export const viewport: Viewport = {
