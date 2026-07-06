@@ -186,37 +186,69 @@ d.line([(dvx,wby+34),(dvx,wby+wbh-34)],fill=(210,226,240,255),width=3)
 d.text((dvx+40,wby+42),"San Antonio's Coolest HVAC Team",font=f("ExtraBold",32),fill=NAVY)
 d.text((dvx+40,wby+88),"Trusted comfort. Built to last.",font=f("Bold",26),fill=SLATE)
 
-# ---------------- navy CTA bar ----------------
-cy0=1856
+# ---------------- navy CTA bar (measured, collision-free) ----------------
+cy0=1844
 d.rectangle([0,cy0,W,H],fill=DEEP)
-# left: phone
-ph=load_ic("check",0) if False else None
-phicon=Image.open("scratchpad/phone.png").convert("RGBA").resize((56,56),Image.LANCZOS)
-pc=Image.new("RGBA",(84,84),(0,0,0,0)); pd=ImageDraw.Draw(pc)
-pd.ellipse([0,0,84,84],outline=(255,255,255,255),width=4)
-img.alpha_composite(pc,(MARG,cy0+34)); img.alpha_composite(phicon,(MARG+14,cy0+48))
+
+# left: phone block, vertically centered on row1
+row1_cy = cy0 + 62
+pc=Image.new("RGBA",(76,76),(0,0,0,0)); pd=ImageDraw.Draw(pc)
+pd.ellipse([0,0,76,76],outline=(255,255,255,255),width=4)
+img.alpha_composite(pc,(MARG,row1_cy-38))
+phicon=Image.open("scratchpad/phone.png").convert("RGBA").resize((44,44),Image.LANCZOS)
+img.alpha_composite(phicon,(MARG+16,row1_cy-22))
 d=ImageDraw.Draw(img,"RGBA")
-d.text((MARG+112,cy0+28),"CALL US TODAY!",font=f("Bold",28),fill=(255,255,255,235))
-d.text((MARG+112,cy0+62),"(205) 601-3797",font=f("Black",54),fill=(255,255,255,255))
-# right: trust items
-items=[("shield","100% SATISFACTION","GUARANTEED"),("wrench","WARRANTY ON","ALL UNITS"),("home","PERFECT FOR","HOME & OFFICE")]
-ix=700
-for ic,l1,l2 in items:
-    icn=load_ic(ic,40); img.alpha_composite(icn,(ix,cy0+52))
+px0=MARG+100
+d.text((px0,row1_cy-46),"CALL US TODAY!",font=f("Bold",25),fill=(255,255,255,225))
+d.text((px0,row1_cy-14),"(205) 601-3797",font=f("Black",50),fill=(255,255,255,255))
+
+# right: trust items, measured widths, right-aligned to margin
+items=[("shield","100% SATISFACTION","GUARANTEED"),
+       ("wrench","WARRANTY ON","ALL UNITS"),
+       ("home","PERFECT FOR","HOME & OFFICE")]
+ICO=38; IG=12; DIV=30
+num_end = px0 + tw("(205) 601-3797", f("Black",50))
+fs=18
+while fs>=14:
+    ft=f("Bold",fs)
+    widths=[ICO+IG+max(tw(l1,ft),tw(l2,ft)) for _,l1,l2 in items]
+    total=sum(widths)+DIV*2*(len(items)-1)
+    if W-MARG-total >= num_end+56: break
+    fs-=1
+ix=W-MARG-total
+for k,(ic,l1,l2) in enumerate(items):
+    icn=load_ic(ic,ICO); img.alpha_composite(icn,(int(ix),int(row1_cy-ICO/2)))
     d=ImageDraw.Draw(img,"RGBA")
-    d.text((ix+52,cy0+48),l1,font=f("Bold",20),fill=(255,255,255,255))
-    d.text((ix+52,cy0+72),l2,font=f("Bold",20),fill=(255,255,255,255))
-    if ix>700: d.line([(ix-22,cy0+52),(ix-22,cy0+92)],fill=(255,255,255,70),width=2)
-    ix+=252
-# bottom tracked line
+    txx=ix+ICO+IG
+    d.text((txx,row1_cy-22),l1,font=ft,fill=(255,255,255,255))
+    d.text((txx,row1_cy+2),l2,font=ft,fill=(255,255,255,255))
+    ix+=widths[k]
+    if k<len(items)-1:
+        d.line([(ix+DIV,row1_cy-20),(ix+DIV,row1_cy+20)],fill=(255,255,255,70),width=2)
+        ix+=DIV*2
+
+# divider rule between rows
+d.line([(MARG,cy0+124),(W-MARG,cy0+124)],fill=(255,255,255,36),width=2)
+
+# row 2: centered tracked sign-off with clear air
 line="KEEPING YOU COOL, EVERY SEASON."
-fl=f("Bold",22)
-lw=sum(tw(c,fl)+8 if c!=' ' else 19 for c in line)
+fl=f("Bold",21); TRK=7
+lw=sum((tw(c,fl)+TRK) if c!=' ' else 17 for c in line)-TRK
+row2_cy=cy0+158
 sx=(W-lw)//2
-snl=load_ic("snowflake",26)
-img.alpha_composite(snl,(sx-48,cy0+126)); img.alpha_composite(snl,(int(sx+lw+22),cy0+126))
+snl=load_ic("snowflake",24)
+img.alpha_composite(snl,(int(sx-46),int(row2_cy-12)))
+img.alpha_composite(snl,(int(sx+lw+22),int(row2_cy-12)))
 d=ImageDraw.Draw(img,"RGBA")
-tracked(sx,cy0+124,line,fl,(255,255,255,200),8)
+ref=d.textbbox((0,0),"K",font=fl)
+ytop=row2_cy-(ref[3]-ref[1])/2-ref[1]
+xx=sx
+for c in line:
+    if c!=' ':
+        d.text((xx,ytop),c,font=fl,fill=(255,255,255,205))
+        xx+=tw(c,fl)+TRK
+    else:
+        xx+=17
 
 img.convert("RGB").save("scratchpad/van-ad.png",optimize=True)
 print("saved",img.size)
