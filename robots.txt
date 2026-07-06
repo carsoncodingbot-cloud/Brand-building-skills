@@ -1,5 +1,5 @@
 User-Agent: *
 Allow: /
 
-Host: https://glacierheatingair.com
-Sitemap: https://glacierheatingair.com/sitemap.xml
+Host: https://callglacier.com
+Sitemap: https://callglacier.com/sitemap.xml
