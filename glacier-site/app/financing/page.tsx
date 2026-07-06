@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import PageHero from "@/components/PageHero";
+import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
 import Faq from "@/components/Faq";
 import { Check, Shield, Clock, Phone } from "@/components/Icons";
@@ -54,14 +55,16 @@ export default function FinancingPage() {
             <p className="mt-4 text-slate-600">With approved credit, you can install the system your home needs today and pay for it in comfortable monthly installments.</p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {perks.map((p) => {
+            {perks.map((p, i) => {
               const Icon = p.icon;
               return (
-                <div key={p.title} className="rounded-2xl border border-ice-100 bg-ice-50 p-7">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-ice-500 text-white"><Icon className="h-6 w-6" /></span>
-                  <h3 className="mt-4 font-[family-name:var(--font-montserrat)] text-lg font-bold text-navy-800">{p.title}</h3>
-                  <p className="mt-2 text-sm text-slate-600">{p.body}</p>
-                </div>
+                <Reveal key={p.title} from="up" delay={i * 80}>
+                  <div className="h-full rounded-2xl border border-ice-100 bg-gradient-to-b from-white to-ice-50 p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-ice-500 to-navy-800 text-white shadow-lg"><Icon className="h-6 w-6" /></span>
+                    <h3 className="mt-4 font-[family-name:var(--font-montserrat)] text-lg font-bold text-navy-800">{p.title}</h3>
+                    <p className="mt-2 text-sm text-slate-600">{p.body}</p>
+                  </div>
+                </Reveal>
               );
             })}
           </div>
@@ -87,12 +90,14 @@ export default function FinancingPage() {
             <p className="mt-4 text-slate-600">Four simple steps from breakdown to worry-free comfort.</p>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((s) => (
-              <div key={s.n} className="relative rounded-2xl bg-white p-6 shadow-sm">
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-red-brand font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-white">{s.n}</span>
-                <h3 className="mt-4 font-[family-name:var(--font-montserrat)] font-bold text-navy-800">{s.t}</h3>
-                <p className="mt-2 text-sm text-slate-600">{s.b}</p>
-              </div>
+            {steps.map((s, i) => (
+              <Reveal key={s.n} from="up" delay={i * 70}>
+                <div className="relative h-full rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ice-100 transition hover:-translate-y-1 hover:shadow-lg">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-red-brand to-[#a30f14] font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-white shadow-lg">{s.n}</span>
+                  <h3 className="mt-4 font-[family-name:var(--font-montserrat)] font-bold text-navy-800">{s.t}</h3>
+                  <p className="mt-2 text-sm text-slate-600">{s.b}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
           <p className="mx-auto mt-8 max-w-3xl text-center text-xs text-slate-500">

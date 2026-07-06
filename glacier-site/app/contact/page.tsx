@@ -62,13 +62,13 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="mt-8 flex items-center gap-4 rounded-2xl bg-navy-800 p-6 text-white">
+            <div className="mt-8 flex items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-navy-800 to-[#001a36] p-6 text-white ring-1 ring-white/10">
               <div className="flex-1">
                 <h3 className="iced text-lg uppercase">Why homeowners call Glacier first</h3>
                 <ul className="mt-4 space-y-2 text-sm text-white/85">
-                  {["Same-day &amp; 24/7 emergency service","Upfront, honest pricing — no surprises","Certified, background-checked technicians","Financing available on qualifying installs","100% satisfaction guarantee"].map((t) => (
+                  {["Same-day & 24/7 emergency service", "Upfront, honest pricing — no surprises", "Certified, background-checked technicians", "Financing available on qualifying installs", "100% satisfaction guarantee"].map((t) => (
                     <li key={t} className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-turquoise" /> <span dangerouslySetInnerHTML={{ __html: t }} />
+                      <Check className="h-4 w-4 shrink-0 text-turquoise" /> {t}
                     </li>
                   ))}
                 </ul>

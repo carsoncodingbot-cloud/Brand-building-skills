@@ -53,6 +53,15 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         breadcrumb={[{ name: "Home", href: "/" }, { name: "Service Areas", href: "/service-areas" }, { name: c.name, href: `/service-areas/${c.slug}` }]}
       />
 
+      {/* Trust strip */}
+      <div className="bg-gradient-to-r from-[#f7941d] via-[#f15a24] to-[#e11f26] py-3.5">
+        <div className="container-x flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-center font-[family-name:var(--font-montserrat)] text-sm font-bold uppercase tracking-wide text-white">
+          <span>Same-Day Service in {c.name}</span><span className="hidden sm:inline text-white/50">|</span>
+          <span>Upfront Pricing</span><span className="hidden sm:inline text-white/50">|</span>
+          <span>24/7 Emergency Availability</span>
+        </div>
+      </div>
+
       <section className="bg-white py-16 sm:py-20">
         <div className="container-x grid gap-10 lg:grid-cols-[1.5fr_1fr]">
           <div>
@@ -84,8 +93,8 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                 const Icon = serviceIcons[s.icon];
                 return (
                   <Link key={s.slug} href={`/services/${s.slug}`}
-                    className="group flex items-start gap-3 rounded-2xl border border-ice-100 p-4 transition hover:border-ice-500">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-ice-500 text-white">
+                    className="group flex items-start gap-3 rounded-2xl border border-ice-100 bg-gradient-to-b from-white to-ice-50 p-4 shadow-sm transition hover:-translate-y-1 hover:border-ice-500 hover:shadow-md">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-ice-500 to-navy-800 text-white shadow">
                       <Icon className="h-5 w-5" />
                     </span>
                     <span>
@@ -98,9 +107,13 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
             </div>
           </div>
 
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-3xl bg-navy-800 p-7 text-white shadow-xl">
-              <h3 className="iced text-xl font-extrabold uppercase text-white">{c.name} Service</h3>
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <div className="overflow-hidden rounded-3xl bg-gradient-to-b from-navy-800 to-[#001a36] p-7 text-white shadow-[0_30px_60px_-24px_rgba(0,43,88,0.6)] ring-1 ring-white/10">
+              <div className="flex items-center gap-1.5 text-gold">
+                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4" />)}
+                <span className="ml-1 text-sm font-semibold text-white/90">{site.ratingValue} · {site.reviewCount}+ reviews</span>
+              </div>
+              <h3 className="iced mt-3 text-xl font-extrabold uppercase text-white">{c.name} Service</h3>
               <p className="mt-2 text-sm text-white/80">Same-day availability for most {c.name} homes. 24/7 for emergencies.</p>
               <Link href={site.phoneHref} className="btn btn-primary mt-5 w-full">
                 <Phone className="h-4 w-4" /> {site.phoneDisplay}

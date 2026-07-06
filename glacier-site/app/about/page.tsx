@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Mascot from "@/components/Mascot";
+import Reveal from "@/components/Reveal";
 import { site } from "@/lib/site";
 import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
@@ -59,9 +60,9 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="mt-6 flex flex-wrap gap-2">
-              {["Licensed &amp; insured","EPA-certified techs","Financing available","Locally owned"].map((b) => (
+              {["Licensed & insured", "EPA-certified techs", "Financing available", "Locally owned"].map((b) => (
                 <span key={b} className="inline-flex items-center gap-1 rounded-full bg-ice-50 px-3 py-1.5 text-sm font-semibold text-navy-800 ring-1 ring-ice-100">
-                  <Check className="h-3.5 w-3.5 text-ice-600" /> <span dangerouslySetInnerHTML={{ __html: b }} />
+                  <Check className="h-3.5 w-3.5 text-ice-600" /> {b}
                 </span>
               ))}
             </div>
@@ -84,13 +85,14 @@ export default function AboutPage() {
       </section>
 
       {/* Stats */}
-      <section className="bg-navy-800 py-12">
-        <div className="container-x grid grid-cols-2 gap-6 lg:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.l} className="text-center">
-              <div className="iced iced-light text-3xl font-extrabold sm:text-4xl">{s.n}</div>
+      <section className="relative overflow-hidden bg-gradient-to-b from-navy-800 to-[#001a36] py-14">
+        <div className="hero-mountains absolute inset-0 opacity-40" aria-hidden />
+        <div className="container-x relative grid grid-cols-2 gap-6 lg:grid-cols-4">
+          {stats.map((s, i) => (
+            <Reveal key={s.l} from="up" delay={i * 80} className="text-center">
+              <div className="iced iced-light text-4xl font-extrabold sm:text-5xl">{s.n}</div>
               <div className="mt-1 text-sm uppercase tracking-wide text-ice-200/80">{s.l}</div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -103,14 +105,16 @@ export default function AboutPage() {
             <h2 className="iced iced-dark mt-2 text-2xl sm:text-3xl">The Glacier promise</h2>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map((v) => {
+            {values.map((v, i) => {
               const Icon = v.icon;
               return (
-                <div key={v.title} className="rounded-2xl bg-white p-6 shadow-sm">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-ice-500 text-white"><Icon className="h-6 w-6" /></span>
-                  <h3 className="mt-4 font-[family-name:var(--font-montserrat)] text-lg font-bold text-navy-800">{v.title}</h3>
-                  <p className="mt-2 text-sm text-slate-600">{v.body}</p>
-                </div>
+                <Reveal key={v.title} from="up" delay={i * 70}>
+                  <div className="h-full rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ice-100 transition hover:-translate-y-1 hover:shadow-lg">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-ice-500 to-navy-800 text-white shadow-lg"><Icon className="h-6 w-6" /></span>
+                    <h3 className="mt-4 font-[family-name:var(--font-montserrat)] text-lg font-bold text-navy-800">{v.title}</h3>
+                    <p className="mt-2 text-sm text-slate-600">{v.body}</p>
+                  </div>
+                </Reveal>
               );
             })}
           </div>

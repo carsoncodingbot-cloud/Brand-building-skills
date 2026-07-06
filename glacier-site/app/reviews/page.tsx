@@ -52,7 +52,7 @@ export default function ReviewsPage() {
                 <div key={r.stars} className="flex items-center gap-3 text-sm">
                   <span className="flex w-10 items-center gap-1 font-semibold text-navy-800">{r.stars} <Star className="h-3.5 w-3.5 text-gold" /></span>
                   <span className="h-2 flex-1 overflow-hidden rounded-full bg-ice-200">
-                    <span className="block h-full rounded-full bg-ice-500" style={{ width: `${r.pct}%` }} />
+                    <span className="block h-full rounded-full bg-gradient-to-r from-ice-500 to-turquoise" style={{ width: `${r.pct}%` }} />
                   </span>
                   <span className="w-10 text-right text-slate-500">{r.pct}%</span>
                 </div>
@@ -68,8 +68,8 @@ export default function ReviewsPage() {
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">
               {highlights.map((h) => (
-                <li key={h} className="flex items-start gap-3 rounded-2xl border border-ice-100 bg-white p-4 shadow-sm">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ice-500 text-white"><Check className="h-4 w-4" /></span>
+                <li key={h} className="flex items-start gap-3 rounded-2xl border border-ice-100 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-ice-500 to-navy-800 text-white"><Check className="h-4 w-4" /></span>
                   <span className="text-sm text-slate-600">{h}</span>
                 </li>
               ))}
