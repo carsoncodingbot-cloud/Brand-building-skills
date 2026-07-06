@@ -36,9 +36,9 @@ MARGIN = 72
 
 # ---------- VAN hero (right), bottom-anchored with soft shadow ----------
 van = Image.open("public/van.webp").convert("RGBA")
-vw = 660; vh = int(van.height*vw/van.width)
+vw = 632; vh = int(van.height*vw/van.width)
 van = van.resize((vw, vh), Image.LANCZOS)
-vx = W - vw - 30; vy = H - vh - 18
+vx = W - vw - 12; vy = H - vh - 62
 # ground shadow from van alpha
 sh = Image.new("RGBA", van.size, (0,0,0,0))
 sh.paste((2,10,26,255), (0,0), van.getchannel("A"))
