@@ -25,7 +25,7 @@ export default function Header() {
     >
       <div className="container-x flex h-24 items-center justify-between">
         <Link href="/" className="flex items-center gap-3" aria-label={site.name}>
-          <GlacierMark className="h-14 w-auto shrink-0 drop-shadow-[0_2px_6px_rgba(0,0,0,0.25)] sm:h-16" />
+          <GlacierMark className="h-[3.75rem] w-auto shrink-0 drop-shadow-[0_2px_6px_rgba(0,0,0,0.25)] sm:h-[4.25rem]" />
           <span className="leading-none">
             <span className="block font-[family-name:var(--font-montserrat)] text-2xl font-900 font-extrabold uppercase tracking-tight text-white sm:text-[1.7rem]">
               Glacier
