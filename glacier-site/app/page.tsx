@@ -10,6 +10,7 @@ import Reviews from "@/components/Reviews";
 import { FaqJsonLd } from "@/components/JsonLd";
 import vanImg from "../public/van.webp";
 import techImg from "../public/tech.webp";
+import clubLogo from "../public/glacier-club-logo.png";
 
 const HOME_FAQS = [
   { q: "What HVAC services do you offer?", a: "We provide air conditioning repair and installation, heating and furnace service, indoor air quality solutions, ductless mini-splits, water heaters, and commercial HVAC across greater San Antonio — plus 24/7 emergency service." },
@@ -43,7 +44,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-ice-500 to-navy-800 pt-24">
       <div className="hero-mountains absolute inset-0" aria-hidden />
-      <div className="container-x relative grid items-center gap-8 py-14 sm:py-20 lg:grid-cols-2 lg:py-24">
+      <div className="container-x relative grid items-center gap-8 pt-14 pb-6 sm:py-20 lg:grid-cols-2 lg:py-24">
         <div>
           <div className="flex items-center gap-2 sm:gap-2.5">
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/40">
@@ -73,17 +74,22 @@ function Hero() {
 
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
           {/* frosty glow halo behind the mascot */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-turquoise/30 blur-3xl" aria-hidden />
-          <div className="relative animate-float">
+          <div className="pointer-events-none absolute left-1/2 top-[42%] -z-0 h-[80%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-turquoise/30 blur-3xl" aria-hidden />
+          {/* Clipping wrapper: crops the mascot's now-transparent bottom so he
+              sits grounded with no empty gap. Aspect ≈ the visible art height. */}
+          <div
+            className="relative mx-auto w-[86%] max-w-sm animate-float overflow-hidden lg:w-full lg:max-w-lg"
+            style={{ aspectRatio: "896 / 884" }}
+          >
             <Mascot
               alt="Glacier Heating & Air yeti mascot giving a thumbs up"
               width={896} height={1200} priority
-              sizes="(max-width: 1024px) 80vw, 40vw"
-              className="mx-auto h-auto w-[82%] max-w-sm object-contain lg:w-full lg:max-w-lg"
+              sizes="(max-width: 1024px) 86vw, 40vw"
+              className="h-auto w-full object-contain"
             />
           </div>
           {/* floating Google-reviews trust badge */}
-          <div className="absolute -bottom-2 left-0 hidden rounded-2xl bg-white/95 px-4 py-3 shadow-xl ring-1 ring-ice-100 backdrop-blur sm:block lg:-left-4">
+          <div className="absolute bottom-1 left-0 hidden rounded-2xl bg-white/95 px-4 py-3 shadow-xl ring-1 ring-ice-100 backdrop-blur sm:block lg:-left-4">
             <div className="flex items-center gap-2">
               <GoogleG className="h-5 w-5" />
               <span className="font-[family-name:var(--font-montserrat)] text-sm font-extrabold text-navy-800">{site.ratingValue}</span>
@@ -209,7 +215,13 @@ function GlacierClubCta() {
           <p className="font-[family-name:var(--font-montserrat)] text-lg font-bold uppercase tracking-wide text-ice-100">
             Save money by joining the
           </p>
-          <h2 className="iced iced-light mt-2 text-4xl sm:text-5xl">Glacier Club</h2>
+          <h2 className="sr-only">Glacier Club</h2>
+          <Image
+            src={clubLogo}
+            alt="Glacier Club"
+            sizes="(max-width: 640px) 70vw, 340px"
+            className="mt-3 h-auto w-full max-w-xs drop-shadow-[0_10px_28px_rgba(0,20,45,0.45)]"
+          />
           <ul className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 font-semibold text-white">
             {["Routine Tune-Ups", "Lower Repair Costs", "Priority Scheduling"].map((b, i) => (
               <li key={b} className="flex items-center gap-3">

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { site } from "@/lib/site";
 import CtaBand from "@/components/CtaBand";
 import Faq from "@/components/Faq";
 import Mascot from "@/components/Mascot";
 import Reveal from "@/components/Reveal";
-import { Check, Snowflake, Star, Shield, Clock, Phone, ChevronRight } from "@/components/Icons";
+import { Check, Snowflake, Star, Shield, Clock, Phone, ChevronRight, X } from "@/components/Icons";
 import { BreadcrumbJsonLd, FaqJsonLd } from "@/components/JsonLd";
+import clubLogo from "../../public/glacier-club-logo.png";
 
 export const metadata: Metadata = {
   title: "The Glacier Club — HVAC Maintenance Membership in San Antonio",
@@ -25,13 +27,27 @@ const benefits = [
   { icon: Snowflake, title: "Priceless peace of mind", body: "We catch small problems before they become expensive emergencies. That's the whole point." },
 ];
 
-const tiers = [
-  { name: "Comfort", price: "$14", per: "/mo", highlight: false,
-    features: ["1 system", "2 tune-ups per year", "Priority scheduling", "10% repair discount", "No overtime fees"] },
-  { name: "Comfort Plus", price: "$21", per: "/mo", highlight: true,
-    features: ["1 system", "2 tune-ups per year", "Front-of-line priority", "15% repair discount", "No overtime fees", "Waived diagnostic fee", "Filters included"] },
-  { name: "Whole Home", price: "$34", per: "/mo", highlight: false,
-    features: ["Up to 2 systems", "2 tune-ups per system", "Front-of-line priority", "20% repair discount", "No overtime fees", "Waived diagnostic fee", "Filters included"] },
+const MEMBER_FEATURES = [
+  "Same-day / priority service",
+  "Discounted service rate",
+  "15% off all repairs",
+  "2 Precision Tune-Ups included",
+  "2 Safety Inspections included",
+  "Reduced breakdown risk",
+  "20–30% longer system life",
+  "Optimized performance year-round",
+  "No overtime fees",
+];
+
+const NONMEMBER_FEATURES = [
+  "Standard scheduling",
+  "Full diagnostic fee",
+  "No repair discount",
+  "Pay per visit for maintenance",
+  "Higher risk of emergency repairs",
+  "Shortened system lifespan",
+  "System loses efficiency over time",
+  "Overtime charges apply",
 ];
 
 const faqs = [
@@ -63,8 +79,15 @@ export default function GlacierClubPage() {
           </nav>
 
           <div className="mx-auto max-w-2xl text-center">
-            <p className="font-[family-name:var(--font-montserrat)] text-sm font-bold uppercase tracking-[0.2em] text-ice-100">Save money by joining the</p>
-            <h1 className="iced iced-light mt-2 text-5xl sm:text-6xl lg:text-7xl">Glacier Club</h1>
+            <p className="font-[family-name:var(--font-montserrat)] text-base font-extrabold uppercase tracking-[0.35em] text-white sm:text-lg">Join the</p>
+            <h1 className="sr-only">Glacier Club</h1>
+            <Image
+              src={clubLogo}
+              alt="Glacier Club"
+              priority
+              sizes="(max-width: 640px) 90vw, 560px"
+              className="mx-auto mt-3 h-auto w-full max-w-xl drop-shadow-[0_10px_30px_rgba(0,20,45,0.45)]"
+            />
             <p className="mx-auto mt-5 max-w-xl text-lg text-white/90">
               Expert HVAC maintenance and member-only perks that protect your comfort — and your wallet — through every San Antonio season.
             </p>
@@ -119,50 +142,69 @@ export default function GlacierClubPage() {
         </div>
       </section>
 
-      {/* ---------------- Pricing ---------------- */}
+      {/* ---------------- Member vs Non-Member ---------------- */}
       <section id="plans" className="relative overflow-hidden bg-gradient-to-b from-navy-800 to-[#001a36] py-16 sm:py-20">
         <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-ice-500/20 blur-[90px]" aria-hidden />
         <div className="container-x relative">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="iced iced-light text-3xl sm:text-4xl">Choose your plan</h2>
-            <p className="mt-4 text-ice-100/85">Simple monthly pricing. No contracts. Cancel anytime.</p>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-ice-300">The Glacier Club advantage</p>
+            <h2 className="iced iced-light mt-2 text-3xl sm:text-4xl">Member vs. Non-Member</h2>
+            <p className="mt-4 text-ice-100/85">See exactly what you unlock the moment you join.</p>
           </div>
-          <div className="mt-12 grid items-start gap-6 lg:grid-cols-3">
-            {tiers.map((t) => (
-              <div key={t.name}
-                className={`relative rounded-3xl p-7 transition ${
-                  t.highlight
-                    ? "bg-gradient-to-b from-ice-500 to-ice-700 text-white shadow-[0_30px_70px_-20px_rgba(31,143,214,0.6)] ring-2 ring-turquoise lg:-mt-5 lg:mb-5"
-                    : "bg-white text-navy-800 shadow-xl ring-1 ring-white/10"
-                }`}>
-                {t.highlight && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gold px-4 py-1 text-xs font-extrabold uppercase tracking-wide text-navy-800 shadow">Most Popular</span>
-                )}
-                <h3 className={`font-[family-name:var(--font-montserrat)] text-xl font-extrabold ${t.highlight ? "text-white" : "text-navy-800"}`}>{t.name}</h3>
-                <div className="mt-3 flex items-end gap-1">
-                  <span className={`font-[family-name:var(--font-montserrat)] text-5xl font-black ${t.highlight ? "text-white" : "text-navy-800"}`}>{t.price}</span>
-                  <span className={`pb-1.5 text-sm ${t.highlight ? "text-white/80" : "text-slate-500"}`}>{t.per}</span>
-                </div>
-                <ul className={`mt-6 space-y-2.5 text-sm ${t.highlight ? "text-white/95" : "text-slate-600"}`}>
-                  {t.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2.5">
-                      <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${t.highlight ? "bg-white/20" : "bg-ice-500"}`}>
-                        <Check className={`h-3.5 w-3.5 ${t.highlight ? "text-white" : "text-white"}`} />
-                      </span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link href="/contact"
-                  className={`btn mt-7 w-full ${t.highlight ? "btn-primary" : "btn-outline-navy"}`}>
-                  Join {t.name}
-                </Link>
+
+          <div className="mx-auto mt-12 grid max-w-5xl items-center gap-6 lg:grid-cols-[1fr_auto_1fr]">
+            {/* Member */}
+            <Reveal from="left"
+              className="overflow-hidden rounded-3xl bg-gradient-to-b from-white to-ice-100 p-7 shadow-[0_30px_70px_-20px_rgba(31,143,214,0.55)] ring-1 ring-white/60 sm:p-8">
+              <div className="flex items-center gap-2">
+                <Snowflake className="h-6 w-6 text-ice-600" />
+                <h3 className="font-[family-name:var(--font-montserrat)] text-xl font-extrabold uppercase text-navy-800">Glacier Club Member</h3>
               </div>
-            ))}
+              <p className="mt-1 text-xs font-bold uppercase tracking-[0.15em] text-ice-600">Features included</p>
+              <ul className="mt-6 space-y-3.5">
+                {MEMBER_FEATURES.map((f) => (
+                  <li key={f} className="flex items-center gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-ice-500 to-ice-700 text-white shadow-sm">
+                      <Check className="h-4 w-4" />
+                    </span>
+                    <span className="text-sm font-semibold text-navy-800">{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            {/* VS badge */}
+            <div className="mx-auto flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f7941d] to-[#e11f26] font-[family-name:var(--font-montserrat)] text-xl font-black text-white shadow-[0_10px_30px_-6px_rgba(225,31,38,0.6)] ring-4 ring-white/10">
+              VS
+            </div>
+
+            {/* Non-member */}
+            <Reveal from="right"
+              className="rounded-3xl bg-white/[0.04] p-7 ring-1 ring-white/10 backdrop-blur-sm sm:p-8">
+              <div className="flex items-center gap-2">
+                <X className="h-6 w-6 text-white/40" />
+                <h3 className="font-[family-name:var(--font-montserrat)] text-xl font-extrabold uppercase text-white/75">Non-Member</h3>
+              </div>
+              <p className="mt-1 text-xs font-bold uppercase tracking-[0.15em] text-white/35">Features not included</p>
+              <ul className="mt-6 space-y-3.5">
+                {NONMEMBER_FEATURES.map((f) => (
+                  <li key={f} className="flex items-center gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10 text-red-brand">
+                      <X className="h-4 w-4" />
+                    </span>
+                    <span className="text-sm text-white/60">{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </div>
-          <p className="mx-auto mt-8 max-w-3xl text-center text-xs text-ice-200/60">
-            Pricing shown is representative for illustration. Final membership pricing is confirmed at enrollment and may vary by system type and home size.
-          </p>
+
+          <div className="mt-11 text-center">
+            <Link href="/contact" className="btn btn-primary text-base">Join the Glacier Club Today</Link>
+            <p className="mx-auto mt-4 max-w-xl text-sm text-ice-200/70">
+              No contracts. Cancel anytime. Call {site.phoneDisplay} and ask about current membership options.
+            </p>
+          </div>
         </div>
       </section>
 
