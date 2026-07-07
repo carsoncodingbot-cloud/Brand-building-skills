@@ -103,10 +103,10 @@ img=footer(img); img.convert("RGB").save("scratchpad/post1-launch.png")
 
 # ============ POST 2 — THE FLEET ============
 img=bg(); d=ImageDraw.Draw(img,"RGBA")
-d.text((M,150),"KEEP AN EYE OUT,",font=f("Black",72),fill=(255,255,255,255))
-d.text((M,238),"SAN ANTONIO.",font=f("Black",72),fill=ICE)
-d.text((M,344),"The Glacier fleet is rolling out across the city.",font=f("Bold",30),fill=(255,255,255,215))
-img=van_hero(img,780,905)
+d.text((M,112),"KEEP AN EYE OUT,",font=f("Black",72),fill=(255,255,255,255))
+d.text((M,200),"SAN ANTONIO.",font=f("Black",72),fill=ICE)
+d.text((M,308),"The Glacier fleet is rolling out across the city.",font=f("Bold",30),fill=(255,255,255,215))
+img=van_hero(img,760,915)
 img=footer(img); img.convert("RGB").save("scratchpad/post2-fleet.png")
 
 # ============ POST 3 — REVIEWS ============
@@ -173,4 +173,85 @@ d.text((px0+pad+isz+gap-pbb[0],py0+toth/2-phh/2-pbb[1]),pht,font=phf,fill=(255,2
 center(d,"Save this number. You'll be glad you did.",f("Bold",26),852,ICE2)
 img=footer(img); img.convert("RGB").save("scratchpad/post5-emergency.png")
 
-print("5 posts rendered")
+
+# ============ POST 6 — MEET THE TECHS ============
+img=bg(); d=ImageDraw.Draw(img,"RGBA")
+tracked_center(d,"THE PEOPLE BEHIND THE COLD AIR",f("Bold",24),148,ICE2,6)
+tech=Image.open("public/tech.webp").convert("RGBA")
+tw_,th_=tech.size
+# center-crop to 4:3
+if tw_/th_ > 4/3:
+    nw=int(th_*4/3); tech=tech.crop(((tw_-nw)//2,0,(tw_-nw)//2+nw,th_))
+else:
+    nh=int(tw_*3/4); tech=tech.crop((0,(th_-nh)//2,tw_,(th_-nh)//2+nh))
+PW,PH=760,570
+tech=tech.resize((PW,PH),Image.LANCZOS)
+mask=Image.new("L",(PW*3,PH*3),0)
+ImageDraw.Draw(mask).rounded_rectangle([0,0,PW*3,PH*3],radius=96,fill=255)
+mask=mask.resize((PW,PH),Image.LANCZOS)
+card=Image.new("RGBA",(PW,PH),(0,0,0,0)); card.paste(tech,(0,0),mask)
+px0,py0=(S-PW)//2,206
+shp=Image.new("RGBA",(S,S),(0,0,0,0)); sd=ImageDraw.Draw(shp)
+sd.rounded_rectangle([px0,py0+16,px0+PW,py0+PH+16],radius=32,fill=(0,10,26,160))
+img.alpha_composite(shp.filter(ImageFilter.GaussianBlur(20)))
+img.alpha_composite(card,(px0,py0))
+d=ImageDraw.Draw(img,"RGBA")
+d.rounded_rectangle([px0,py0,px0+PW,py0+PH],radius=32,outline=(255,255,255,220),width=5)
+center(d,"REAL TECHS. REAL SERVICE.",f("Black",56),846,(255,255,255,255))
+center(d,"Certified. Background-checked. Proud of the work.",f("Bold",27),904,ICE2)
+img=footer(img); img.convert("RGB").save("scratchpad/post6-techs.png")
+
+# ============ POST 7 — STAY COOL CAMPAIGN ============
+img=bg(); d=ImageDraw.Draw(img,"RGBA")
+center(d,"STAY COOL.",f("Black",84),168,(255,255,255,255))
+center(d,"STAY COMFORTABLE.",f("Black",84),272,ICE)
+bt="PREMIUM HVAC SERVICE FOR EVERY SPACE."
+bf=f("Bold",27); bw_,bh_,bbb=T(d,bt,bf)
+stx=(S-(bw_+76))//2; sty=352
+strip=Image.new("RGBA",(bw_+76,62),(0,0,0,0)); sd2=ImageDraw.Draw(strip)
+sd2.rounded_rectangle([0,0,bw_+76,62],radius=14,fill=(255,255,255,255))
+img.alpha_composite(strip,(stx,sty)); d=ImageDraw.Draw(img,"RGBA")
+d.text((stx+38-bbb[0],sty+31-bh_/2-bbb[1]),bt,font=bf,fill=NAVY)
+badges=[("snowflake","POWERFUL","COOLING","Fast. Efficient.","Reliable."),
+        ("wind","ENERGY","EFFICIENT","Save more on","electricity bills."),
+        ("shield","DURABLE &","RELIABLE","Built to last.","Built for you.")]
+colx=[S//6,S//2,5*S//6]; byy=500
+for (icn,t1,t2,s1,s2),cx in zip(badges,colx):
+    disc=Image.new("RGBA",(96,96),(0,0,0,0)); dd=ImageDraw.Draw(disc)
+    dd.ellipse([0,0,96,96],fill=(31,143,214,255))
+    img.alpha_composite(disc,(cx-48,byy)); img.alpha_composite(ic(icn,52),(cx-26,byy+22))
+    d=ImageDraw.Draw(img,"RGBA")
+    center(d,t1,f("ExtraBold",28),byy+136,(255,255,255,255),cx)
+    center(d,t2,f("ExtraBold",28),byy+172,(255,255,255,255),cx)
+    center(d,s1,f("Bold",20),byy+210,ICE2,cx)
+    center(d,s2,f("Bold",20),byy+236,ICE2,cx)
+pht="(205) 601-3797"; phf=f("ExtraBold",40)
+pw_,phh_,pbb=T(d,pht,phf)
+isz=40; pad=44; gap=18
+totw=pad+isz+gap+pw_+pad; toth=84
+px1=(S-totw)//2; py1=806
+d.rounded_rectangle([px1,py1,px1+totw,py1+toth],radius=42,fill=RED)
+img.alpha_composite(phico.resize((isz,isz),Image.LANCZOS),(int(px1+pad),int(py1+toth//2-isz//2)))
+d=ImageDraw.Draw(img,"RGBA")
+d.text((px1+pad+isz+gap-pbb[0],py1+toth/2-phh_/2-pbb[1]),pht,font=phf,fill=(255,255,255,255))
+img=footer(img); img.convert("RGB").save("scratchpad/post7-staycool.png")
+
+# ============ POST 8 — PRO TIP ============
+img=bg(); d=ImageDraw.Draw(img,"RGBA")
+tracked_center(d,"GLACIER PRO TIP · NO. 1",f("Bold",26),168,TURQ,8)
+center(d,"78°F",f("Black",210),380,(255,255,255,255))
+center(d,"The summer sweet spot.",f("ExtraBold",46),564,ICE)
+center(d,"Set it to 78 when you're home — every degree",f("Bold",28),648,(255,255,255,215))
+center(d,"lower adds about 7% to your cooling bill.",f("Bold",28),692,(255,255,255,215))
+ftx="Follow along for a new pro tip every week."
+ftf=f("Bold",24)
+fw,fh,fbb=T(d,ftx,ftf)
+icn2=ic("snowflake",24)
+tot=fw+12+24
+fx=(S-tot)/2
+d.text((fx-fbb[0],800-fh/2-fbb[1]),ftx,font=ftf,fill=ICE2)
+img.alpha_composite(icn2,(int(fx+fw+12),800-12))
+d=ImageDraw.Draw(img,"RGBA")
+img=footer(img); img.convert("RGB").save("scratchpad/post8-tip.png")
+
+print("8 posts rendered")
