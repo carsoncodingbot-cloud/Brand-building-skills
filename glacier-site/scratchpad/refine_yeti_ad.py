@@ -17,6 +17,14 @@ art=ImageEnhance.Color(art).enhance(1.05)
 
 img=Image.new("RGBA",(W,H),(255,255,255,255))
 img.paste(art,(0,0))
+
+# RunTru by Trane mark, printed on the unit's metal (perspective nudge + soft blend)
+rt=Image.open("scratchpad/runtru-mark.png").convert("RGBA")
+rh=70; rw=int(rt.width*rh/rt.height)
+rt=rt.resize((rw,rh),Image.LANCZOS).rotate(-2.5,resample=Image.BICUBIC,expand=True)
+rt=rt.filter(ImageFilter.GaussianBlur(0.6))
+a=rt.getchannel("A").point(lambda v:int(v*0.94)); rt.putalpha(a)
+img.alpha_composite(rt,(266,1424))
 d=ImageDraw.Draw(img,"RGBA")
 
 def T(t,font):
@@ -47,8 +55,8 @@ for c,w_ in zip(sub,widths):
     xx+=w_+extra
 dvx=gx+gw+56
 d.line([(dvx,BAR1_T+48),(dvx,BAR1_B-48)],fill=(208,224,238,255),width=4)
-d.text((dvx+52,bcy-56),"San Antonio's Coolest HVAC Team",font=f("ExtraBold",44),fill=NAVY)
-d.text((dvx+52,bcy+8),"Trusted comfort. Built to last.",font=f("Bold",34),fill=SLATE)
+d.text((dvx+52,bcy-60),"San Antonio's Coolest HVAC Team",font=f("ExtraBold",48),fill=NAVY)
+d.text((dvx+52,bcy+10),"Trusted comfort. Built to last.",font=f("Bold",36),fill=SLATE)
 
 # ---------- 3) navy CTA bar: 2286 -> 2492 ----------
 BAR2_T,BAR2_B=2286,2492
@@ -69,8 +77,8 @@ items=[("shield","100% SATISFACTION","GUARANTEED"),
        ("wrench","WARRANTY ON","ALL UNITS"),
        ("home","PERFECT FOR","HOME & OFFICE")]
 def ic(name,size): return Image.open(f"scratchpad/ic-{name}.png").convert("RGBA").resize((size,size),Image.LANCZOS)
-ICO=48; IG=16; DIV=40
-fs_=22
+ICO=52; IG=16; DIV=40
+fs_=24
 while fs_>=16:
     ft=f("Bold",fs_)
     widths=[ICO+IG+max(T(l1,ft)[0],T(l2,ft)[0]) for _,l1,l2 in items]
@@ -92,7 +100,7 @@ for k,(icn,l1,l2) in enumerate(items):
 # ---------- 4) sign-off strip: 2492 -> H ----------
 d.rectangle([0,BAR2_B,W,H],fill=DEEP)
 line="KEEPING YOU COOL, EVERY SEASON."
-fl=f("Bold",28); TRK=9
+fl=f("Bold",30); TRK=9
 lw=sum((T(c,fl)[0]+TRK) if c!=' ' else 22 for c in line)-TRK
 scy=(BAR2_B+H)//2
 sx=(W-lw)//2
