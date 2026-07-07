@@ -69,15 +69,17 @@ export default function PrivacyPage() {
             <Section title="Calls and text messages">
               <p>
                 When you submit your phone number through our website or an advertising lead form, you consent to receive calls
-                and text messages from {site.name} about your request, including via automated technology. Consent is not a
-                condition of purchase. Message and data rates may apply, and message frequency varies. Reply STOP to any text
-                to opt out, or HELP for help. We do not share your mobile number with third parties for their own marketing.
+                and text messages about your request from {site.name} and, where applicable, a licensed local service partner
+                we match to your request — including via automated technology. Consent is not a condition of purchase. Message
+                and data rates may apply, and message frequency varies. Reply STOP to any text to opt out, or HELP for help.
+                We do not share your mobile number with third parties for their own unrelated marketing.
               </p>
             </Section>
 
             <Section title="How we share information">
-              <p>We do not sell your personal information. We share it only with:</p>
+              <p>We share your information only as needed to get your request handled:</p>
               <ul className="list-disc space-y-1.5 pl-5">
+                <li>Licensed, vetted local service partners — when you request service, your request may be fulfilled by or referred to a licensed local heating, cooling, or plumbing professional in our network, who may contact you directly about it.</li>
                 <li>Service providers who help us operate — such as scheduling, dispatch, payment, review, and communication tools — under obligations to protect your data.</li>
                 <li>Advertising and analytics platforms (such as Meta and Google) in limited, technical form to measure ad performance.</li>
                 <li>Authorities when required by law, or as needed to protect our rights, customers, and team.</li>
