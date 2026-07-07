@@ -84,7 +84,7 @@ for i in range(5): star(sx + i*star_gap, r1, star_r, (245,166,35,255))
 text_vc(colx, r2, "687+ Google Reviews", rev_font, (92,112,132,255))
 
 # CTA: red phone pill with a rasterized phone icon + centered number
-ph_font = f("ExtraBold", 34); ph_txt = "(205) 601-3797"
+ph_font = f("ExtraBold", 34); ph_txt = "(866) 665-2210"
 pb = d.textbbox((0,0), ph_txt, font=ph_font); ph_w = pb[2]-pb[0]
 gap_icon = 16
 try:

@@ -55,7 +55,7 @@ def footer(img):
     d.text((S-M-w-bb[0],FOOT_Y+28+(42-h)/2-bb[1]),t,font=font,fill=(255,255,255,235))
     return img
 def phone_pill(img,d,cy,size=40):
-    pht="(205) 601-3797"; phf=f("ExtraBold",size)
+    pht="(866) 665-2210"; phf=f("ExtraBold",size)
     pw,phh,pbb=T(d,pht,phf)
     isz=size; pad=int(size*1.1); gap=18
     totw=pad+isz+gap+pw+pad; toth=int(size*2.1)

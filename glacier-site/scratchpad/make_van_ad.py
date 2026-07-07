@@ -201,14 +201,14 @@ img.alpha_composite(phicon,(MARG+16,row1_cy-22))
 d=ImageDraw.Draw(img,"RGBA")
 px0=MARG+100
 d.text((px0,row1_cy-46),"CALL US TODAY!",font=f("Bold",25),fill=(255,255,255,225))
-d.text((px0,row1_cy-14),"(205) 601-3797",font=f("Black",50),fill=(255,255,255,255))
+d.text((px0,row1_cy-14),"(866) 665-2210",font=f("Black",50),fill=(255,255,255,255))
 
 # right: trust items, measured widths, right-aligned to margin
 items=[("shield","100% SATISFACTION","GUARANTEED"),
        ("wrench","WARRANTY ON","ALL UNITS"),
        ("home","PERFECT FOR","HOME & OFFICE")]
 ICO=42; IG=13; DIV=30
-num_end = px0 + tw("(205) 601-3797", f("Black",50))
+num_end = px0 + tw("(866) 665-2210", f("Black",50))
 fs=20
 while fs>=14:
     ft=f("Bold",fs)

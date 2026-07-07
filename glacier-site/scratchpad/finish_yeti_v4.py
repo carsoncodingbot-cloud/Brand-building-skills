@@ -78,8 +78,8 @@ def bars(art, out):
     d=ImageDraw.Draw(img,"RGBA")
     px0=M+126
     d.text((px0,r1-58),"CALL US TODAY!",font=f("Bold",32),fill=(255,255,255,230))
-    d.text((px0,r1-18),"(205) 601-3797",font=f("Black",62),fill=(255,255,255,255))
-    num_end=px0+T(d,"(205) 601-3797",f("Black",62))[0]
+    d.text((px0,r1-18),"(866) 665-2210",font=f("Black",62),fill=(255,255,255,255))
+    num_end=px0+T(d,"(866) 665-2210",f("Black",62))[0]
     items=[("shield","100% SATISFACTION","GUARANTEED"),
            ("wrench","WARRANTY ON","ALL UNITS"),
            ("home","PERFECT FOR","HOME & OFFICE")]

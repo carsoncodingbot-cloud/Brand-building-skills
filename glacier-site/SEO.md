@@ -55,7 +55,7 @@ calls. It's ranked almost entirely by GBP signals, not your website.
   contractor", "Heating contractor", "Plumber".
 - Fill **everything**: hours, service areas (add each city), services list
   (mirror our service pages), 20+ real photos (trucks, team, installs,
-  the wrapped van), the phone `(205) 601-3797`, and the website URL.
+  the wrapped van), the phone `(866) 665-2210`, and the website URL.
 - Turn on **messaging** and **booking**.
 - Post weekly (offers, tips, jobs) — GBP posts are a ranking signal.
 

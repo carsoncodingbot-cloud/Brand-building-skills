@@ -12,8 +12,8 @@ export const site = {
   foundedYear: 2009,
 
   // ---- Contact (PLACEHOLDERS — replace with real business details) ----
-  phoneDisplay: "(205) 601-3797",
-  phoneHref: "tel:+12056013797",
+  phoneDisplay: "(866) 665-2210",
+  phoneHref: "tel:+18666652210",
   email: "hello@callglacier.com",
   address: {
     street: "1100 NW Loop 410",

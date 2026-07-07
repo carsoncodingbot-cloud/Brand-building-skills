@@ -161,7 +161,7 @@ center(d,"NO HEAT?",f("Black",108),448,ICE)
 center(d,"We answer day or night — nights, weekends,",f("Bold",30),566,(255,255,255,215))
 center(d,"and holidays included.",f("Bold",30),610,(255,255,255,215))
 # giant phone pill
-pht="(205) 601-3797"; phf=f("ExtraBold",54)
+pht="(866) 665-2210"; phf=f("ExtraBold",54)
 pw,phh,pbb=T(d,pht,phf)
 isz=52; pad=52; gap=22
 totw=pad+isz+gap+pw+pad; toth=108
@@ -225,7 +225,7 @@ for (icn,t1,t2,s1,s2),cx in zip(badges,colx):
     center(d,t2,f("ExtraBold",28),byy+172,(255,255,255,255),cx)
     center(d,s1,f("Bold",20),byy+210,ICE2,cx)
     center(d,s2,f("Bold",20),byy+236,ICE2,cx)
-pht="(205) 601-3797"; phf=f("ExtraBold",40)
+pht="(866) 665-2210"; phf=f("ExtraBold",40)
 pw_,phh_,pbb=T(d,pht,phf)
 isz=40; pad=44; gap=18
 totw=pad+isz+gap+pw_+pad; toth=84
