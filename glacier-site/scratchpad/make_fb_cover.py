@@ -51,7 +51,7 @@ def star(cx,cy,r,fill):
 van=Image.open("public/van.webp").convert("RGBA")
 VW=560; VH=int(van.height*VW/van.width)
 van=van.resize((VW,VH),Image.LANCZOS)
-vx=MX1-VW-18; vy=H-VH-38
+vx=MX1-VW-18; vy=H-VH-92
 glow=Image.new("RGBA",(W,H),(0,0,0,0)); gd=ImageDraw.Draw(glow)
 gd.ellipse([vx+40,vy+50,vx+VW-40,vy+VH-8],fill=(72,202,228,60))
 glow=glow.filter(ImageFilter.GaussianBlur(60))
