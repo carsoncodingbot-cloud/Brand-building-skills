@@ -110,35 +110,36 @@ fh=f("Black",size)
 d.text((hx,hy),"STAY COOL.",font=fh,fill=HEAD)
 d.text((hx,hy+int(size*1.16)),"STAY COMFORTABLE.",font=fh,fill=HEAD)
 
-# navy sub-banner
+# navy sub-banner — carries the actual offer (message-match with the lead form)
 by=hy+int(size*2.62)
-bt="PREMIUM HVAC SERVICE FOR EVERY SPACE."
-fb=f("Bold",34)
-bw=tw(bt,fb)+72
-d.polygon([(MARG,by),(MARG+bw,by),(MARG+bw-24,by+72),(MARG,by+72)],fill=NAVY)
-text_vc(MARG+36,by+36,bt,fb,(255,255,255,255))
+bt="NEW AC SYSTEMS  ·  FREE EXACT-PRICE ESTIMATES"
+fb=f("Bold",38)
+while tw(bt,fb)+80 > W-2*MARG and fb.size>30: fb=f("Bold",fb.size-1)
+bw=tw(bt,fb)+80
+d.polygon([(MARG,by),(MARG+bw,by),(MARG+bw-26,by+80),(MARG,by+80)],fill=NAVY)
+text_vc(MARG+40,by+40,bt,fb,(255,255,255,255))
 
 # ---------------- feature badges ----------------
 badges=[("snowflake","POWERFUL","COOLING","Fast. Efficient.","Reliable."),
         ("wind","ENERGY","EFFICIENT","Save more on","electricity bills."),
         ("shield","DURABLE &","RELIABLE","Built to last.","Built for you.")]
 bx0=MARG; bwid=(W-2*MARG)//3
-byy=by+150
+byy=by+164
 for i,(ic,t1,t2,s1,s2) in enumerate(badges):
     x=bx0+i*bwid
     # icon disc
-    disc=Image.new("RGBA",(100,100),(0,0,0,0)); dd=ImageDraw.Draw(disc)
-    dd.ellipse([0,0,100,100],fill=NAVY)
+    disc=Image.new("RGBA",(116,116),(0,0,0,0)); dd=ImageDraw.Draw(disc)
+    dd.ellipse([0,0,116,116],fill=NAVY)
     img.alpha_composite(disc,(x,byy))
-    icn=load_ic(ic,56); img.alpha_composite(icn,(x+22,byy+22))
+    icn=load_ic(ic,66); img.alpha_composite(icn,(x+25,byy+25))
     d=ImageDraw.Draw(img,"RGBA")
-    tx=x+118
-    d.text((tx,byy-4),t1,font=f("ExtraBold",30),fill=HEAD)
-    d.text((tx,byy+30),t2,font=f("ExtraBold",30),fill=HEAD)
-    d.text((tx,byy+70),s1,font=f("Bold",22),fill=SLATE)
-    d.text((tx,byy+96),s2,font=f("Bold",22),fill=SLATE)
+    tx=x+134
+    d.text((tx,byy-4),t1,font=f("ExtraBold",34),fill=HEAD)
+    d.text((tx,byy+34),t2,font=f("ExtraBold",34),fill=HEAD)
+    d.text((tx,byy+80),s1,font=f("Bold",25),fill=SLATE)
+    d.text((tx,byy+110),s2,font=f("Bold",25),fill=SLATE)
     if i>0:
-        d.line([(x-26,byy+4),(x-26,byy+112)],fill=(13,66,116,90),width=3)
+        d.line([(x-26,byy+6),(x-26,byy+130)],fill=(13,66,116,90),width=3)
 
 # ---------------- VAN hero ----------------
 van=Image.open("public/van.webp").convert("RGBA")
@@ -206,9 +207,9 @@ d.text((px0,row1_cy-14),"(205) 601-3797",font=f("Black",50),fill=(255,255,255,25
 items=[("shield","100% SATISFACTION","GUARANTEED"),
        ("wrench","WARRANTY ON","ALL UNITS"),
        ("home","PERFECT FOR","HOME & OFFICE")]
-ICO=38; IG=12; DIV=30
+ICO=42; IG=13; DIV=30
 num_end = px0 + tw("(205) 601-3797", f("Black",50))
-fs=18
+fs=20
 while fs>=14:
     ft=f("Bold",fs)
     widths=[ICO+IG+max(tw(l1,ft),tw(l2,ft)) for _,l1,l2 in items]
