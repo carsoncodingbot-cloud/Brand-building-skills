@@ -121,8 +121,8 @@ The #1 driver of local repair customers is the Google Maps pack.
 - **Review engine**: after every completed repair order, send an SMS with a direct review link. Target: +15 reviews/month. Respond to every review — especially critical ones — in the brand voice (own it, fix it, invite them back).
 - Photo documentation already promised in messaging doubles as review fuel: happy customers with evidence leave better reviews.
 
-### 3.2 Website (foundation, week 1–4)
-One fast, mobile-first site: hero (headline + click-to-call + booking), services with plain-English pricing ranges, warranty page, custom build gallery, reviews embed, about-the-crew page. Local SEO basics: service + city pages ("Brake repair in [city]"), schema markup, GBP link.
+### 3.2 Website — southerngarage.com (foundation, week 1–4)
+The exact-match .com is already owned — a major head start for local SEO, ads, and credibility. Build one fast, mobile-first site on it: hero (headline + click-to-call + booking), services with plain-English pricing ranges, warranty page, custom build gallery, reviews embed, about-the-crew page. Local SEO basics: service + city pages ("Brake repair in [city]"), schema markup, GBP link.
 
 ### 3.3 Google Ads — Search (demand capture, month 2+)
 - **Campaigns**: (1) Emergency/high-intent — "brake repair near me," "check engine light," "transmission shop [city]"; (2) Service-specific — AC, alignment, diesel; (3) Custom — "lift kit install [city]," "truck customization," "classic car restoration [region]."

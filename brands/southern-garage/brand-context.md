@@ -5,7 +5,7 @@
 - **Category**: Auto repair & custom automotive (independent shop)
 - **Description**: A straight-talking Southern auto shop that fixes your daily driver right the first time and builds the truck you've always wanted.
 - **Stage**: Established locally, pre-marketing (reputation built on word of mouth)
-- **Website**: N/A (to be launched — see marketing plan, Phase 1)
+- **Website**: southerngarage.com (domain owned — site build/refresh is Phase 1 of the marketing plan)
 
 ## Audience
 - **Primary Audience**: Vehicle owners within a 25-mile radius — working families, tradespeople, and commuters who depend on their truck or car daily and don't trust dealerships to treat them fairly.
