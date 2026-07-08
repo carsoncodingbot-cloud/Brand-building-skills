@@ -190,7 +190,7 @@ center(d,"cooler than outdoors",f("ExtraBold",30),600,(255,255,255,255))
 center(d,"That's what a healthy AC is built to hold.",f("Bold",27),688,ICE2)
 center(d,"On a 102° San Antonio day, 78–80° inside isn't broken —",f("Bold",26),744,ICE2)
 center(d,"it's winning. Can't hold even that? Now it's our turn.",f("Bold",26),780,(255,255,255,255))
-center(d,"Free checkup · (866) 665-2210",f("ExtraBold",30),856,TURQ)
+center(d,"Straight answers  ·  (866) 665-2210",f("ExtraBold",30),856,TURQ)
 img=footer(img); img.convert("RGB").save("scratchpad/post15-rule20.png")
 
 # ============ POST 16 — 5-MINUTE CHECK (light) ============
