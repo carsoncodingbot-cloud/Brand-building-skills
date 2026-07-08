@@ -151,7 +151,8 @@ def footer_white(img):
 
 def eyebrow(d, num, dark=False):
     col=(160,206,236,255) if dark else ICE
-    tracked(d,f"GLACIER PRO TIPS  ·  No {num:02d}",f("Bold",19),56*SC,col,5)
+    d.rectangle([0,0,W,4*SC],fill=RED)
+    tracked(d,f"GLACIER PRO TIPS  ·  No {num:02d}",f("Bold",19),58*SC,col,5)
 
 def check_row(img,d,x,y,text,maxw,dark=False):
     cs=int(34*SC)
@@ -387,23 +388,37 @@ def p7():
     eyebrow(d,7)
     center(d,"THE 90-DAY",f("Black",58),128*SC,HEAD)
     center(d,"FILTER MYTH",f("Black",58),190*SC,ICE)
-    # 90 crossed -> 30-45
-    zone_y=int(252*SC)
-    f90=f("Black",92)
-    w90,h90,bb90=T(d,"90",f90)
-    x90=W//2-int(230*SC)
-    d.text((x90-w90/2-bb90[0],zone_y-h90/2-bb90[1]),"90",font=f90,fill=(178,196,212,255))
-    d.line([(x90-w90/2-14*SC,zone_y+h90*0.30),(x90+w90/2+14*SC,zone_y-h90*0.34)],fill=RED,width=9*SC)
-    ax0,ax1=W//2-int(74*SC),W//2-int(8*SC)
-    d.line([(ax0,zone_y),(ax1-int(12*SC),zone_y)],fill=(130,156,180,255),width=7*SC)
-    d.polygon([(ax1,zone_y),(ax1-int(22*SC),zone_y-int(13*SC)),(ax1-int(22*SC),zone_y+int(13*SC))],fill=(130,156,180,255))
-    fA=f("Black",64)
-    xa=W//2+int(170*SC)
-    w2,h2,bb2=T(d,"30-45",fA)
-    d.text((xa-w2/2-bb2[0],zone_y-h2/2-bb2[1]),"30-45",font=fA,fill=HEAD)
-    w3,_,bb3=T(d,"DAYS IN A TEXAS SUMMER",f("Bold",17))
-    d.text((xa-w3/2-bb3[0],zone_y+int(44*SC)),"DAYS IN A TEXAS SUMMER",font=f("Bold",17),fill=SLATE)
-    py=int(336*SC); ph_h=int(560*SC)
+    # measured, symmetric comparison: [THE BOX SAYS / 90] -> [TEXAS REALITY / 30-45]
+    fN=f("Black",68); fL=f("Bold",15)
+    n1,n2="90","30-45"
+    l1,l2="THE BOX SAYS","TEXAS REALITY"
+    w1=T(d,n1,fN)[0]; w2=T(d,n2,fN)[0]
+    lw1=T(d,l1,fL)[0]; lw2=T(d,l2,fL)[0]
+    c1=max(w1,lw1); c2=max(w2,lw2)          # column widths
+    AR=int(66*SC); GAP=int(46*SC)           # arrow width, gaps
+    total=c1+GAP+AR+GAP+c2
+    x0=(W-total)//2
+    cx1=x0+c1//2; cx2=x0+c1+GAP+AR+GAP+c2//2
+    lab_y=int(238*SC); num_y=int(300*SC)
+    for cx,lab,col in ((cx1,l1,SLATE),(cx2,l2,ICE)):
+        wl,hl,bbl=T(d,lab,fL)
+        d.text((cx-wl/2-bbl[0],lab_y-hl/2-bbl[1]),lab,font=fL,fill=col)
+    # 90 (struck through its measured ink bounds)
+    wn,hn,bbn=T(d,n1,fN)
+    tx=cx1-wn/2-bbn[0]; ty=num_y-hn/2-bbn[1]
+    d.text((tx,ty),n1,font=fN,fill=(178,196,212,255))
+    ix0,iy0,ix1,iy1=tx+bbn[0],ty+bbn[1],tx+bbn[2],ty+bbn[3]
+    pad=int(12*SC)
+    d.line([(ix0-pad,iy1+int(4*SC)),(ix1+pad,iy0-int(4*SC))],fill=RED,width=9*SC)
+    # arrow, vertically centered on the numbers
+    acx=x0+c1+GAP+AR//2
+    d.line([(acx-AR//2,num_y),(acx+AR//2-int(14*SC),num_y)],fill=(130,156,180,255),width=7*SC)
+    d.polygon([(acx+AR//2,num_y),(acx+AR//2-int(22*SC),num_y-int(13*SC)),(acx+AR//2-int(22*SC),num_y+int(13*SC))],fill=(130,156,180,255))
+    # 30-45
+    wn2,hn2,bbn2=T(d,n2,fN)
+    d.text((cx2-wn2/2-bbn2[0],num_y-hn2/2-bbn2[1]),n2,font=fN,fill=HEAD)
+    center(d,"days between 1-inch filter changes in a Texas summer",f("Bold",18),int(358*SC),SLATE)
+    py=int(400*SC); ph_h=int(505*SC)
     photo_card(img,"brand/jobs/raw/b6-26-trane-airhandler-side-full.jpg",(M,py,W-2*M,ph_h))
     d=ImageDraw.Draw(img,"RGBA")
     bt="REAL GLACIER INSTALL"; fb=f("Bold",14)
