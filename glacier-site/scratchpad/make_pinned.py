@@ -54,11 +54,11 @@ TEXT_BOTTOM=336*SC
 
 # ---------- van hero: measured placement ----------
 van=Image.open("public/van.webp").convert("RGBA")
-vw=1010*SC; vh=int(van.height*vw/van.width)
+vw=985*SC; vh=int(van.height*vw/van.width)
 v=van.resize((vw,vh),Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.4,42,2))
 bbox=v.getbbox()                      # true painted bounds of the cutout
 vx=(W-vw)//2+8*SC
-vy=GROUND-bbox[3]+int(26*SC)          # wheels sit ON the ground line
+vy=GROUND-bbox[3]-int(18*SC)          # wheels float just above the ground line
 assert vy+bbox[1] > TEXT_BOTTOM+14*SC, f"van top {vy+bbox[1]} collides text {TEXT_BOTTOM}"
 glow=Image.new("RGBA",(W,H),(0,0,0,0)); gd=ImageDraw.Draw(glow)
 gd.ellipse([vx+int(vw*0.06),vy+int(vh*0.14),vx+vw-int(vw*0.06),vy+vh-int(vh*0.02)],fill=(72,202,228,60))
@@ -75,7 +75,7 @@ chips=["FREE ESTIMATES","LICENSED & INSURED","24/7 EMERGENCY"]
 fc=f("Bold",19)
 cw=[T(d,t,fc)[0]+int(44*SC) for t in chips]
 gap=(W-2*M-sum(cw))//2
-cx=M; ch=int(46*SC); cy0=GROUND+int(28*SC)
+cx=M; ch=int(46*SC); cy0=GROUND+int(34*SC)
 for t,wd in zip(chips,cw):
     d.rounded_rectangle([cx,cy0,cx+wd,cy0+ch],radius=ch//2,fill=(255,255,255,235),outline=(13,66,116,140),width=2*SC)
     w,hh,bb=T(d,t,fc)
