@@ -388,37 +388,30 @@ def p7():
     eyebrow(d,7)
     center(d,"THE 90-DAY",f("Black",58),128*SC,HEAD)
     center(d,"FILTER MYTH",f("Black",58),190*SC,ICE)
-    # measured, symmetric comparison: [THE BOX SAYS / 90] -> [TEXAS REALITY / 30-45]
-    fN=f("Black",68); fL=f("Bold",15)
-    n1,n2="90","30-45"
-    l1,l2="THE BOX SAYS","TEXAS REALITY"
-    w1=T(d,n1,fN)[0]; w2=T(d,n2,fN)[0]
-    lw1=T(d,l1,fL)[0]; lw2=T(d,l2,fL)[0]
-    c1=max(w1,lw1); c2=max(w2,lw2)          # column widths
-    AR=int(66*SC); GAP=int(46*SC)           # arrow width, gaps
-    total=c1+GAP+AR+GAP+c2
-    x0=(W-total)//2
-    cx1=x0+c1//2; cx2=x0+c1+GAP+AR+GAP+c2//2
-    lab_y=int(238*SC); num_y=int(300*SC)
-    for cx,lab,col in ((cx1,l1,SLATE),(cx2,l2,ICE)):
-        wl,hl,bbl=T(d,lab,fL)
-        d.text((cx-wl/2-bbl[0],lab_y-hl/2-bbl[1]),lab,font=fL,fill=col)
-    # 90 (struck through its measured ink bounds)
+    # two identical, level comparison cards — no diagonals anywhere
+    CW=int(420*SC); CH=int(128*SC); CGAP=int(40*SC)
+    cy0=int(246*SC)
+    x1=W//2-CGAP//2-CW; x2=W//2+CGAP//2
+    # left card: the box's claim, struck with a LEVEL line
+    d.rounded_rectangle([x1,cy0,x1+CW,cy0+CH],radius=20*SC,fill=(228,236,243,255))
+    fL=f("Bold",14); fN=f("Black",40)
+    l1="THE BOX SAYS"; n1="90 DAYS"
+    wl,hl,bbl=T(d,l1,fL)
+    d.text((x1+CW/2-wl/2-bbl[0],cy0+int(20*SC)),l1,font=fL,fill=SLATE)
     wn,hn,bbn=T(d,n1,fN)
-    tx=cx1-wn/2-bbn[0]; ty=num_y-hn/2-bbn[1]
-    d.text((tx,ty),n1,font=fN,fill=(178,196,212,255))
-    ix0,iy0,ix1,iy1=tx+bbn[0],ty+bbn[1],tx+bbn[2],ty+bbn[3]
-    pad=int(12*SC)
-    d.line([(ix0-pad,iy1+int(4*SC)),(ix1+pad,iy0-int(4*SC))],fill=RED,width=9*SC)
-    # arrow, vertically centered on the numbers
-    acx=x0+c1+GAP+AR//2
-    d.line([(acx-AR//2,num_y),(acx+AR//2-int(14*SC),num_y)],fill=(130,156,180,255),width=7*SC)
-    d.polygon([(acx+AR//2,num_y),(acx+AR//2-int(22*SC),num_y-int(13*SC)),(acx+AR//2-int(22*SC),num_y+int(13*SC))],fill=(130,156,180,255))
-    # 30-45
+    ntx=x1+CW/2-wn/2-bbn[0]; nty=cy0+int(52*SC)
+    d.text((ntx,nty),n1,font=fN,fill=(150,170,190,255))
+    iy=nty+bbn[1]+(bbn[3]-bbn[1])//2
+    d.line([(ntx+bbn[0]-int(10*SC),iy),(ntx+bbn[2]+int(10*SC),iy)],fill=RED,width=7*SC)
+    # right card: the Texas reality
+    d.rounded_rectangle([x2,cy0,x2+CW,cy0+CH],radius=20*SC,fill=NAVY)
+    l2="TEXAS REALITY"; n2="30-45 DAYS"
+    wl2,hl2,bbl2=T(d,l2,fL)
+    d.text((x2+CW/2-wl2/2-bbl2[0],cy0+int(20*SC)),l2,font=fL,fill=(150,205,240,255))
     wn2,hn2,bbn2=T(d,n2,fN)
-    d.text((cx2-wn2/2-bbn2[0],num_y-hn2/2-bbn2[1]),n2,font=fN,fill=HEAD)
-    center(d,"days between 1-inch filter changes in a Texas summer",f("Bold",18),int(358*SC),SLATE)
-    py=int(400*SC); ph_h=int(505*SC)
+    d.text((x2+CW/2-wn2/2-bbn2[0],cy0+int(52*SC)),n2,font=fN,fill=(255,255,255,255))
+    center(d,"How often 1-inch filters really need changing here",f("Bold",18),int(408*SC),SLATE)
+    py=int(444*SC); ph_h=int(465*SC)
     photo_card(img,"brand/jobs/raw/b6-26-trane-airhandler-side-full.jpg",(M,py,W-2*M,ph_h))
     d=ImageDraw.Draw(img,"RGBA")
     bt="REAL GLACIER INSTALL"; fb=f("Bold",14)
