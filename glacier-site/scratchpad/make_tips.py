@@ -152,7 +152,7 @@ def footer_white(img):
 def eyebrow(d, num, dark=False):
     col=(160,206,236,255) if dark else ICE
     d.rectangle([0,0,W,4*SC],fill=RED)
-    tracked(d,f"GLACIER PRO TIPS  ·  No {num:02d}",f("Bold",19),58*SC,col,5)
+    tracked(d,"GLACIER PRO TIPS  ·  SAN ANTONIO",f("Bold",19),58*SC,col,5)
 
 def check_row(img,d,x,y,text,maxw,dark=False):
     cs=int(34*SC)
