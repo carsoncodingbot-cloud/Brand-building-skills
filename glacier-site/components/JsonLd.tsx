@@ -33,7 +33,6 @@ const baseBusiness = () => ({
     { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "08:00", closes: "18:00" },
     { "@type": "OpeningHoursSpecification", dayOfWeek: ["Saturday","Sunday"], opens: "00:00", closes: "23:59" },
   ],
-  aggregateRating: { "@type": "AggregateRating", ratingValue: site.ratingValue, reviewCount: site.reviewCount },
   sameAs: [site.social.facebook, site.social.instagram],
 });
 
@@ -77,7 +76,13 @@ export function ServiceJsonLd({ name, description, url, areaServed = "San Antoni
       description,
       url,
       areaServed,
-      provider: baseBusiness(),
+      provider: {
+        "@type": "HVACBusiness",
+        "@id": `${site.url}/#business`,
+        name: site.name,
+        url: site.url,
+        telephone: site.phoneHref.replace("tel:", ""),
+      },
     }} />
   );
 }
