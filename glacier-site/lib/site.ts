@@ -36,7 +36,7 @@ export const site = {
   bookingUrl: "/contact", // swap for external scheduler when live
   social: {
     facebook: "https://www.facebook.com/",
-    instagram: "https://www.instagram.com/",
+    instagram: "https://www.instagram.com/callglacier/",
   },
 
   ratingValue: "4.9",
