@@ -89,15 +89,15 @@ def v1():
     d=ImageDraw.Draw(img,"RGBA")
     d.rectangle([0,0,W,4*SC],fill=RED)
     tracked(d,"GLACIER HEATING & AIR  ·  SAN ANTONIO",f("Bold",19),58*SC,(160,206,236,255),5)
-    center(d,img,"IT'S GOING TO BE",f("Black",40),132*SC,(255,255,255,255))
-    # giant gradient 103°
-    big=f("Black",250)
-    t="103°"
+    center(d,img,"THE FORECAST CLIMBS ALL WEEK,",f("Black",38),128*SC,(255,255,255,255))
+    center(d,img,"THEN PARKS AT",f("Black",38),176*SC,(255,255,255,255))
+    # giant gradient 97 (accurate to the real forecast)
+    big=f("Black",220)
+    t="97°"
     wB,hB,bbB=T(d,t,big)
     tile=Image.new("RGBA",(wB+40,hB+40),(0,0,0,0))
     td=ImageDraw.Draw(tile)
     td.text((20-bbB[0],20-bbB[1]),t,font=big,fill=(255,255,255,255))
-    # heat gradient: gold -> orange -> red top to bottom
     gradc=Image.new("RGBA",tile.size,(0,0,0,0))
     gd=ImageDraw.Draw(gradc)
     cols=[(255,196,60),(247,148,29),(241,90,36),(225,31,38)]
@@ -108,14 +108,25 @@ def v1():
         c=tuple(int(cols[i][k]+(cols[i+1][k]-cols[i][k])*frac) for k in range(3))
         gd.line([(0,yy),(tile.size[0],yy)],fill=c+(255,))
     gradc.putalpha(tile.getchannel("A"))
-    cy=int(300*SC)
+    cy=int(320*SC)
     img.alpha_composite(gradc,((W-tile.size[0])//2,cy-tile.size[1]//2))
     d=ImageDraw.Draw(img,"RGBA")
-    center(d,img,"AGAIN TOMORROW.",f("Black",40),int(452*SC),(255,255,255,255))
-    center(d,img,"Your AC doesn't care. Until it does — at 4 PM,",f("Bold",22),int(516*SC),(196,220,240,255))
-    center(d,img,"on a Friday, with company coming.",f("Bold",22),int(548*SC),(196,220,240,255))
+    # real 10-day trend strip (from the actual forecast)
+    days=[("SAT","94°",(247,148,29)),("SUN","96°",(243,110,32)),("MON","96°",(241,90,36)),
+          ("TUE","97°",(232,55,36)),("WED","97°",(225,31,38))]
+    cw=int(160*SC); gap=int(28*SC)
+    x=(W-(5*cw+4*gap))//2; cy0=int(448*SC); chh=int(96*SC)
+    for day,temp,col in days:
+        d.rounded_rectangle([x,cy0,x+cw,cy0+chh],radius=20*SC,fill=(10,40,74,255),outline=(70,110,150,110),width=2*SC)
+        wd,_,bbd=T(d,day,f("Bold",16))
+        d.text((x+cw/2-wd/2-bbd[0],cy0+int(14*SC)),day,font=f("Bold",16),fill=(150,196,226,255))
+        wt,_,bbt=T(d,temp,f("Black",30))
+        d.text((x+cw/2-wt/2-bbt[0],cy0+int(42*SC)),temp,font=f("Black",30),fill=col)
+        x+=cw+gap
+    center(d,img,"Every degree is an extra hour your AC runs flat-out —",f("Bold",22),int(586*SC),(196,220,240,255))
+    center(d,img,"and tired systems pick weeks like this to quit.",f("Bold",22),int(618*SC),(196,220,240,255))
     # real photo card
-    py=int(596*SC); ph_h=int(384*SC)
+    py=int(660*SC); ph_h=int(330*SC)
     ph=Image.open(enhance("brand/jobs/raw/b4-16-trane-xr-condenser-front-newbuild.jpg")).convert("RGB")
     ph=ImageOps.fit(ph,(W-2*M,ph_h),Image.LANCZOS,centering=(0.5,0.35))
     mask=Image.new("L",(W-2*M,ph_h),0)
