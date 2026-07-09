@@ -29,6 +29,23 @@ def tracked(d,t,font,cy,fill,track):
         if c!=' ': d.text((x,ytop),c,font=font,fill=fill)
         x+=wd+track
 
+def eyebrow_brand(img,d,fill):
+    """Logo mark + tracked brand line, centered as one measured group."""
+    mark=Image.open("public/logo-mark.png").convert("RGBA"); mark=mark.crop(mark.getbbox())
+    mh=int(46*SC); mw=int(mark.width*mh/mark.height)
+    font=f("Bold",19); track=5*SC
+    t="GLACIER HEATING & AIR  ·  SAN ANTONIO"
+    widths=[T(d,c,font)[0] if c!=' ' else font.size*0.5 for c in t]
+    total=sum(widths)+track*(len(t)-1)
+    gapm=int(18*SC)
+    x0=(W-(mw+gapm+total))/2
+    img.alpha_composite(mark.resize((mw,mh),Image.LANCZOS),(int(x0),int(58*SC-mh/2)))
+    ref=d.textbbox((0,0),"K",font=font); ytop=58*SC-(ref[3]-ref[1])/2-ref[1]
+    x=x0+mw+gapm
+    for c,wd in zip(t,widths):
+        if c!=' ': d.text((x,ytop),c,font=font,fill=fill)
+        x+=wd+track
+
 def enhance(src):
     dst=f"brand/jobs/enhanced/{os.path.basename(src)}"
     if os.path.exists(dst): return dst
@@ -88,7 +105,7 @@ def v1():
                 if xx+k<W: px[xx+k,yy]=c
     d=ImageDraw.Draw(img,"RGBA")
     d.rectangle([0,0,W,4*SC],fill=RED)
-    tracked(d,"GLACIER HEATING & AIR  ·  SAN ANTONIO",f("Bold",19),58*SC,(160,206,236,255),5)
+    eyebrow_brand(img,d,(160,206,236,255))
     center(d,img,"THE FORECAST CLIMBS ALL WEEK,",f("Black",38),128*SC,(255,255,255,255))
     center(d,img,"THEN PARKS AT",f("Black",38),176*SC,(255,255,255,255))
     # giant gradient 97 (accurate to the real forecast)
@@ -164,7 +181,7 @@ def v2():
     img.alpha_composite(tops,(0,0))
     d=ImageDraw.Draw(img,"RGBA")
     d.rectangle([0,0,W,4*SC],fill=RED)
-    tracked(d,"GLACIER HEATING & AIR  ·  SAN ANTONIO",f("Bold",19),58*SC,(200,226,246,255),5)
+    eyebrow_brand(img,d,(200,226,246,255))
     badge(img,d,M,int(104*SC),"OUR CREW · ON A REAL JOB",fill=(225,31,38,235))
     d=ImageDraw.Draw(img,"RGBA")
     center(d,img,"YOU'RE NOT HIRING A LOGO.",f("Black",54),int(TOP-186*SC),(255,255,255,255))

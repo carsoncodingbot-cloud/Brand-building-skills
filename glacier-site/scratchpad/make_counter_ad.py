@@ -72,7 +72,20 @@ def tracked(t,font,cy,fill,track):
     for c,wd in zip(t,widths):
         if c!=' ': d.text((x,ytop),c,font=font,fill=fill)
         x+=wd+track
-tracked("GLACIER HEATING & AIR  ·  SAN ANTONIO",f("Bold",19),58*SC,(200,226,246,255),5)
+mark=Image.open("public/logo-mark.png").convert("RGBA"); mark=mark.crop(mark.getbbox())
+mh=int(46*SC); mw=int(mark.width*mh/mark.height)
+_font=f("Bold",19); _track=5*SC
+_t="GLACIER HEATING & AIR  ·  SAN ANTONIO"
+_w=[T(d,c,_font)[0] if c!=' ' else _font.size*0.5 for c in _t]
+_total=sum(_w)+_track*(len(_t)-1)
+_x0=(W-(mw+int(18*SC)+_total))/2
+img.alpha_composite(mark.resize((mw,mh),Image.LANCZOS),(int(_x0),int(58*SC-mh/2)))
+d=ImageDraw.Draw(img,"RGBA")
+_ref=d.textbbox((0,0),"K",font=_font); _yt=58*SC-(_ref[3]-_ref[1])/2-_ref[1]
+_x=_x0+mw+int(18*SC)
+for _c,_wd in zip(_t,_w):
+    if _c!=' ': d.text((_x,_yt),_c,font=_font,fill=(200,226,246,255))
+    _x+=_wd+_track
 
 # proof badge, top-left under eyebrow
 bt="REAL JOB · NOT A STOCK PHOTO"; fb=f("Bold",15)
