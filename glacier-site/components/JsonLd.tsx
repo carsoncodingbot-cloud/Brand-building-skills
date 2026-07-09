@@ -19,7 +19,7 @@ const baseBusiness = () => ({
   telephone: site.phoneHref.replace("tel:", ""),
   email: site.email,
   priceRange: site.priceRange,
-  image: site.mascotUrl,
+  image: `${site.url}/og.png`,
   address: {
     "@type": "PostalAddress",
     streetAddress: site.address.street,
