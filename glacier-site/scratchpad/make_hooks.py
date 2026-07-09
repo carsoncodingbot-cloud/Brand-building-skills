@@ -218,7 +218,7 @@ def v3():
                 if xx+k<W: px[xx+k,yy]=c
     d=ImageDraw.Draw(img,"RGBA")
     d.rectangle([0,0,W,4*SC],fill=RED)
-    tracked(d,"GLACIER HEATING & AIR  ·  SAN ANTONIO",f("Bold",19),58*SC,ICE,5)
+    eyebrow_brand(img,d,ICE)
     center(d,img,"YOUR SYSTEM RETIRED",f("Black",54),132*SC,HEAD)
     center(d,img,"YEARS AGO.",f("Black",54),190*SC,HEAD)
     center(d,img,"IT JUST FORGOT TO TELL YOU.",f("Black",34),246*SC,RED)
