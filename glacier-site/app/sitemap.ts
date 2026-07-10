@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { services } from "@/lib/services";
 import { cities } from "@/lib/cities";
+import { posts } from "@/lib/posts";
 
 export const dynamic = "force-static";
 
@@ -34,5 +35,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: c.tier === 1 ? 0.8 : 0.6,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...cityRoutes];
+  const blogRoutes: MetadataRoute.Sitemap = [
+    { url: `${base}/blog/`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    ...posts.map((p) => ({
+      url: `${base}/blog/${p.slug}/`,
+      lastModified: new Date(p.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+  ];
+
+  return [...staticRoutes, ...serviceRoutes, ...cityRoutes, ...blogRoutes];
 }
