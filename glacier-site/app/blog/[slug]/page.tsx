@@ -21,7 +21,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: p.title,
     description: p.description,
     alternates: { canonical: `/blog/${p.slug}` },
-    openGraph: { title: p.title, description: p.description, url: `/blog/${p.slug}`, type: "article" },
+    openGraph: {
+      title: p.title,
+      description: p.description,
+      url: `/blog/${p.slug}`,
+      type: "article",
+      images: [{ url: p.cover, width: 1200, height: 630, alt: p.title }],
+    },
+    twitter: { card: "summary_large_image", images: [p.cover] },
   };
 }
 
@@ -38,7 +45,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     datePublished: p.date,
     dateModified: p.date,
     mainEntityOfPage: `${site.url}/blog/${p.slug}/`,
-    image: `${site.url}/og.png`,
+    image: `${site.url}${p.cover}`,
     author: { "@type": "Organization", name: site.name, url: site.url },
     publisher: {
       "@type": "Organization",
@@ -62,7 +69,14 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       <section className="bg-white py-16 sm:py-20">
         <div className="container-x grid gap-12 lg:grid-cols-[1.6fr_1fr]">
           <article>
-            <p className="text-sm font-bold uppercase tracking-wider text-ice-600">
+            <img
+              src={p.cover}
+              alt={p.title}
+              width={1200}
+              height={630}
+              className="aspect-[1200/630] w-full rounded-2xl border border-ice-100 object-cover shadow-md"
+            />
+            <p className="mt-6 text-sm font-bold uppercase tracking-wider text-ice-600">
               {new Date(p.date + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })} · {p.readMinutes} min read · Glacier Heating & Air
             </p>
             <p className="mt-5 text-lg leading-relaxed text-slate-600">{p.intro}</p>

@@ -6,6 +6,7 @@ export type PostSection = {
 
 export type Post = {
   slug: string;
+  cover: string;
   title: string;
   h1: string;
   description: string;
@@ -20,6 +21,7 @@ export type Post = {
 export const posts: Post[] = [
   {
     slug: "ac-running-but-not-cooling-san-antonio",
+    cover: "/blog/cover-ac-running-but-not-cooling-san-antonio.jpg",
     title: "AC Running But Not Cooling? A San Antonio Homeowner's Guide",
     h1: "Why Is My AC Running But Not Cooling?",
     description:
@@ -101,6 +103,7 @@ export const posts: Post[] = [
   },
   {
     slug: "ac-replacement-cost-san-antonio",
+    cover: "/blog/cover-ac-replacement-cost-san-antonio.jpg",
     title: "How Much Does AC Replacement Cost in San Antonio? (2026 Guide)",
     h1: "How Much Does AC Replacement Cost in San Antonio?",
     description:
@@ -176,6 +179,7 @@ export const posts: Post[] = [
   },
   {
     slug: "texas-summer-ac-survival-checklist",
+    cover: "/blog/cover-texas-summer-ac-survival-checklist.jpg",
     title: "The Texas Summer AC Survival Checklist (10 Things Before the Next Heat Wave)",
     h1: "The Texas Summer AC Survival Checklist",
     description:
