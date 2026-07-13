@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { site } from "@/lib/site";
-import { Phone, Check } from "@/components/Icons";
-import { QUIZ_QUESTIONS, QUIZ_STORE_KEY, quizSegment, quizSmsHref, quizLeadPayload } from "@/lib/quiz";
+import { Phone, Check, Shield } from "@/components/Icons";
+import { QUIZ_QUESTIONS, QUIZ_LABELS, QUIZ_STORE_KEY, quizSegment, quizSmsHref, quizLeadPayload } from "@/lib/quiz";
 
 /**
  * The 60-Second System Check as a self-contained white card.
@@ -11,17 +11,22 @@ import { QUIZ_QUESTIONS, QUIZ_STORE_KEY, quizSegment, quizSmsHref, quizLeadPaylo
  * step and nothing to click before answering. Used at the top of the
  * homepage hero and on /quote.
  *
- * The proven three-act funnel:
+ * The three-act funnel, tuned for lead capture:
  *  1. QUESTIONS — one per screen, tap-cards, zero typing, progress bar.
- *  2. FORM PAGE — personalized honest read + name / email / phone / ZIP
- *     with the site-standard red CTA. Submits the fully-labeled lead to
- *     the GHL inbound webhook (site.ghlWebhook) so automations fire the
- *     follow-up instantly; falls back to the prefilled-SMS handoff until
- *     the webhook URL is configured, so no lead is ever lost.
- *  3. CONFIRMATION PAGE — "we received it, a representative will text
- *     you shortly" + what-happens-next timeline + red call CTA for
- *     anyone who can't wait.
+ *  2. FORM PAGE — personalized honest read + their answers echoed as
+ *     chips + name / email / phone / ZIP. ONE exit: the red submit CTA.
+ *     No call button here — the system captures first, always. Submits
+ *     the fully-labeled lead to the GHL inbound webhook (site.ghlWebhook)
+ *     so automations fire instantly; falls back to the prefilled-SMS
+ *     handoff until the webhook URL is configured.
+ *  3. CONFIRMATION PAGE — "received" state that echoes EVERYTHING back
+ *     (request on file: issue, age, timeline, property, contact, ZIP),
+ *     what-happens-next timeline, and only now the red call option.
  */
+
+const cap = (s?: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
+const fmtPhone = (digits: string) =>
+  digits.length >= 10 ? `(${digits.slice(-10, -7)}) ${digits.slice(-7, -4)}-${digits.slice(-4)}` : digits;
 
 export default function SystemCheck() {
   // qi = 0..3 question index, 4 = form page
@@ -111,38 +116,14 @@ export default function SystemCheck() {
   };
 
   const inputCls = (ok: boolean) =>
-    `w-full rounded-xl border bg-ice-50 px-4 py-3 text-sm font-semibold text-navy-800 placeholder:font-normal placeholder:text-slate-400 outline-none transition focus:border-turquoise focus:bg-white ${
+    `w-full rounded-xl border bg-ice-50 px-4 py-3.5 text-sm font-semibold text-navy-800 placeholder:font-normal placeholder:text-slate-400 outline-none transition focus:border-turquoise focus:bg-white ${
       touched && !ok ? "border-red-brand/60" : "border-ice-100"
     }`;
+  const labelCls = "mb-1.5 block text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500";
 
-  const leadFields = (
-    <div className="grid gap-3">
-      <input
-        type="text" name="name" autoComplete="name" placeholder="First & last name"
-        value={name} onChange={(e) => setName(e.target.value)} className={inputCls(nameOk)} aria-label="Your name"
-      />
-      <input
-        type="email" name="email" autoComplete="email" inputMode="email" placeholder="Email address"
-        value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls(emailOk)} aria-label="Email address"
-      />
-      <div className="grid grid-cols-[1.6fr_1fr] gap-3">
-        <input
-          type="tel" name="phone" autoComplete="tel" inputMode="tel" placeholder="Mobile number"
-          value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls(phoneOk)} aria-label="Mobile number"
-        />
-        <input
-          type="text" name="zip" autoComplete="postal-code" inputMode="numeric" maxLength={5} placeholder="ZIP"
-          value={zip} onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))} className={inputCls(zipOk)} aria-label="ZIP code"
-        />
-      </div>
-    </div>
-  );
-
-  const fieldError = touched && !formOk && (
-    <p className="mt-2 text-xs font-semibold text-red-brand">
-      {!nameOk ? "Add your name" : !emailOk ? "That email doesn't look right" : !phoneOk ? "That phone number looks short" : "ZIP should be 5 digits"} — takes two seconds.
-    </p>
-  );
+  const answerChips = [QUIZ_LABELS.issue[answers.issue], QUIZ_LABELS.age[answers.age], QUIZ_LABELS.urgency[answers.urgency]]
+    .filter(Boolean)
+    .map(cap);
 
   return (
     <div className="w-full overflow-hidden rounded-3xl bg-white shadow-[0_30px_80px_-24px_rgba(0,20,44,0.6)] ring-1 ring-white/40">
@@ -204,18 +185,29 @@ export default function SystemCheck() {
               {segment === "replace" && "Time to do the replacement math — honestly."}
               {segment === "plumbing" && "Plumbing's in the family too — let's handle it."}
             </h3>
-            <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
               {segment === "rent" &&
                 "In Texas, repairs on a rental are the owner's to approve. Send your landlord the message below — or leave your info and we'll coordinate with them directly."}
               {segment === "emergency" &&
-                "No-cool calls jump the line, 24/7. Drop your info below and we're on it — arrival window plus your exact price in writing before any work begins."}
+                "No-cool calls jump the line, 24/7 — arrival window plus your exact price in writing before any work begins."}
               {segment === "repair" &&
-                "Running-but-not-cooling is usually one of a handful of causes — several are quick, inexpensive fixes. Drop your info below and we'll name the real problem and your exact price, in writing, before a single tool comes out."}
+                "Running-but-not-cooling is usually one of a handful of causes — several are quick, inexpensive fixes. We'll name the real problem and your exact price, in writing, first."}
               {segment === "replace" &&
-                "With a system that age (or bills doing what yours are doing), the honest move is the math: repair vs. replace, side by side, in writing, free. Drop your info below and we'll run both numbers for you."}
+                "The honest move is the math: repair vs. replace, side by side, in writing, free. We'll run both numbers for you."}
               {segment === "plumbing" &&
-                "From water heaters to leaks and drains — same promise as our HVAC side. Drop your info below and we'll get you straight answers and your exact price in writing before work starts."}
+                "Water heaters, leaks, drains — same promise as our HVAC side: straight answers and your exact price in writing before work starts."}
             </p>
+
+            {/* their answers, already working for them */}
+            {answerChips.length > 0 && (
+              <div className="mt-3.5 flex flex-wrap gap-1.5">
+                {answerChips.map((v) => (
+                  <span key={v} className="inline-flex items-center gap-1.5 rounded-full border border-ice-100 bg-ice-50 px-2.5 py-1 text-[0.68rem] font-bold text-ice-700">
+                    <Check className="h-3 w-3 text-turquoise" /> {v}
+                  </span>
+                ))}
+              </div>
+            )}
 
             {segment === "rent" && (
               <div className="mt-4 overflow-hidden rounded-2xl border border-ice-100 bg-ice-50">
@@ -243,32 +235,63 @@ export default function SystemCheck() {
               </div>
             )}
 
-            <form onSubmit={submitLead} className="mt-5" noValidate>
-              {segment === "rent" && (
-                <p className="mb-3 text-sm leading-relaxed text-slate-600">
-                  <b className="text-navy-800">Rather have us handle it?</b>{" "}
-                  Leave your info — we&apos;ll reach out and coordinate with your landlord directly.
+            <form onSubmit={submitLead} className="mt-5 rounded-2xl border border-ice-100 bg-ice-50/60 p-4" noValidate>
+              <p className="font-[family-name:var(--font-montserrat)] text-sm font-extrabold text-navy-800">
+                {segment === "rent" ? "Rather have us handle it? We'll coordinate with your landlord." : "Where should we send your exact price?"}
+              </p>
+              <div className="mt-3.5 grid gap-3">
+                <div>
+                  <label htmlFor="glc-name" className={labelCls}>Full name</label>
+                  <input
+                    id="glc-name" type="text" name="name" autoComplete="name" placeholder="First & last name"
+                    value={name} onChange={(e) => setName(e.target.value)} className={inputCls(nameOk)}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="glc-email" className={labelCls}>Email</label>
+                  <input
+                    id="glc-email" type="email" name="email" autoComplete="email" inputMode="email" placeholder="you@example.com"
+                    value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls(emailOk)}
+                  />
+                </div>
+                <div className="grid grid-cols-[1.6fr_1fr] gap-3">
+                  <div>
+                    <label htmlFor="glc-phone" className={labelCls}>Mobile number</label>
+                    <input
+                      id="glc-phone" type="tel" name="phone" autoComplete="tel" inputMode="tel" placeholder="(210) 555-0123"
+                      value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls(phoneOk)}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="glc-zip" className={labelCls}>ZIP code</label>
+                    <input
+                      id="glc-zip" type="text" name="zip" autoComplete="postal-code" inputMode="numeric" maxLength={5} placeholder="78213"
+                      value={zip} onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))} className={inputCls(zipOk)}
+                    />
+                  </div>
+                </div>
+              </div>
+              {touched && !formOk && (
+                <p className="mt-2 text-xs font-semibold text-red-brand">
+                  {!nameOk ? "Add your name" : !emailOk ? "That email doesn't look right" : !phoneOk ? "That phone number looks short" : "ZIP should be 5 digits"} — takes two seconds.
                 </p>
               )}
-              {leadFields}
-              {fieldError}
               <button type="submit" disabled={status === "sending"} className="btn btn-primary mt-4 w-full !py-4 text-sm disabled:opacity-70 sm:text-base">
                 {status === "sending" ? "Sending…"
                   : segment === "rent" ? "Have Glacier handle it →"
                   : segment === "emergency" ? "Get my priority window →"
                   : "Get my exact price path →"}
               </button>
+              <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-slate-500">
+                <Shield className="h-3.5 w-3.5 shrink-0 text-turquoise" />
+                Instant confirmation · A representative follows up fast · No spam, ever
+              </p>
             </form>
-            <p className="mt-3 text-center text-xs text-slate-500">
-              Instant confirmation · A representative follows up fast · No spam, ever
-            </p>
-            <p className="mt-4 text-center text-xs font-bold uppercase tracking-wider text-slate-400">Need it sooner?</p>
-            <a href={site.phoneHref} className="btn mt-1.5 w-full !bg-navy-800 !py-4 text-sm !text-white hover:!bg-navy-900 sm:text-base">
-              <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
-            </a>
-            <button onClick={reset} className="mx-auto mt-4 block text-xs font-semibold text-slate-400 hover:text-navy-800">
-              ↺ Start over
-            </button>
+
+            <div className="mt-4 flex items-center justify-between">
+              <button onClick={() => setQi(QUIZ_QUESTIONS.length - 1)} className="text-xs font-semibold text-slate-400 hover:text-navy-800">← Back</button>
+              <button onClick={reset} className="text-xs font-semibold text-slate-400 hover:text-navy-800">↺ Start over</button>
+            </div>
           </div>
         )}
 
@@ -284,16 +307,42 @@ export default function SystemCheck() {
               </h3>
               <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-slate-600">
                 {site.ghlWebhook
-                  ? "We received your system check. A Glacier representative will message you shortly — keep an eye on your phone."
-                  : "One tap left: hit send on the text we just opened, and a Glacier representative will message you shortly."}
+                  ? <>Your request is in our system. A Glacier representative will message you shortly at <b className="text-navy-800">{fmtPhone(phoneDigits)}</b>.</>
+                  : <>One tap left: hit send on the text we just opened, and a Glacier representative will message you shortly at <b className="text-navy-800">{fmtPhone(phoneDigits)}</b>.</>}
               </p>
             </div>
 
-            <div className="mt-5 rounded-2xl border border-ice-100 bg-ice-50 p-4">
+            {/* everything we captured, echoed back like a logged ticket */}
+            <div className="mt-5 overflow-hidden rounded-2xl border border-ice-100">
+              <div className="flex items-center justify-between gap-3 border-b border-ice-100 bg-ice-50 px-4 py-2.5">
+                <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500">Your request — on file</p>
+                <span className="inline-flex items-center gap-1 text-[0.65rem] font-extrabold uppercase tracking-wider text-turquoise">
+                  <Check className="h-3.5 w-3.5" /> Received
+                </span>
+              </div>
+              <dl className="divide-y divide-ice-100 text-sm">
+                {[
+                  ["Issue", cap(QUIZ_LABELS.issue[answers.issue])],
+                  ["System age", cap(QUIZ_LABELS.age[answers.age])],
+                  ["Timeline", cap(QUIZ_LABELS.urgency[answers.urgency])],
+                  ["Property", cap(QUIZ_LABELS.own[answers.own])],
+                  ["Service area", zip ? `${zip} · San Antonio, TX` : "San Antonio, TX"],
+                  ["Contact", `${name.trim()} · ${fmtPhone(phoneDigits)}`],
+                  ["Email", email.trim()],
+                ].filter(([, v]) => v).map(([k, v]) => (
+                  <div key={k} className="flex items-baseline justify-between gap-4 px-4 py-2.5">
+                    <dt className="shrink-0 text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-400">{k}</dt>
+                    <dd className="text-right font-semibold text-navy-800">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <div className="mt-4 rounded-2xl border border-ice-100 bg-ice-50 p-4">
               <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500">What happens next</p>
               <ol className="mt-3 space-y-2.5">
                 {[
-                  "Your answers are with our team right now",
+                  "Your request is with our team right now",
                   "A representative texts you to confirm details",
                   "You get your exact price in writing — before any work begins",
                 ].map((step, i) => (
