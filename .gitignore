@@ -7,3 +7,5 @@ node_modules/
 *.skill
 .agents/
 skills-lock.json
+.next/
+out/
