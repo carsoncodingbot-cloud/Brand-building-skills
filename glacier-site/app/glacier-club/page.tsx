@@ -216,14 +216,14 @@ export default function GlacierClubPage() {
         </div>
       </section>
 
-      {/* ---------- One closer: the 60-second check, not stacked banners ---------- */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-navy-800 to-[#001a36] py-14 sm:py-18">
+      {/* ---------- The capture closer: the 60-second check ---------- */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-navy-800 to-[#001a36] py-14 sm:py-16">
         <div className="container-x relative grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,26rem)] lg:gap-14">
           <div className="text-center lg:text-left">
-            <h2 className="iced iced-light text-3xl sm:text-4xl">Ready to join the coolest club in San&nbsp;Antonio?</h2>
+            <h2 className="iced iced-light text-3xl sm:text-4xl">Start with the free 60-second&nbsp;check</h2>
             <p className="mx-auto mt-4 max-w-xl text-white/90 lg:mx-0">
-              Start with the free 60-second check — tell us what&apos;s going on at your place and a
-              real person follows up fast with your exact price path and current membership options.
+              Tell us what&apos;s going on at your place and a real person follows up fast with your
+              exact price path and current membership options.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-ice-200/90 lg:justify-start">
               <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4" /> No contracts — cancel anytime</span>
@@ -239,6 +239,17 @@ export default function GlacierClubPage() {
           <div className="mx-auto w-full max-w-md lg:max-w-none">
             <CheckWithYeti />
           </div>
+        </div>
+      </section>
+
+      {/* ---------- The banner: one final, unmistakable phone ask ---------- */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#f7941d] via-[#f15a24] to-[#e11f26] py-12 sm:py-14">
+        <div className="container-x relative text-center text-white">
+          <h2 className="iced iced-light text-2xl sm:text-3xl">Ready to join the coolest club in San&nbsp;Antonio?</h2>
+          <p className="mx-auto mt-2.5 max-w-xl text-white/90">Enroll today and schedule your first tune-up.</p>
+          <Link href={site.phoneHref} className="btn mt-6 bg-white !px-8 !py-3.5 text-base text-red-brand shadow-lg hover:bg-ice-50">
+            <Phone className="h-4 w-4" /> {site.phoneDisplay}
+          </Link>
         </div>
       </section>
     </>
