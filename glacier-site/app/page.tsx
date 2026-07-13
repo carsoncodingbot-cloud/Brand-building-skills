@@ -7,6 +7,8 @@ import { services } from "@/lib/services";
 import { serviceIcons, Star, Phone, ChevronRight, Snowflake, Check, Clock, Shield, MapPin, GoogleG, Wrench } from "@/components/Icons";
 import Faq from "@/components/Faq";
 import Reviews from "@/components/Reviews";
+import SystemCheck from "@/components/SystemCheck";
+import RotatingReviews from "@/components/RotatingReviews";
 import { FaqJsonLd } from "@/components/JsonLd";
 import vanImg from "../public/van.webp";
 import techImg from "../public/tech.webp";
@@ -44,7 +46,8 @@ function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-ice-500 to-navy-800 pt-24">
       <div className="hero-mountains absolute inset-0" aria-hidden />
-      <div className="container-x relative grid items-center gap-8 pt-4 pb-6 sm:py-20 lg:grid-cols-2 lg:py-24">
+      <div className="container-x relative grid gap-8 pt-5 pb-12 sm:pt-10 lg:grid-cols-[1fr_minmax(0,26.5rem)] lg:items-center lg:gap-14 lg:py-16 xl:grid-cols-[1fr_minmax(0,28rem)]">
+        {/* Left — headline + trust + mascot (desktop) */}
         <div>
           <div className="flex items-center gap-2 sm:gap-2.5">
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/40">
@@ -57,47 +60,49 @@ function Hero() {
               Top-Rated San Antonio HVAC
             </span>
           </div>
-          <h1 className="iced iced-light mt-5 text-4xl sm:text-5xl lg:text-6xl">
-            Comprehensive HVAC Services in San Antonio, Texas
+          <h1 className="iced iced-light mt-4 text-[2rem] leading-tight sm:text-4xl lg:text-5xl">
+            San Antonio HVAC Experts. Exact Prices, In&nbsp;Writing.
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-white/90">
-            Whether you need fast AC repair, a new high-efficiency system, or 24/7 emergency help,
-            Glacier&apos;s certified technicians keep your home comfortable through every Texas season.
+          <p className="mt-4 max-w-xl text-base text-white/90 sm:text-lg">
+            Tell us what&apos;s going on — four quick taps, no forms, no typing — and we&apos;ll point you
+            to your exact price <b className="text-white">in writing, before any work begins.</b>
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/contact" className="btn btn-primary">Schedule Online</Link>
-            <Link href={site.phoneHref} className="btn btn-outline-light">
-              <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
-            </Link>
+
+          {/* desktop-only: CTAs, trust chips, mascot (mobile goes straight to the form) */}
+          <div className="hidden lg:block">
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href={site.phoneHref} className="btn btn-primary">
+                <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
+              </Link>
+              <Link href="/contact" className="btn btn-outline-light">Schedule Online</Link>
+            </div>
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ice-200/90">
+              <span className="inline-flex items-center gap-1.5"><Shield className="h-4 w-4" /> Licensed &amp; insured</span>
+              <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> 24/7 in San Antonio</span>
+              <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4" /> Price in writing first</span>
+            </div>
+            <div className="relative mx-auto mt-3 w-full max-w-[340px]">
+              {/* frosty glow halo behind the mascot */}
+              <div className="pointer-events-none absolute left-1/2 top-[46%] -z-0 h-[75%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-turquoise/30 blur-3xl" aria-hidden />
+              {/* Clipping wrapper: crops the mascot's transparent bottom so he
+                  sits grounded with no empty gap. Aspect ≈ the visible art height. */}
+              <div className="relative animate-float overflow-hidden" style={{ aspectRatio: "896 / 884" }}>
+                <Mascot
+                  alt="Glacier Heating & Air yeti mascot giving a thumbs up"
+                  width={896} height={1200} priority
+                  sizes="300px"
+                  className="h-auto w-full object-contain"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-          {/* frosty glow halo behind the mascot */}
-          <div className="pointer-events-none absolute left-1/2 top-[42%] -z-0 h-[80%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-turquoise/30 blur-3xl" aria-hidden />
-          {/* Clipping wrapper: crops the mascot's now-transparent bottom so he
-              sits grounded with no empty gap. Aspect ≈ the visible art height. */}
-          <div
-            className="relative mx-auto w-[86%] max-w-sm animate-float overflow-hidden lg:w-full lg:max-w-lg"
-            style={{ aspectRatio: "896 / 884" }}
-          >
-            <Mascot
-              alt="Glacier Heating & Air yeti mascot giving a thumbs up"
-              width={896} height={1200} priority
-              sizes="(max-width: 1024px) 86vw, 40vw"
-              className="h-auto w-full object-contain"
-            />
-          </div>
-          {/* floating Google-reviews trust badge */}
-          <div className="absolute bottom-1 left-0 hidden rounded-2xl bg-white/95 px-4 py-3 shadow-xl ring-1 ring-ice-100 backdrop-blur sm:block lg:-left-4">
-            <div className="flex items-center gap-2">
-              <GoogleG className="h-5 w-5" />
-              <span className="font-[family-name:var(--font-montserrat)] text-sm font-extrabold text-navy-800">{site.ratingValue}</span>
-              <div className="flex gap-0.5 text-gold">
-                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5" />)}
-              </div>
-            </div>
-            <p className="mt-1 text-[0.7rem] font-semibold uppercase tracking-wide text-slate-500">{site.reviewCount}+ Google reviews</p>
+        {/* Right — the 60-second check, question 1 live on land, reviews right under it */}
+        <div className="mx-auto w-full max-w-md lg:max-w-none">
+          <SystemCheck />
+          <div className="mt-4">
+            <RotatingReviews />
           </div>
         </div>
       </div>
