@@ -11,24 +11,24 @@ import { QUIZ_QUESTIONS, QUIZ_STORE_KEY, quizSegment, quizSmsHref, quizLeadPaylo
  * step and nothing to click before answering. Used at the top of the
  * homepage hero and on /quote.
  *
- * Psychology built in:
- *  - Q1 on screen at page load (zero-friction first micro-commitment)
- *  - One question at a time + segmented progress (progress principle)
- *  - Tap-cards, zero typing until the result (minimal effort)
- *  - Answers persist in localStorage (save & continue)
- *  - Result = personalized read-back + exact-price promise, then a
- *    name/phone/ZIP capture that posts the fully-labeled lead into the
- *    GHL inbound webhook (site.ghlWebhook) so automations fire the
- *    follow-up text instantly — the customer types three fields and is
- *    done. If the webhook isn't configured yet, it falls back to the
- *    prefilled-SMS handoff so no lead is ever lost.
+ * The proven three-act funnel:
+ *  1. QUESTIONS — one per screen, tap-cards, zero typing, progress bar.
+ *  2. FORM PAGE — personalized honest read + name / email / phone / ZIP
+ *     with the site-standard red CTA. Submits the fully-labeled lead to
+ *     the GHL inbound webhook (site.ghlWebhook) so automations fire the
+ *     follow-up instantly; falls back to the prefilled-SMS handoff until
+ *     the webhook URL is configured, so no lead is ever lost.
+ *  3. CONFIRMATION PAGE — "we received it, a representative will text
+ *     you shortly" + what-happens-next timeline + red call CTA for
+ *     anyone who can't wait.
  */
 
 export default function SystemCheck() {
-  // qi = 0..3 question index, 4 = result
+  // qi = 0..3 question index, 4 = form page
   const [qi, setQi] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [zip, setZip] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -63,18 +63,20 @@ export default function SystemCheck() {
   const segment = useMemo(() => quizSegment(answers), [answers]);
   const done = qi >= QUIZ_QUESTIONS.length;
   const q = QUIZ_QUESTIONS[Math.min(qi, QUIZ_QUESTIONS.length - 1)];
+  const firstName = name.trim().split(" ")[0] || "";
 
   const phoneDigits = phone.replace(/\D/g, "");
   const nameOk = name.trim().length >= 2;
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   const phoneOk = phoneDigits.length >= 10;
   const zipOk = /^\d{5}$/.test(zip.trim());
-  const formOk = nameOk && phoneOk && zipOk;
+  const formOk = nameOk && emailOk && phoneOk && zipOk;
 
   const submitLead = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
     if (!formOk || status !== "idle") return;
-    const contact = { name: name.trim(), phone: phoneDigits, zip: zip.trim() };
+    const contact = { name: name.trim(), email: email.trim(), phone: phoneDigits, zip: zip.trim() };
     if (site.ghlWebhook) {
       setStatus("sending");
       const body = JSON.stringify(quizLeadPayload(answers, contact, window.location.pathname));
@@ -94,7 +96,7 @@ export default function SystemCheck() {
 
   const reset = () => {
     setQi(0); setAnswers({}); setStatus("idle"); setTouched(false); setCopied(false);
-    setName(""); setPhone(""); setZip("");
+    setName(""); setEmail(""); setPhone(""); setZip("");
   };
 
   const LANDLORD_TEXT =
@@ -113,6 +115,35 @@ export default function SystemCheck() {
       touched && !ok ? "border-red-brand/60" : "border-ice-100"
     }`;
 
+  const leadFields = (
+    <div className="grid gap-3">
+      <input
+        type="text" name="name" autoComplete="name" placeholder="First & last name"
+        value={name} onChange={(e) => setName(e.target.value)} className={inputCls(nameOk)} aria-label="Your name"
+      />
+      <input
+        type="email" name="email" autoComplete="email" inputMode="email" placeholder="Email address"
+        value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls(emailOk)} aria-label="Email address"
+      />
+      <div className="grid grid-cols-[1.6fr_1fr] gap-3">
+        <input
+          type="tel" name="phone" autoComplete="tel" inputMode="tel" placeholder="Mobile number"
+          value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls(phoneOk)} aria-label="Mobile number"
+        />
+        <input
+          type="text" name="zip" autoComplete="postal-code" inputMode="numeric" maxLength={5} placeholder="ZIP"
+          value={zip} onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))} className={inputCls(zipOk)} aria-label="ZIP code"
+        />
+      </div>
+    </div>
+  );
+
+  const fieldError = touched && !formOk && (
+    <p className="mt-2 text-xs font-semibold text-red-brand">
+      {!nameOk ? "Add your name" : !emailOk ? "That email doesn't look right" : !phoneOk ? "That phone number looks short" : "ZIP should be 5 digits"} — takes two seconds.
+    </p>
+  );
+
   return (
     <div className="w-full overflow-hidden rounded-3xl bg-white shadow-[0_30px_80px_-24px_rgba(0,20,44,0.6)] ring-1 ring-white/40">
       {/* header strip */}
@@ -121,7 +152,7 @@ export default function SystemCheck() {
           Free 60-Second System Check
         </p>
         <p className="shrink-0 text-[0.65rem] font-bold uppercase tracking-wider text-turquoise sm:text-xs">
-          {done ? "Your result" : `${qi + 1} of ${QUIZ_QUESTIONS.length}`}
+          {done ? (status === "sent" ? "Received ✓" : "Last step") : `${qi + 1} of ${QUIZ_QUESTIONS.length}`}
         </p>
       </div>
       {/* segmented progress */}
@@ -132,6 +163,7 @@ export default function SystemCheck() {
       </div>
 
       <div className="p-5 sm:p-6">
+        {/* ------------------------------------------------ QUESTIONS */}
         {!done && (
           <div key={qi} className="quiz-enter">
             <h3 className="font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-navy-800 sm:text-xl">{q.title}</h3>
@@ -161,140 +193,129 @@ export default function SystemCheck() {
           </div>
         )}
 
+        {/* ------------------------------------------------ FORM PAGE */}
         {done && status !== "sent" && (
           <div className="quiz-enter">
-            {segment === "rent" ? (
-              <>
-                <p className="text-xs font-bold uppercase tracking-wider text-ice-600">Here&apos;s our honest read</p>
-                <h3 className="mt-1.5 font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-navy-800 sm:text-xl">
-                  Straight answer: this one&apos;s your landlord&apos;s call.
-                </h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
-                  In Texas, repairs on a rental are the owner&apos;s to approve. Fastest fix: send your landlord or
-                  property manager the message below — we&apos;ll give them an exact price in writing and keep you in the loop.
-                </p>
-                <div className="mt-5 overflow-hidden rounded-2xl border border-ice-100 bg-ice-50">
-                  <div className="flex items-center justify-between gap-3 border-b border-ice-100 bg-white px-4 py-2.5">
-                    <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500">Ready to send your landlord</p>
-                    <button
-                      onClick={copyLandlord}
-                      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
-                        copied ? "bg-turquoise/15 text-ice-700" : "bg-navy-800 text-white hover:bg-navy-900"
-                      }`}
-                    >
-                      {copied ? (
-                        <><Check className="h-3.5 w-3.5" /> Copied</>
-                      ) : (
-                        <>
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
-                            <rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" />
-                          </svg>
-                          Copy text
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  <p className="px-4 py-3.5 text-sm leading-relaxed text-slate-600">&quot;{LANDLORD_TEXT}&quot;</p>
-                </div>
-                <p className="mt-5 text-sm leading-relaxed text-slate-600">
-                  <b className="text-navy-800">Rather have us handle it?</b>{" "}
-                  Call — we&apos;ll coordinate with your landlord directly and keep it easy for everyone.
-                </p>
-                <a href={site.phoneHref} className="btn mt-3 w-full !bg-navy-800 !py-4 text-sm !text-white hover:!bg-navy-900 sm:text-base">
-                  <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
-                </a>
-                <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 border-t border-ice-100 pt-4 text-xs font-semibold text-slate-500">
-                  <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-turquoise" /> Licensed &amp; insured</span>
-                  <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-turquoise" /> Exact prices in writing</span>
-                  <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-turquoise" /> 24/7 in San Antonio</span>
-                </div>
-                <button onClick={reset} className="mx-auto mt-4 block text-xs font-semibold text-slate-400 hover:text-navy-800">
-                  ↺ Start over
-                </button>
-              </>
-            ) : (
-              <>
-                <p className="text-xs font-bold uppercase tracking-wider text-ice-600">Here&apos;s our honest read</p>
-                <h3 className="mt-1.5 font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-navy-800 sm:text-xl">
-                  {segment === "emergency" && "You're in the priority lane."}
-                  {segment === "repair" && "This sounds fixable — let's confirm it cheap."}
-                  {segment === "replace" && "Time to do the replacement math — honestly."}
-                  {segment === "plumbing" && "Plumbing's in the family too — let's handle it."}
-                </h3>
-                <p className="mt-2 text-sm text-slate-600">
-                  {segment === "emergency" &&
-                    "No-cool calls jump the line, 24/7. Drop your info below and we're on it — arrival window plus your exact price in writing before any work begins."}
-                  {segment === "repair" &&
-                    "Running-but-not-cooling is usually one of a handful of causes — several are quick, inexpensive fixes. Drop your info below and we'll name the real problem and your exact price, in writing, before a single tool comes out."}
-                  {segment === "replace" &&
-                    "With a system that age (or bills doing what yours are doing), the honest move is the math: repair vs. replace, side by side, in writing, free. Drop your info below and we'll run both numbers for you."}
-                  {segment === "plumbing" &&
-                    "From water heaters to leaks and drains — same promise as our HVAC side. Drop your info below and we'll get you straight answers and your exact price in writing before work starts."}
-                </p>
-                <form onSubmit={submitLead} className="mt-5" noValidate>
-                  <div className="grid gap-3">
-                    <input
-                      type="text" name="name" autoComplete="name" placeholder="First & last name"
-                      value={name} onChange={(e) => setName(e.target.value)} className={inputCls(nameOk)} aria-label="Your name"
-                    />
-                    <div className="grid grid-cols-[1.6fr_1fr] gap-3">
-                      <input
-                        type="tel" name="phone" autoComplete="tel" inputMode="tel" placeholder="Mobile number"
-                        value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls(phoneOk)} aria-label="Mobile number"
-                      />
-                      <input
-                        type="text" name="zip" autoComplete="postal-code" inputMode="numeric" maxLength={5} placeholder="ZIP"
-                        value={zip} onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))} className={inputCls(zipOk)} aria-label="ZIP code"
-                      />
-                    </div>
-                  </div>
-                  {touched && !formOk && (
-                    <p className="mt-2 text-xs font-semibold text-red-brand">
-                      {!nameOk ? "Add your name" : !phoneOk ? "That phone number looks short" : "ZIP should be 5 digits"} — takes two seconds.
-                    </p>
-                  )}
-                  <button type="submit" disabled={status === "sending"} className="btn btn-primary mt-4 w-full !py-4 text-sm disabled:opacity-70 sm:text-base">
-                    {status === "sending" ? "Sending…" : segment === "emergency" ? "Get my priority window →" : "Get my exact price path →"}
-                  </button>
-                </form>
-                <p className="mt-3 text-center text-xs text-slate-500">
-                  Instant text confirmation · A real person follows up fast · No spam, ever
-                </p>
-                <p className="mt-4 text-center text-xs font-bold uppercase tracking-wider text-slate-400">Need it sooner?</p>
-                <a href={site.phoneHref} className="btn mt-1.5 w-full !bg-navy-800 !py-4 text-sm !text-white hover:!bg-navy-900 sm:text-base">
-                  <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
-                </a>
-                <button onClick={reset} className="mx-auto mt-4 block text-xs font-semibold text-slate-400 hover:text-navy-800">
-                  ↺ Start over
-                </button>
-              </>
-            )}
-          </div>
-        )}
-
-        {done && status === "sent" && (
-          <div className="quiz-enter text-center">
-            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-turquoise/15">
-              <Check className="h-7 w-7 text-turquoise" />
-            </span>
-            <h3 className="mt-4 font-[family-name:var(--font-montserrat)] text-xl font-extrabold text-navy-800">
-              {site.ghlWebhook ? `You're in, ${name.trim().split(" ")[0] || "neighbor"}.` : "One tap left."}
+            <p className="text-xs font-bold uppercase tracking-wider text-ice-600">Here&apos;s our honest read</p>
+            <h3 className="mt-1.5 font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-navy-800 sm:text-xl">
+              {segment === "rent" && "Straight answer: this one's your landlord's call."}
+              {segment === "emergency" && "You're in the priority lane."}
+              {segment === "repair" && "This sounds fixable — let's confirm it cheap."}
+              {segment === "replace" && "Time to do the replacement math — honestly."}
+              {segment === "plumbing" && "Plumbing's in the family too — let's handle it."}
             </h3>
-            <p className="mx-auto mt-2 max-w-sm text-sm text-slate-600">
-              {site.ghlWebhook
-                ? "Watch your phone — your confirmation text is on the way, and a real person follows up fast with your exact-price path."
-                : "We just opened a text with your check results pre-filled — hit send and a real person replies fast."}
+            <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
+              {segment === "rent" &&
+                "In Texas, repairs on a rental are the owner's to approve. Send your landlord the message below — or leave your info and we'll coordinate with them directly."}
+              {segment === "emergency" &&
+                "No-cool calls jump the line, 24/7. Drop your info below and we're on it — arrival window plus your exact price in writing before any work begins."}
+              {segment === "repair" &&
+                "Running-but-not-cooling is usually one of a handful of causes — several are quick, inexpensive fixes. Drop your info below and we'll name the real problem and your exact price, in writing, before a single tool comes out."}
+              {segment === "replace" &&
+                "With a system that age (or bills doing what yours are doing), the honest move is the math: repair vs. replace, side by side, in writing, free. Drop your info below and we'll run both numbers for you."}
+              {segment === "plumbing" &&
+                "From water heaters to leaks and drains — same promise as our HVAC side. Drop your info below and we'll get you straight answers and your exact price in writing before work starts."}
             </p>
-            <ul className="mx-auto mt-4 max-w-xs space-y-1.5 text-left text-sm text-slate-600">
-              <li className="flex items-center gap-2"><Check className="h-4 w-4 shrink-0 text-turquoise" /> Exact price in writing — the number doesn&apos;t move</li>
-              <li className="flex items-center gap-2"><Check className="h-4 w-4 shrink-0 text-turquoise" /> Licensed, insured, background-checked</li>
-              <li className="flex items-center gap-2"><Check className="h-4 w-4 shrink-0 text-turquoise" /> {segment === "emergency" ? "No-cool calls prioritized, 24/7" : "Fast scheduling — often same-day"}</li>
-            </ul>
-            <p className="mt-5 text-center text-xs font-bold uppercase tracking-wider text-slate-400">Can&apos;t wait?</p>
+
+            {segment === "rent" && (
+              <div className="mt-4 overflow-hidden rounded-2xl border border-ice-100 bg-ice-50">
+                <div className="flex items-center justify-between gap-3 border-b border-ice-100 bg-white px-4 py-2.5">
+                  <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500">Ready to send your landlord</p>
+                  <button
+                    onClick={copyLandlord}
+                    className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                      copied ? "bg-turquoise/15 text-ice-700" : "bg-navy-800 text-white hover:bg-navy-900"
+                    }`}
+                  >
+                    {copied ? (
+                      <><Check className="h-3.5 w-3.5" /> Copied</>
+                    ) : (
+                      <>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
+                          <rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                        </svg>
+                        Copy text
+                      </>
+                    )}
+                  </button>
+                </div>
+                <p className="px-4 py-3.5 text-sm leading-relaxed text-slate-600">&quot;{LANDLORD_TEXT}&quot;</p>
+              </div>
+            )}
+
+            <form onSubmit={submitLead} className="mt-5" noValidate>
+              {segment === "rent" && (
+                <p className="mb-3 text-sm leading-relaxed text-slate-600">
+                  <b className="text-navy-800">Rather have us handle it?</b>{" "}
+                  Leave your info — we&apos;ll reach out and coordinate with your landlord directly.
+                </p>
+              )}
+              {leadFields}
+              {fieldError}
+              <button type="submit" disabled={status === "sending"} className="btn btn-primary mt-4 w-full !py-4 text-sm disabled:opacity-70 sm:text-base">
+                {status === "sending" ? "Sending…"
+                  : segment === "rent" ? "Have Glacier handle it →"
+                  : segment === "emergency" ? "Get my priority window →"
+                  : "Get my exact price path →"}
+              </button>
+            </form>
+            <p className="mt-3 text-center text-xs text-slate-500">
+              Instant confirmation · A representative follows up fast · No spam, ever
+            </p>
+            <p className="mt-4 text-center text-xs font-bold uppercase tracking-wider text-slate-400">Need it sooner?</p>
             <a href={site.phoneHref} className="btn mt-1.5 w-full !bg-navy-800 !py-4 text-sm !text-white hover:!bg-navy-900 sm:text-base">
               <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
             </a>
-            <button onClick={reset} className="mx-auto mt-3 block text-xs font-semibold text-slate-400 hover:text-navy-800">
+            <button onClick={reset} className="mx-auto mt-4 block text-xs font-semibold text-slate-400 hover:text-navy-800">
+              ↺ Start over
+            </button>
+          </div>
+        )}
+
+        {/* ------------------------------------------ CONFIRMATION PAGE */}
+        {done && status === "sent" && (
+          <div className="quiz-enter">
+            <div className="text-center">
+              <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-turquoise/15 ring-8 ring-turquoise/5">
+                <Check className="h-8 w-8 text-turquoise" />
+              </span>
+              <h3 className="mt-4 font-[family-name:var(--font-montserrat)] text-xl font-extrabold text-navy-800 sm:text-2xl">
+                {firstName ? `Got it, ${firstName} — you're in.` : "Got it — you're in."}
+              </h3>
+              <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-slate-600">
+                {site.ghlWebhook
+                  ? "We received your system check. A Glacier representative will message you shortly — keep an eye on your phone."
+                  : "One tap left: hit send on the text we just opened, and a Glacier representative will message you shortly."}
+              </p>
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-ice-100 bg-ice-50 p-4">
+              <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500">What happens next</p>
+              <ol className="mt-3 space-y-2.5">
+                {[
+                  "Your answers are with our team right now",
+                  "A representative texts you to confirm details",
+                  "You get your exact price in writing — before any work begins",
+                ].map((step, i) => (
+                  <li key={step} className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-navy-800 text-[0.65rem] font-extrabold text-white">{i + 1}</span>
+                    <span className="text-sm leading-snug text-slate-600">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            <p className="mt-5 text-center text-xs font-bold uppercase tracking-wider text-slate-400">Can&apos;t wait? Talk to us now</p>
+            <a href={site.phoneHref} className="btn btn-primary mt-1.5 w-full !py-4 text-sm sm:text-base">
+              <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
+            </a>
+
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 border-t border-ice-100 pt-4 text-xs font-semibold text-slate-500">
+              <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-turquoise" /> Licensed &amp; insured</span>
+              <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-turquoise" /> Exact prices in writing</span>
+              <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-turquoise" /> 24/7 in San Antonio</span>
+            </div>
+            <button onClick={reset} className="mx-auto mt-4 block text-xs font-semibold text-slate-400 hover:text-navy-800">
               ↺ Start over
             </button>
           </div>

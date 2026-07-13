@@ -71,14 +71,14 @@ export function quizSegment(answers: Record<string, string>): QuizSegment {
   return "repair";
 }
 
-export function quizSmsHref(answers: Record<string, string>, contact?: { name?: string; zip?: string }): string {
+export function quizSmsHref(answers: Record<string, string>, contact?: { name?: string; email?: string; zip?: string }): string {
   const parts = [
     "Hi Glacier — just did the 60-second check on your site.",
     `Issue: ${QUIZ_LABELS.issue[answers.issue] ?? "-"}.`,
     `System age: ${QUIZ_LABELS.age[answers.age] ?? "-"}.`,
     `Timeline: ${QUIZ_LABELS.urgency[answers.urgency] ?? "-"}.`,
     `I'm a ${QUIZ_LABELS.own[answers.own] ?? "-"}.`,
-    `Name & ZIP: ${contact?.name || ""}${contact?.zip ? `, ${contact.zip}` : ""}`,
+    `Name & ZIP: ${contact?.name || ""}${contact?.zip ? `, ${contact.zip}` : ""}${contact?.email ? `. Email: ${contact.email}` : ""}`,
   ];
   return `sms:+18666652210?&body=${encodeURIComponent(parts.join(" "))}`;
 }
@@ -87,11 +87,12 @@ export function quizSmsHref(answers: Record<string, string>, contact?: { name?: 
  *  mappings read like the lead sheet, not like form internals. */
 export function quizLeadPayload(
   answers: Record<string, string>,
-  contact: { name: string; phone: string; zip: string },
+  contact: { name: string; email: string; phone: string; zip: string },
   page: string,
 ) {
   return {
     name: contact.name,
+    email: contact.email,
     phone: contact.phone,
     zip: contact.zip,
     issue: QUIZ_LABELS.issue[answers.issue] ?? "-",
