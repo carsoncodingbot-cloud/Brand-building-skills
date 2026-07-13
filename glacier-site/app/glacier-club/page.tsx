@@ -156,9 +156,9 @@ export default function GlacierClubPage() {
             {/* Member */}
             <Reveal from="left"
               className="overflow-hidden rounded-3xl bg-gradient-to-b from-white to-ice-100 p-7 shadow-[0_30px_70px_-20px_rgba(31,143,214,0.55)] ring-1 ring-white/60 sm:p-8">
-              <div className="flex items-center gap-2.5">
-                <GlacierMark className="h-8 w-auto shrink-0" />
-                <h3 className="font-[family-name:var(--font-montserrat)] text-xl font-extrabold uppercase text-navy-800">Glacier Club Member</h3>
+              <div className="flex items-center gap-2">
+                <GlacierMark className="h-7 w-auto shrink-0" />
+                <h3 className="whitespace-nowrap font-[family-name:var(--font-montserrat)] text-base font-extrabold uppercase text-navy-800 min-[400px]:text-lg sm:text-xl">Glacier Club Member</h3>
               </div>
               <p className="mt-1 text-xs font-bold uppercase tracking-[0.15em] text-ice-600">Features included</p>
               <ul className="mt-6 space-y-3.5">
