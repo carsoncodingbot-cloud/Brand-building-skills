@@ -33,6 +33,7 @@ export default function Footer() {
 
           <FooterCol title="Get in Touch" links={[
             { label: "Contact Us", href: "/contact" },
+            { label: "60-Second System Check", href: "/quote" },
             { label: "Customer Reviews", href: "/reviews" },
             { label: "HVAC Tips & Guides", href: "/blog" },
             { label: "FAQ", href: "/#faq" },

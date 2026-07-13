@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/about/`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/contact/`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/quote/`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/reviews/`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${base}/financing/`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/glacier-club/`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
