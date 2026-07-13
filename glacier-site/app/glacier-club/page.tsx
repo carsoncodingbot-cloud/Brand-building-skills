@@ -6,7 +6,7 @@ import CheckWithYeti from "@/components/CheckWithYeti";
 import Faq from "@/components/Faq";
 import Mascot from "@/components/Mascot";
 import Reveal from "@/components/Reveal";
-import { Check, Snowflake, Star, Shield, Clock, Phone, ChevronRight, X } from "@/components/Icons";
+import { Check, Snowflake, Star, Shield, Clock, Phone, ChevronRight, X, GlacierMark } from "@/components/Icons";
 import { BreadcrumbJsonLd, FaqJsonLd } from "@/components/JsonLd";
 import clubLogo from "../../public/glacier-club-logo.png";
 
@@ -156,8 +156,8 @@ export default function GlacierClubPage() {
             {/* Member */}
             <Reveal from="left"
               className="overflow-hidden rounded-3xl bg-gradient-to-b from-white to-ice-100 p-7 shadow-[0_30px_70px_-20px_rgba(31,143,214,0.55)] ring-1 ring-white/60 sm:p-8">
-              <div className="flex items-center gap-2">
-                <Snowflake className="h-6 w-6 text-ice-600" />
+              <div className="flex items-center gap-2.5">
+                <GlacierMark className="h-8 w-auto shrink-0" />
                 <h3 className="font-[family-name:var(--font-montserrat)] text-xl font-extrabold uppercase text-navy-800">Glacier Club Member</h3>
               </div>
               <p className="mt-1 text-xs font-bold uppercase tracking-[0.15em] text-ice-600">Features included</p>
