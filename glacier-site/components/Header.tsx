@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { site, NAV_SERVICES, NAV_QUICK } from "@/lib/site";
 import { GlacierMark, ChevronDown, ChevronRight, Phone, Star, GoogleG } from "@/components/Icons";
 
@@ -17,6 +18,17 @@ export default function Header() {
 
   const close = () => setOpenMobile(false);
 
+  const pathname = usePathname();
+  // Already on the homepage → same-route Links are a no-op in Next, so the
+  // logo felt dead. Glide back to the top instead (fresh-landing feel).
+  const onLogoClick = (e: React.MouseEvent) => {
+    close();
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300 ${
@@ -24,7 +36,7 @@ export default function Header() {
       }`}
     >
       <div className="container-x flex h-24 items-center justify-between">
-        <Link href="/" className="flex items-center gap-3" aria-label={site.name}>
+        <Link href="/" onClick={onLogoClick} className="flex items-center gap-3" aria-label={site.name}>
           <GlacierMark className="h-[3.75rem] w-auto shrink-0 drop-shadow-[0_2px_6px_rgba(0,0,0,0.25)] sm:h-[4.25rem]" />
           <span className="leading-none">
             <span className="block font-[family-name:var(--font-montserrat)] text-2xl font-900 font-extrabold uppercase tracking-tight text-white sm:text-[1.7rem]">
