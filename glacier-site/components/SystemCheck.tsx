@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { site } from "@/lib/site";
 import { Phone, Check, Shield } from "@/components/Icons";
-import { QUIZ_QUESTIONS, QUIZ_LABELS, QUIZ_STORE_KEY, quizSegment, quizLeadPayload } from "@/lib/quiz";
+import { GlacierMark } from "@/components/Icons";
+import { QUIZ_QUESTIONS, QUIZ_LABELS, quizSegment, quizLeadPayload } from "@/lib/quiz";
 
 /**
  * The 60-Second System Check as a self-contained white card.
@@ -58,26 +59,8 @@ export default function SystemCheck() {
     window.scrollTo({ top: y, behavior: "smooth" });
   }, [qi, status]);
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(QUIZ_STORE_KEY);
-      if (raw) {
-        const saved = JSON.parse(raw);
-        if (saved.answers && typeof saved.qi === "number" && saved.qi > 0 && saved.qi < QUIZ_QUESTIONS.length) {
-          setAnswers(saved.answers);
-          setQi(saved.qi);
-        }
-      }
-    } catch {}
-  }, []);
-
-  useEffect(() => {
-    try {
-      if (qi > 0 && qi < QUIZ_QUESTIONS.length) localStorage.setItem(QUIZ_STORE_KEY, JSON.stringify({ qi, answers }));
-      if (qi >= QUIZ_QUESTIONS.length) localStorage.removeItem(QUIZ_STORE_KEY);
-    } catch {}
-  }, [qi, answers]);
-
+  // No resume-from-storage: every page view starts clean at question 1.
+  // (Restoring a half-finished quiz mid-flow read as broken, not helpful.)
   const pick = (qid: string, key: string) => {
     setAnswers((a) => ({ ...a, [qid]: key }));
     setQi((s) => s + 1);
@@ -142,7 +125,8 @@ export default function SystemCheck() {
     <div ref={cardRef} className="w-full overflow-hidden rounded-3xl bg-white shadow-[0_30px_80px_-24px_rgba(0,20,44,0.6)] ring-1 ring-white/40">
       {/* header strip */}
       <div className="flex items-center justify-between gap-3 bg-navy-800 px-5 py-3 sm:px-6">
-        <p className="font-[family-name:var(--font-montserrat)] text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-white sm:text-xs">
+        <p className="flex items-center gap-2 font-[family-name:var(--font-montserrat)] text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-white sm:text-xs">
+          <GlacierMark className="h-5 w-auto shrink-0" />
           Free 60-Second System Check
         </p>
         <p className="shrink-0 text-[0.65rem] font-bold uppercase tracking-wider text-turquoise sm:text-xs">

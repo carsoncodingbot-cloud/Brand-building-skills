@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { site } from "@/lib/site";
-import CtaBand from "@/components/CtaBand";
+import CheckWithYeti from "@/components/CheckWithYeti";
 import Faq from "@/components/Faq";
 import Mascot from "@/components/Mascot";
 import Reveal from "@/components/Reveal";
@@ -216,19 +216,31 @@ export default function GlacierClubPage() {
         </div>
       </section>
 
-      <section className="bg-red-brand py-10">
-        <div className="container-x flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
-          <div>
-            <p className="font-[family-name:var(--font-montserrat)] text-xl font-extrabold text-white">Ready to join the coolest club in San Antonio?</p>
-            <p className="text-white/90">Enroll today and schedule your first tune-up.</p>
+      {/* ---------- One closer: the 60-second check, not stacked banners ---------- */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-navy-800 to-[#001a36] py-14 sm:py-18">
+        <div className="container-x relative grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,26rem)] lg:gap-14">
+          <div className="text-center lg:text-left">
+            <h2 className="iced iced-light text-3xl sm:text-4xl">Ready to join the coolest club in San&nbsp;Antonio?</h2>
+            <p className="mx-auto mt-4 max-w-xl text-white/90 lg:mx-0">
+              Start with the free 60-second check — tell us what&apos;s going on at your place and a
+              real person follows up fast with your exact price path and current membership options.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-ice-200/90 lg:justify-start">
+              <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4" /> No contracts — cancel anytime</span>
+              <span className="inline-flex items-center gap-1.5"><Shield className="h-4 w-4" /> Licensed &amp; insured</span>
+              <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> 24/7 in San Antonio</span>
+            </div>
+            <div className="mt-7 hidden lg:block">
+              <Link href={site.phoneHref} className="btn btn-primary">
+                <Phone className="h-4 w-4" /> Or call {site.phoneDisplay}
+              </Link>
+            </div>
           </div>
-          <Link href={site.phoneHref} className="btn bg-white text-red-brand hover:bg-ice-50">
-            <Phone className="h-4 w-4" /> {site.phoneDisplay}
-          </Link>
+          <div className="mx-auto w-full max-w-md lg:max-w-none">
+            <CheckWithYeti />
+          </div>
         </div>
       </section>
-
-      <CtaBand title="Protect your comfort year-round" text="Two tune-ups, priority service, and member-only savings await." />
     </>
   );
 }
