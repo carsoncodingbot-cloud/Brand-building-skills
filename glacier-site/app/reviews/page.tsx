@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { site } from "@/lib/site";
-import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
-import Reviews, { sampleReviews } from "@/components/Reviews";
-import { Star, Check } from "@/components/Icons";
+import CheckWithYeti from "@/components/CheckWithYeti";
+import { sampleReviews, ReviewCard, REVIEW_FONT } from "@/components/Reviews";
+import { Star, GoogleG } from "@/components/Icons";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
@@ -20,73 +21,99 @@ const ratingBars = [
   { stars: 1, pct: 0.5 },
 ];
 
-const highlights = [
-  "Fast, same-day response — even in peak summer",
-  "Technicians who explain the problem in plain English",
-  "Honest recommendations, never high-pressure sales",
-  "Clean, respectful, on-time installations",
-];
-
+/**
+ * Reviews page, rebuilt proof-first:
+ *  - compact hero (one screen ≠ three screens of preamble)
+ *  - Google-native rating panel (Roboto, gold bars — reads as Google,
+ *    not site-made, because that's where the trust lives)
+ *  - review cards immediately after
+ *  - the same 60-second check funnel embedded: sticky rail beside the
+ *    reviews on desktop, woven between them on mobile — trust peaks
+ *    while reading proof, capture sits right there when it does
+ */
 export default function ReviewsPage() {
+  const firstHalf = sampleReviews.slice(0, 3);
+  const secondHalf = sampleReviews.slice(3);
+
   return (
     <>
       <BreadcrumbJsonLd items={[{ name: "Home", url: "/" }, { name: "Reviews", url: "/reviews" }]} />
-      <PageHero
-        title="What San Antonio Says About Glacier"
-        subtitle={`Rated ${site.ratingValue} stars across ${site.reviewCount}+ reviews. Here's why homeowners across the metro trust us with their comfort.`}
-        breadcrumb={[{ name: "Home", href: "/" }, { name: "Reviews", href: "/reviews" }]}
-      />
 
-      {/* Rating summary */}
-      <section className="bg-white py-16 sm:py-20">
-        <div className="container-x grid gap-10 lg:grid-cols-[1fr_1.4fr]">
-          <div className="rounded-3xl border border-ice-100 bg-ice-50 p-8 text-center">
-            <div className="iced iced-dark text-6xl font-extrabold">{site.ratingValue}</div>
-            <div className="mt-2 flex items-center justify-center gap-1 text-gold">
-              {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-6 w-6" />)}
-            </div>
-            <p className="mt-2 text-sm font-semibold text-slate-500">Based on {site.reviewCount}+ verified reviews</p>
-
-            <div className="mt-6 space-y-2 text-left">
-              {ratingBars.map((r) => (
-                <div key={r.stars} className="flex items-center gap-3 text-sm">
-                  <span className="flex w-10 items-center gap-1 font-semibold text-navy-800">{r.stars} <Star className="h-3.5 w-3.5 text-gold" /></span>
-                  <span className="h-2 flex-1 overflow-hidden rounded-full bg-ice-200">
-                    <span className="block h-full rounded-full bg-gradient-to-r from-ice-500 to-turquoise" style={{ width: `${r.pct}%` }} />
-                  </span>
-                  <span className="w-10 text-right text-slate-500">{r.pct}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h2 className="iced iced-dark text-2xl sm:text-3xl">The feedback we hear most</h2>
-            <p className="mt-4 text-slate-600">
-              Every review is a promise we intend to keep. Across thousands of service calls, the same themes
-              come up again and again — and they&apos;re exactly what we set out to be known for.
-            </p>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-              {highlights.map((h) => (
-                <li key={h} className="flex items-start gap-3 rounded-2xl border border-ice-100 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-ice-500 to-navy-800 text-white"><Check className="h-4 w-4" /></span>
-                  <span className="text-sm text-slate-600">{h}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-6 rounded-2xl bg-navy-800 p-5 text-sm text-white/85">
-              <p className="font-[family-name:var(--font-montserrat)] font-bold text-white">A note on our reviews</p>
-              <p className="mt-1">
-                Once our Google Business Profile is connected, verified reviews will stream in live here.
-                The reviews below are representative of the feedback our team earns every day.
-              </p>
-            </div>
-          </div>
+      {/* Compact hero */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-ice-500 to-navy-800 pt-24">
+        <div className="hero-mountains absolute inset-0" aria-hidden />
+        <div className="container-x relative py-8 sm:py-10">
+          <nav className="text-sm text-ice-200/80">
+            <Link href="/" className="hover:text-white">Home</Link> <span aria-hidden>›</span>{" "}
+            <span className="font-semibold text-white">Reviews</span>
+          </nav>
+          <h1 className="iced iced-light mt-3 text-3xl sm:text-4xl">What San Antonio Says About Glacier</h1>
+          <p className="mt-3 max-w-2xl text-white/90">
+            Real reviews from your neighbors — and the same 60-second check they used to get an
+            exact price, in writing.
+          </p>
         </div>
       </section>
 
-      {/* Full review grid (reuse component, all reviews) */}
-      <Reviews reviews={sampleReviews} heading="Recent reviews from your neighbors" />
+      <section className="bg-ice-100 py-10 sm:py-14">
+        <div className="container-x items-start gap-10 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
+          {/* Left — Google summary + review feed */}
+          <div>
+            {/* Google-native rating panel */}
+            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-6" style={{ fontFamily: REVIEW_FONT }}>
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+                <div className="flex items-center gap-4">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#e8eaed] bg-white">
+                    <GoogleG className="h-7 w-7" />
+                  </span>
+                  <div>
+                    <div className="flex items-end gap-2.5">
+                      <span className="text-5xl font-medium leading-none text-[#202124]">{site.ratingValue}</span>
+                      <span className="flex gap-0.5 pb-1 text-[#fbbc04]">
+                        {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-5 w-5" />)}
+                      </span>
+                    </div>
+                    <p className="mt-1.5 text-sm text-[#5f6368]">Google Reviews · {site.reviewCount} reviews</p>
+                  </div>
+                </div>
+                <div className="min-w-[200px] max-w-xs flex-1 space-y-1.5">
+                  {ratingBars.map((r) => (
+                    <div key={r.stars} className="flex items-center gap-2">
+                      <span className="w-3 text-right text-xs text-[#5f6368]">{r.stars}</span>
+                      <span className="h-2 flex-1 overflow-hidden rounded-full bg-[#e8eaed]">
+                        <span className="block h-full rounded-full bg-[#fbbc04]" style={{ width: `${Math.max(r.pct, 1.5)}%` }} />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <Link href="/contact" className="btn btn-primary !py-2.5 !px-5 text-xs">Write a review</Link>
+              </div>
+            </div>
+
+            {/* Reviews — immediately, no preamble. One grid; below lg the
+                funnel drops in as a full-width item right as trust peaks. */}
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              {firstHalf.map((r, i) => <ReviewCard key={r.name} r={r} i={i} />)}
+              <div className="mx-auto w-full max-w-md py-2 sm:col-span-2 lg:hidden">
+                <CheckWithYeti />
+              </div>
+              {secondHalf.map((r, i) => <ReviewCard key={r.name} r={r} i={i + firstHalf.length} />)}
+            </div>
+
+            <p className="mt-6 text-center text-xs text-slate-500">
+              Once our Google Business Profile is connected, verified reviews stream in live on this page.
+            </p>
+          </div>
+
+          {/* Right — sticky capture rail (desktop) */}
+          <aside className="hidden lg:sticky lg:top-20 lg:block">
+            <CheckWithYeti />
+            <p className="mt-3 text-center text-xs font-semibold text-slate-500">
+              Free · 60 seconds · Exact price in writing before any work begins
+            </p>
+          </aside>
+        </div>
+      </section>
 
       <CtaBand title="Ready to see why we're rated so highly?" text="Book your service and find out what the reviews are about." />
     </>

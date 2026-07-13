@@ -26,6 +26,35 @@ export const sampleReviews: Review[] = [
   { name: "Tomás Herrera", initials: "T", when: "3 months ago", text: "Installed a mini-split in our garage workshop. Quiet, efficient, and the install looks factory-clean. Couldn't be happier." },
 ];
 
+/** One review, Google-review anatomy — shared by the grid and /reviews. */
+export function ReviewCard({ r, i }: { r: Review; i: number }) {
+  return (
+    <article className="flex flex-col rounded-2xl border border-[#e8eaed] bg-white p-5 shadow-sm" style={{ fontFamily: REVIEW_FONT }}>
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-3">
+          <span
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-medium text-white"
+            style={{ background: AVATAR_COLORS[i % AVATAR_COLORS.length] }}
+          >
+            {r.initials.slice(0, 1)}
+          </span>
+          <div>
+            <p className="text-sm font-medium text-[#202124]">{r.name}</p>
+            <div className="mt-1 flex items-center gap-1.5">
+              <span className="flex gap-0.5 text-[#fbbc04]">
+                {Array.from({ length: 5 }).map((_, s) => <Star key={s} className="h-3.5 w-3.5" />)}
+              </span>
+              <span className="text-xs text-[#5f6368]">{r.when ?? r.date}</span>
+            </div>
+          </div>
+        </div>
+        <GoogleG className="mt-0.5 h-5 w-5 shrink-0" />
+      </div>
+      <p className="mt-3 flex-1 text-sm leading-relaxed text-[#3c4043]">{r.text}</p>
+    </article>
+  );
+}
+
 export default function Reviews({ reviews = sampleReviews, heading = "What our clients say about us" }: {
   reviews?: Review[]; heading?: string;
 }) {
@@ -64,31 +93,7 @@ export default function Reviews({ reviews = sampleReviews, heading = "What our c
           </div>
 
           <div className="mt-8 grid gap-5 md:grid-cols-3">
-            {reviews.slice(0, 6).map((r, i) => (
-              <article key={r.name} className="flex flex-col rounded-2xl border border-[#e8eaed] bg-white p-5 shadow-sm" style={{ fontFamily: REVIEW_FONT }}>
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-medium text-white"
-                      style={{ background: AVATAR_COLORS[i % AVATAR_COLORS.length] }}
-                    >
-                      {r.initials.slice(0, 1)}
-                    </span>
-                    <div>
-                      <p className="text-sm font-medium text-[#202124]">{r.name}</p>
-                      <div className="mt-1 flex items-center gap-1.5">
-                        <span className="flex gap-0.5 text-[#fbbc04]">
-                          {Array.from({ length: 5 }).map((_, s) => <Star key={s} className="h-3.5 w-3.5" />)}
-                        </span>
-                        <span className="text-xs text-[#5f6368]">{r.when ?? r.date}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <GoogleG className="mt-0.5 h-5 w-5 shrink-0" />
-                </div>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#3c4043]">{r.text}</p>
-              </article>
-            ))}
+            {reviews.slice(0, 6).map((r, i) => <ReviewCard key={r.name} r={r} i={i} />)}
           </div>
         </div>
       </div>
