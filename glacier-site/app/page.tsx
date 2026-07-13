@@ -1,4 +1,3 @@
-import Mascot from "@/components/Mascot";
 import Reveal from "@/components/Reveal";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,7 +6,7 @@ import { services } from "@/lib/services";
 import { serviceIcons, Star, Phone, ChevronRight, Snowflake, Check, Clock, Shield, MapPin, GoogleG, Wrench } from "@/components/Icons";
 import Faq from "@/components/Faq";
 import Reviews from "@/components/Reviews";
-import SystemCheck from "@/components/SystemCheck";
+import CheckWithYeti from "@/components/CheckWithYeti";
 import RotatingReviews from "@/components/RotatingReviews";
 import { FaqJsonLd } from "@/components/JsonLd";
 import vanImg from "../public/van.webp";
@@ -60,15 +59,15 @@ function Hero() {
               Top-Rated San Antonio HVAC
             </span>
           </div>
-          <h1 className="iced iced-light mt-4 text-[2rem] leading-tight sm:text-4xl lg:text-5xl">
-            San Antonio HVAC Experts. Exact Prices, In&nbsp;Writing.
+          <h1 className="iced iced-light mt-4 text-3xl leading-tight sm:text-4xl lg:text-5xl">
+            San Antonio HVAC Experts. Exact&nbsp;Prices, In&nbsp;Writing.
           </h1>
           <p className="mt-4 max-w-xl text-base text-white/90 sm:text-lg">
             Tell us what&apos;s going on — four quick taps, no forms, no typing — and we&apos;ll point you
             to your exact price <b className="text-white">in writing, before any work begins.</b>
           </p>
 
-          {/* desktop-only: CTAs, trust chips, mascot (mobile goes straight to the form) */}
+          {/* desktop-only: CTAs + trust chips (mobile goes straight to the form) */}
           <div className="hidden lg:block">
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href={site.phoneHref} className="btn btn-primary">
@@ -81,26 +80,12 @@ function Hero() {
               <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> 24/7 in San Antonio</span>
               <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4" /> Price in writing first</span>
             </div>
-            <div className="relative mx-auto mt-3 w-full max-w-[340px]">
-              {/* frosty glow halo behind the mascot */}
-              <div className="pointer-events-none absolute left-1/2 top-[46%] -z-0 h-[75%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-turquoise/30 blur-3xl" aria-hidden />
-              {/* Clipping wrapper: crops the mascot's transparent bottom so he
-                  sits grounded with no empty gap. Aspect ≈ the visible art height. */}
-              <div className="relative animate-float overflow-hidden" style={{ aspectRatio: "896 / 884" }}>
-                <Mascot
-                  alt="Glacier Heating & Air yeti mascot giving a thumbs up"
-                  width={896} height={1200} priority
-                  sizes="300px"
-                  className="h-auto w-full object-contain"
-                />
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Right — the 60-second check, question 1 live on land, reviews right under it */}
+        {/* Right — the 60-second check with the yeti presenting it, reviews right under it */}
         <div className="mx-auto w-full max-w-md lg:max-w-none">
-          <SystemCheck />
+          <CheckWithYeti />
           <div className="mt-4">
             <RotatingReviews />
           </div>

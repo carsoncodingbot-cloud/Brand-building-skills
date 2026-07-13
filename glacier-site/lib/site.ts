@@ -42,6 +42,14 @@ export const site = {
   ratingValue: "4.9",
   reviewCount: "687",
 
+  // GoHighLevel inbound-webhook URL for the 60-Second System Check.
+  // In GHL: Automations → Create Workflow → trigger "Inbound Webhook" →
+  // copy the URL here. Every submission posts name/phone/zip plus all four
+  // answers + segment as JSON, so your automations fire the follow-up text
+  // instantly. Until this is set, the check falls back to the prefilled-SMS
+  // handoff so no lead is ever lost.
+  ghlWebhook: "" as string,
+
   // Original AI-generated yeti mascot (Glacier's own art), background removed so
   // it's a transparent die-cut that blends onto any section. Run `npm run mascot`
   // to self-host it to /public/mascot.png for production.

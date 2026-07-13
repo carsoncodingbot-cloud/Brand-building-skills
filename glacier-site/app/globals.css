@@ -166,16 +166,11 @@ body {
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
-/* Mascot "die-cut sticker" treatment: a clean white keyline around the
-   transparent cutout plus a soft navy ground shadow, so the yeti reads as a
-   premium branded sticker on any background (matches the reference look). */
+/* Mascot treatment: clean transparent cutout — no white die-cut outline
+   (it read as a dirty white halo on the navy hero). Just a soft navy
+   ground shadow so he sits in the scene instead of on top of it. */
 .mascot-sticker {
-  filter:
-    drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff)
-    drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff)
-    drop-shadow(1.5px 1.5px 0 #fff) drop-shadow(-1.5px 1.5px 0 #fff)
-    drop-shadow(1.5px -1.5px 0 #fff) drop-shadow(-1.5px -1.5px 0 #fff)
-    drop-shadow(0 22px 26px rgba(0, 20, 45, 0.5));
+  filter: drop-shadow(0 22px 26px rgba(0, 20, 45, 0.5));
   /* The source art bakes a text banner into its bottom quarter. Fade that zone
      out so the character reads as a clean, grounded figure and NO baked
      lettering can ever show. Paired with a clipping wrapper (see the hero) that

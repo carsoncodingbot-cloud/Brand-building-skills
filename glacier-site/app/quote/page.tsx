@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import SystemCheck from "@/components/SystemCheck";
+import CheckWithYeti from "@/components/CheckWithYeti";
 import RotatingReviews from "@/components/RotatingReviews";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
 import { Shield, Clock, Check } from "@/components/Icons";
@@ -30,8 +30,8 @@ export default function QuotePage() {
             <b className="text-white"> exact price, in writing, before any work begins.</b>
           </p>
 
-          <div className="mt-7 w-full max-w-xl">
-            <SystemCheck />
+          <div className="mt-2 w-full max-w-xl">
+            <CheckWithYeti />
             <div className="mt-4">
               <RotatingReviews />
             </div>
