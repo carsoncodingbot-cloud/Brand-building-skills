@@ -44,10 +44,10 @@ export const site = {
 
   // GoHighLevel inbound-webhook URL for the 60-Second System Check.
   // In GHL: Automations → Create Workflow → trigger "Inbound Webhook" →
-  // copy the URL here. Every submission posts name/phone/zip plus all four
-  // answers + segment as JSON, so your automations fire the follow-up text
-  // instantly. Until this is set, the check falls back to the prefilled-SMS
-  // handoff so no lead is ever lost.
+  // copy the URL here. Every submission posts name/email/phone/zip plus all
+  // four answers + segment as JSON, so your automations fire the follow-up
+  // text instantly. REQUIRED before driving traffic: submissions go straight
+  // to the confirmation page, so until this is set they reach no one.
   ghlWebhook: "" as string,
 
   // Original AI-generated yeti mascot (Glacier's own art), background removed so

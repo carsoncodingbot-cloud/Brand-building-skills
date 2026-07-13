@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { site } from "@/lib/site";
 import { Phone, Check, Shield } from "@/components/Icons";
-import { QUIZ_QUESTIONS, QUIZ_LABELS, QUIZ_STORE_KEY, quizSegment, quizSmsHref, quizLeadPayload } from "@/lib/quiz";
+import { QUIZ_QUESTIONS, QUIZ_LABELS, QUIZ_STORE_KEY, quizSegment, quizLeadPayload } from "@/lib/quiz";
 
 /**
  * The 60-Second System Check as a self-contained white card.
@@ -17,8 +17,10 @@ import { QUIZ_QUESTIONS, QUIZ_LABELS, QUIZ_STORE_KEY, quizSegment, quizSmsHref, 
  *     chips + name / email / phone / ZIP. ONE exit: the red submit CTA.
  *     No call button here — the system captures first, always. Submits
  *     the fully-labeled lead to the GHL inbound webhook (site.ghlWebhook)
- *     so automations fire instantly; falls back to the prefilled-SMS
- *     handoff until the webhook URL is configured.
+ *     so automations fire instantly, then goes STRAIGHT to confirmation —
+ *     the visitor is never bounced into their SMS app. Until the webhook
+ *     URL is set, submissions only land in the visitor's localStorage
+ *     ("glc-leads") — wire the webhook before driving traffic.
  *  3. CONFIRMATION PAGE — "received" state that echoes EVERYTHING back
  *     (request on file: issue, age, timeline, property, contact, ZIP),
  *     what-happens-next timeline, and only now the red call option.
@@ -81,22 +83,26 @@ export default function SystemCheck() {
     e.preventDefault();
     setTouched(true);
     if (!formOk || status !== "idle") return;
+    setStatus("sending");
     const contact = { name: name.trim(), email: email.trim(), phone: phoneDigits, zip: zip.trim() };
+    const payload = quizLeadPayload(answers, contact, window.location.pathname);
     if (site.ghlWebhook) {
-      setStatus("sending");
-      const body = JSON.stringify(quizLeadPayload(answers, contact, window.location.pathname));
+      const body = JSON.stringify(payload);
       try {
         await fetch(site.ghlWebhook, { method: "POST", headers: { "Content-Type": "application/json" }, body });
       } catch {
         // CORS/network hiccup — resend opaque so the webhook still receives it
         try { await fetch(site.ghlWebhook, { method: "POST", mode: "no-cors", body }); } catch {}
       }
-      setStatus("sent");
-    } else {
-      // GHL not wired yet — open the prefilled text so the lead still lands
-      window.location.href = quizSmsHref(answers, contact);
-      setStatus("sent");
     }
+    // Straight to the confirmation page — never bounce the lead into
+    // their SMS app. Also keep a local copy as a safety net.
+    try {
+      const k = "glc-leads";
+      const prior = JSON.parse(localStorage.getItem(k) || "[]");
+      localStorage.setItem(k, JSON.stringify([...prior, payload].slice(-10)));
+    } catch {}
+    setStatus("sent");
   };
 
   const reset = () => {
@@ -306,9 +312,8 @@ export default function SystemCheck() {
                 {firstName ? `Got it, ${firstName} — you're in.` : "Got it — you're in."}
               </h3>
               <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-slate-600">
-                {site.ghlWebhook
-                  ? <>Your request is in our system. A Glacier representative will message you shortly at <b className="text-navy-800">{fmtPhone(phoneDigits)}</b>.</>
-                  : <>One tap left: hit send on the text we just opened, and a Glacier representative will message you shortly at <b className="text-navy-800">{fmtPhone(phoneDigits)}</b>.</>}
+                Your request is in our system. A Glacier representative will message you shortly at{" "}
+                <b className="text-navy-800">{fmtPhone(phoneDigits)}</b>.
               </p>
             </div>
 
