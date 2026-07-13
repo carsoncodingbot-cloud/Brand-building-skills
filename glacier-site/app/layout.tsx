@@ -57,6 +57,9 @@ export const viewport: Viewport = {
   themeColor: "#002b58",
   width: "device-width",
   initialScale: 1,
+  // Stops iOS Safari's input-focus auto-zoom (which sticks after submit and
+  // leaves the page zoomed in). Pinch-zoom still works on iOS 10+.
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

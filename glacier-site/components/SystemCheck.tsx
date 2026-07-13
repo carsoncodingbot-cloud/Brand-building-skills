@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { site } from "@/lib/site";
 import { Phone, Check, Shield } from "@/components/Icons";
 import { QUIZ_QUESTIONS, QUIZ_LABELS, QUIZ_STORE_KEY, quizSegment, quizLeadPayload } from "@/lib/quiz";
@@ -41,6 +41,23 @@ export default function SystemCheck() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [touched, setTouched] = useState(false);
   const [copied, setCopied] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const mounted = useRef(false);
+
+  // On each page transition (question → form → confirmation), glide the
+  // card back to the top of the screen so the new page lands framed and
+  // level — never mid-scroll or keyboard-shifted. Skipped on first paint.
+  // Scrolls the window directly: scrollIntoView would also scroll the
+  // hero's overflow-hidden section and shear its contents.
+  useEffect(() => {
+    if (!mounted.current) { mounted.current = true; return; }
+    const el = cardRef.current;
+    if (!el) return;
+    (document.activeElement as HTMLElement | null)?.blur?.();
+    // 160px clears the fixed header plus the yeti peeking over the card.
+    const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - 160);
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }, [qi, status]);
 
   useEffect(() => {
     try {
@@ -121,8 +138,10 @@ export default function SystemCheck() {
     } catch {}
   };
 
+  // 16px input font is load-bearing: anything smaller makes iOS Safari
+  // auto-zoom on focus, and the zoom sticks through to the confirmation page.
   const inputCls = (ok: boolean) =>
-    `w-full rounded-xl border bg-ice-50 px-4 py-3.5 text-sm font-semibold text-navy-800 placeholder:font-normal placeholder:text-slate-400 outline-none transition focus:border-turquoise focus:bg-white ${
+    `w-full rounded-xl border bg-ice-50 px-4 py-3.5 text-base font-semibold text-navy-800 placeholder:font-normal placeholder:text-slate-400 outline-none transition focus:border-turquoise focus:bg-white ${
       touched && !ok ? "border-red-brand/60" : "border-ice-100"
     }`;
   const labelCls = "mb-1.5 block text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500";
@@ -132,7 +151,7 @@ export default function SystemCheck() {
     .map(cap);
 
   return (
-    <div className="w-full overflow-hidden rounded-3xl bg-white shadow-[0_30px_80px_-24px_rgba(0,20,44,0.6)] ring-1 ring-white/40">
+    <div ref={cardRef} className="w-full overflow-hidden rounded-3xl bg-white shadow-[0_30px_80px_-24px_rgba(0,20,44,0.6)] ring-1 ring-white/40">
       {/* header strip */}
       <div className="flex items-center justify-between gap-3 bg-navy-800 px-5 py-3 sm:px-6">
         <p className="font-[family-name:var(--font-montserrat)] text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-white sm:text-xs">
