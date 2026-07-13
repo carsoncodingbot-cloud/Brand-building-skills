@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Star, GoogleG } from "@/components/Icons";
-import { sampleReviews } from "@/components/Reviews";
+import { sampleReviews, AVATAR_COLORS, REVIEW_FONT } from "@/components/Reviews";
+import { site } from "@/lib/site";
 
 /**
- * Auto-rotating single-review strip — sits directly under the hero form.
- * One review at a time, advances every 5.5s, pauses while hovered.
- * Designed for the navy hero gradient (frosted glass card, white text).
+ * Auto-rotating single-review card — sits directly under the hero form.
+ * Styled to match real Google review anatomy (white card, letter avatar,
+ * gold stars, relative time, plain text) so it reads as genuine social
+ * proof, not a site-made prop. Advances every 5.5s, pauses on hover.
  */
 export default function RotatingReviews() {
   const [idx, setIdx] = useState(0);
@@ -23,40 +26,62 @@ export default function RotatingReviews() {
 
   return (
     <div
-      className="w-full rounded-2xl bg-white/10 p-4 ring-1 ring-white/20 backdrop-blur-sm sm:p-5"
+      className="w-full rounded-2xl bg-white p-4 shadow-[0_24px_60px_-24px_rgba(0,20,44,0.65)] ring-1 ring-white/40 sm:p-5"
+      style={{ fontFamily: REVIEW_FONT }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="flex items-center justify-between gap-3">
+      {/* header — Google badge + overall rating */}
+      <div className="flex items-center justify-between gap-3 border-b border-[#e8eaed] pb-3">
         <div className="flex items-center gap-2">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-sm">
-            <GoogleG className="h-3.5 w-3.5" />
+          <GoogleG className="h-5 w-5" />
+          <span className="text-sm font-medium text-[#202124]">Google Reviews</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="text-sm font-medium text-[#202124]">{site.ratingValue}</span>
+          <span className="flex gap-0.5 text-[#fbbc04]">
+            {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5" />)}
           </span>
-          <span className="text-[0.65rem] font-bold uppercase tracking-wider text-ice-200">Google Reviews</span>
-        </div>
-        <div className="flex gap-0.5 text-gold">
-          {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5" />)}
         </div>
       </div>
 
-      <div key={idx} className="review-enter mt-3" aria-live="polite">
-        <p className="text-sm leading-relaxed text-white/90">&quot;{r.text}&quot;</p>
-        <div className="mt-3 flex items-center gap-2.5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-turquoise text-[0.6rem] font-bold text-navy-900">{r.initials}</span>
-          <span className="text-xs font-semibold text-white">{r.name}</span>
-          <span className="text-xs text-ice-200/70">· {r.date}</span>
+      {/* rotating review */}
+      <div key={idx} className="review-enter mt-3.5" aria-live="polite">
+        <div className="flex items-center gap-3">
+          <span
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-medium text-white"
+            style={{ background: AVATAR_COLORS[idx % AVATAR_COLORS.length] }}
+          >
+            {r.initials.slice(0, 1)}
+          </span>
+          <div>
+            <p className="text-sm font-medium text-[#202124]">{r.name}</p>
+            <div className="mt-0.5 flex items-center gap-1.5">
+              <span className="flex gap-0.5 text-[#fbbc04]">
+                {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-3.5 w-3.5" />)}
+              </span>
+              <span className="text-xs text-[#5f6368]">{r.when}</span>
+            </div>
+          </div>
         </div>
+        <p className="mt-2.5 text-sm leading-relaxed text-[#3c4043]">{r.text}</p>
       </div>
 
-      <div className="mt-3 flex justify-center gap-1.5">
-        {sampleReviews.map((_, i) => (
-          <button
-            key={i}
-            aria-label={`Show review ${i + 1}`}
-            onClick={() => setIdx(i)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${i === idx ? "w-5 bg-turquoise" : "w-1.5 bg-white/30 hover:bg-white/50"}`}
-          />
-        ))}
+      {/* dots + see all */}
+      <div className="mt-3.5 flex items-center justify-between">
+        <div className="flex gap-1.5">
+          {sampleReviews.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Show review ${i + 1}`}
+              onClick={() => setIdx(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${i === idx ? "w-5 bg-[#1a73e8]" : "w-1.5 bg-[#dadce0] hover:bg-[#bdc1c6]"}`}
+            />
+          ))}
+        </div>
+        <Link href="/reviews" className="text-xs font-medium text-[#1a73e8] hover:underline">
+          See all reviews
+        </Link>
       </div>
     </div>
   );

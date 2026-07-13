@@ -35,12 +35,12 @@ const FAQS = [
 ];
 
 const plumbingReviews: Review[] = [
-  { name: "Derek Salinas", initials: "DS", date: "May 27, 2026", text: "Had a slab leak I'd been dreading. Glacier's plumber found it in twenty minutes with a camera and had it fixed the same day. Upfront price, no drama. These guys are the real deal." },
-  { name: "Priya Anand", initials: "PA", date: "May 25, 2026", text: "Tankless water heater install was flawless — clean, on time, and they walked me through the whole system. Booked it online in a minute and they called me right back." },
-  { name: "Michael Trahan", initials: "MT", date: "May 23, 2026", text: "Kitchen drain was completely clogged before a party. They hydro-jetted it and it drains better than new. Fair price and super professional." },
-  { name: "Lauren Kessler", initials: "LK", date: "May 21, 2026", text: "Love that they do plumbing AND our AC. One company I trust for everything. Fixed two running toilets and a leaky faucet in one visit." },
-  { name: "Chris Obregón", initials: "CO", date: "May 19, 2026", text: "Emergency call at 11pm for a burst line. Someone actually answered and a plumber was out fast. Stopped the flooding and saved our floors. Cannot recommend enough." },
-  { name: "Hannah Weiss", initials: "HW", date: "May 17, 2026", text: "Repiped our older Alamo Heights home. The crew was tidy, respectful, and explained every step. Water pressure is night and day now." },
+  { name: "Derek Salinas", initials: "D", when: "3 weeks ago", text: "Had a slab leak I'd been dreading. Glacier's plumber found it in twenty minutes with a camera and had it fixed the same day. Upfront price, no drama. These guys are the real deal." },
+  { name: "Priya Anand", initials: "P", when: "a month ago", text: "Tankless water heater install was flawless — clean, on time, and they walked me through the whole system. Booked it online in a minute and they called me right back." },
+  { name: "Michael Trahan", initials: "M", when: "a month ago", text: "Kitchen drain was completely clogged before a party. They hydro-jetted it and it drains better than new. Fair price and super professional." },
+  { name: "Lauren Kessler", initials: "L", when: "2 months ago", text: "Love that they do plumbing AND our AC. One company I trust for everything. Fixed two running toilets and a leaky faucet in one visit." },
+  { name: "Chris Obregón", initials: "C", when: "2 months ago", text: "Emergency call at 11pm for a burst line. Someone actually answered and a plumber was out fast. Stopped the flooding and saved our floors. Cannot recommend enough." },
+  { name: "Hannah Weiss", initials: "H", when: "3 months ago", text: "Repiped our older Alamo Heights home. The crew was tidy, respectful, and explained every step. Water pressure is night and day now." },
 ];
 
 export default function PlumbingPage() {

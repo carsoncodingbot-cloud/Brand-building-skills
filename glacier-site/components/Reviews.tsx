@@ -6,16 +6,24 @@ import Link from "next/link";
  * SAMPLE reviews — original placeholder content for layout/demo.
  * Replace `sampleReviews` with a live Google/Reputation feed when the
  * business's real reviews are connected.
+ *
+ * Cards are styled to match real Google review anatomy: letter avatar in
+ * a material color, name, gold stars + relative time, plain text — no
+ * decorative quote marks, no invented badges.
  */
-export interface Review { name: string; initials: string; date: string; text: string }
+export interface Review { name: string; initials: string; when: string; date?: string; text: string }
+
+/** Google's letter-avatar palette — deterministic per reviewer. */
+export const AVATAR_COLORS = ["#AB47BC", "#00897B", "#D81B60", "#3949AB", "#F4511E", "#546E7A"];
+export const REVIEW_FONT = "Roboto, 'Helvetica Neue', Arial, sans-serif";
 
 export const sampleReviews: Review[] = [
-  { name: "Marisol Vega", initials: "MV", date: "May 28, 2026", text: "Our AC quit on a 102° afternoon and Glacier had a tech at the house within two hours. Diagnosed it fast, had the part on the truck, and we were cold again before dinner. Genuinely impressed." },
-  { name: "David Cortez", initials: "DC", date: "May 26, 2026", text: "Replaced our 14-year-old system with a high-efficiency unit. The crew was clean, on time, and walked me through everything. Our summer electric bill dropped noticeably." },
-  { name: "Angela Whitfield", initials: "AW", date: "May 24, 2026", text: "Honest company. They could have sold me a whole new system but instead fixed the actual problem for a fraction of the cost. That earned my business for life." },
-  { name: "Ramiro Cantú", initials: "RC", date: "May 22, 2026", text: "Signed up for the Glacier Club after a tune-up. The tech found a weak capacitor before it failed. Exactly the kind of proactive service you want in the middle of a Texas summer." },
-  { name: "Jessica Boone", initials: "JB", date: "May 21, 2026", text: "Professional, on time, and knowledgeable about our older Alamo Heights home. Explained the ductwork options clearly with no pressure. Highly recommend." },
-  { name: "Tomás Herrera", initials: "TH", date: "May 20, 2026", text: "Installed a mini-split in our garage workshop. Quiet, efficient, and the install looks factory-clean. Couldn't be happier." },
+  { name: "Marisol Vega", initials: "M", when: "3 weeks ago", text: "Our AC quit on a 102° afternoon and Glacier had a tech at the house within two hours. Diagnosed it fast, had the part on the truck, and we were cold again before dinner. Genuinely impressed." },
+  { name: "David Cortez", initials: "D", when: "a month ago", text: "Replaced our 14-year-old system with a high-efficiency unit. The crew was clean, on time, and walked me through everything. Our summer electric bill dropped noticeably." },
+  { name: "Angela Whitfield", initials: "A", when: "a month ago", text: "Honest company. They could have sold me a whole new system but instead fixed the actual problem for a fraction of the cost. That earned my business for life." },
+  { name: "Ramiro Cantú", initials: "R", when: "2 months ago", text: "Signed up for the Glacier Club after a tune-up. The tech found a weak capacitor before it failed. Exactly the kind of proactive service you want in the middle of a Texas summer." },
+  { name: "Jessica Boone", initials: "J", when: "2 months ago", text: "Professional, on time, and knowledgeable about our older Alamo Heights home. Explained the ductwork options clearly with no pressure. Highly recommend." },
+  { name: "Tomás Herrera", initials: "T", when: "3 months ago", text: "Installed a mini-split in our garage workshop. Quiet, efficient, and the install looks factory-clean. Couldn't be happier." },
 ];
 
 export default function Reviews({ reviews = sampleReviews, heading = "What our clients say about us" }: {
@@ -56,23 +64,29 @@ export default function Reviews({ reviews = sampleReviews, heading = "What our c
           </div>
 
           <div className="mt-8 grid gap-5 md:grid-cols-3">
-            {reviews.slice(0, 6).map((r) => (
-              <article key={r.name} className="flex flex-col rounded-2xl border border-ice-100 bg-white p-5 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-gold">
-                    <span className="mr-1 font-bold text-navy-800">5</span>
-                    {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4" />)}
+            {reviews.slice(0, 6).map((r, i) => (
+              <article key={r.name} className="flex flex-col rounded-2xl border border-[#e8eaed] bg-white p-5 shadow-sm" style={{ fontFamily: REVIEW_FONT }}>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-medium text-white"
+                      style={{ background: AVATAR_COLORS[i % AVATAR_COLORS.length] }}
+                    >
+                      {r.initials.slice(0, 1)}
+                    </span>
+                    <div>
+                      <p className="text-sm font-medium text-[#202124]">{r.name}</p>
+                      <div className="mt-1 flex items-center gap-1.5">
+                        <span className="flex gap-0.5 text-[#fbbc04]">
+                          {Array.from({ length: 5 }).map((_, s) => <Star key={s} className="h-3.5 w-3.5" />)}
+                        </span>
+                        <span className="text-xs text-[#5f6368]">{r.when ?? r.date}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <GoogleG className="h-4 w-4" />
-                    <time className="text-xs text-slate-400">{r.date}</time>
-                  </div>
+                  <GoogleG className="mt-0.5 h-5 w-5 shrink-0" />
                 </div>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{r.text}</p>
-                <div className="mt-4 flex items-center gap-3 border-t border-ice-100 pt-4">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ice-500 text-xs font-bold text-white">{r.initials}</span>
-                  <span className="text-sm font-semibold text-navy-800">{r.name}</span>
-                </div>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#3c4043]">{r.text}</p>
               </article>
             ))}
           </div>

@@ -33,6 +33,7 @@ export default function SystemCheck() {
   const [zip, setZip] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [touched, setTouched] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     try {
@@ -92,8 +93,19 @@ export default function SystemCheck() {
   };
 
   const reset = () => {
-    setQi(0); setAnswers({}); setStatus("idle"); setTouched(false);
+    setQi(0); setAnswers({}); setStatus("idle"); setTouched(false); setCopied(false);
     setName(""); setPhone(""); setZip("");
+  };
+
+  const LANDLORD_TEXT =
+    "AC issue at the house — Glacier Heating & Air gives exact prices in writing before work starts. (866) 665-2210 · CallGlacier.com";
+
+  const copyLandlord = async () => {
+    try {
+      await navigator.clipboard.writeText(LANDLORD_TEXT);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch {}
   };
 
   const inputCls = (ok: boolean) =>
@@ -153,17 +165,48 @@ export default function SystemCheck() {
           <div className="quiz-enter">
             {segment === "rent" ? (
               <>
-                <h3 className="font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-navy-800 sm:text-xl">
+                <p className="text-xs font-bold uppercase tracking-wider text-ice-600">Here&apos;s our honest read</p>
+                <h3 className="mt-1.5 font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-navy-800 sm:text-xl">
                   Straight answer: this one&apos;s your landlord&apos;s call.
                 </h3>
-                <p className="mt-2 text-sm text-slate-600">
-                  In Texas, repairs on a rental are the owner&apos;s to approve. Fastest fix: send your landlord or property
-                  manager our number — we&apos;ll give them an exact price in writing and keep you in the loop.
+                <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
+                  In Texas, repairs on a rental are the owner&apos;s to approve. Fastest fix: send your landlord or
+                  property manager the message below — we&apos;ll give them an exact price in writing and keep you in the loop.
                 </p>
-                <div className="mt-4 rounded-xl bg-ice-50 p-4 text-sm text-slate-600">
-                  <b className="text-navy-800">Copy-paste for your landlord:</b><br />
-                  &quot;AC issue at the house — Glacier Heating &amp; Air gives exact prices in writing before work starts.
-                  (866) 665-2210 · CallGlacier.com&quot;
+                <div className="mt-5 overflow-hidden rounded-2xl border border-ice-100 bg-ice-50">
+                  <div className="flex items-center justify-between gap-3 border-b border-ice-100 bg-white px-4 py-2.5">
+                    <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500">Ready to send your landlord</p>
+                    <button
+                      onClick={copyLandlord}
+                      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                        copied ? "bg-turquoise/15 text-ice-700" : "bg-navy-800 text-white hover:bg-navy-900"
+                      }`}
+                    >
+                      {copied ? (
+                        <><Check className="h-3.5 w-3.5" /> Copied</>
+                      ) : (
+                        <>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
+                            <rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                          </svg>
+                          Copy text
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  <p className="px-4 py-3.5 text-sm leading-relaxed text-slate-600">&quot;{LANDLORD_TEXT}&quot;</p>
+                </div>
+                <p className="mt-5 text-sm leading-relaxed text-slate-600">
+                  <b className="text-navy-800">Rather have us handle it?</b>{" "}
+                  Call — we&apos;ll coordinate with your landlord directly and keep it easy for everyone.
+                </p>
+                <a href={site.phoneHref} className="btn mt-3 w-full !bg-navy-800 !py-4 text-sm !text-white hover:!bg-navy-900 sm:text-base">
+                  <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
+                </a>
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 border-t border-ice-100 pt-4 text-xs font-semibold text-slate-500">
+                  <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-turquoise" /> Licensed &amp; insured</span>
+                  <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-turquoise" /> Exact prices in writing</span>
+                  <span className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-turquoise" /> 24/7 in San Antonio</span>
                 </div>
                 <button onClick={reset} className="mx-auto mt-4 block text-xs font-semibold text-slate-400 hover:text-navy-800">
                   ↺ Start over
@@ -188,13 +231,13 @@ export default function SystemCheck() {
                   {segment === "plumbing" &&
                     "From water heaters to leaks and drains — same promise as our HVAC side. Drop your info below and we'll get you straight answers and your exact price in writing before work starts."}
                 </p>
-                <form onSubmit={submitLead} className="mt-4" noValidate>
-                  <div className="grid gap-2.5">
+                <form onSubmit={submitLead} className="mt-5" noValidate>
+                  <div className="grid gap-3">
                     <input
                       type="text" name="name" autoComplete="name" placeholder="First & last name"
                       value={name} onChange={(e) => setName(e.target.value)} className={inputCls(nameOk)} aria-label="Your name"
                     />
-                    <div className="grid grid-cols-[1.6fr_1fr] gap-2.5">
+                    <div className="grid grid-cols-[1.6fr_1fr] gap-3">
                       <input
                         type="tel" name="phone" autoComplete="tel" inputMode="tel" placeholder="Mobile number"
                         value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls(phoneOk)} aria-label="Mobile number"
@@ -210,19 +253,20 @@ export default function SystemCheck() {
                       {!nameOk ? "Add your name" : !phoneOk ? "That phone number looks short" : "ZIP should be 5 digits"} — takes two seconds.
                     </p>
                   )}
-                  <button type="submit" disabled={status === "sending"} className="btn btn-primary mt-3 w-full !py-3.5 text-sm disabled:opacity-70 sm:text-base">
+                  <button type="submit" disabled={status === "sending"} className="btn btn-primary mt-4 w-full !py-4 text-sm disabled:opacity-70 sm:text-base">
                     {status === "sending" ? "Sending…" : segment === "emergency" ? "Get my priority window →" : "Get my exact price path →"}
                   </button>
                 </form>
-                <p className="mt-2.5 text-center text-xs text-slate-500">
+                <p className="mt-3 text-center text-xs text-slate-500">
                   Instant text confirmation · A real person follows up fast · No spam, ever
                 </p>
-                <div className="mt-3 flex items-center justify-between">
-                  <button onClick={reset} className="text-xs font-semibold text-slate-400 hover:text-navy-800">↺ Start over</button>
-                  <a href={site.phoneHref} className={`inline-flex items-center gap-1.5 text-xs font-bold ${segment === "emergency" ? "text-red-brand" : "text-ice-600"} hover:underline`}>
-                    <Phone className="h-3.5 w-3.5" /> Melting right now? {site.phoneDisplay}
-                  </a>
-                </div>
+                <p className="mt-4 text-center text-xs font-bold uppercase tracking-wider text-slate-400">Need it sooner?</p>
+                <a href={site.phoneHref} className="btn mt-1.5 w-full !bg-navy-800 !py-4 text-sm !text-white hover:!bg-navy-900 sm:text-base">
+                  <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
+                </a>
+                <button onClick={reset} className="mx-auto mt-4 block text-xs font-semibold text-slate-400 hover:text-navy-800">
+                  ↺ Start over
+                </button>
               </>
             )}
           </div>
@@ -246,8 +290,9 @@ export default function SystemCheck() {
               <li className="flex items-center gap-2"><Check className="h-4 w-4 shrink-0 text-turquoise" /> Licensed, insured, background-checked</li>
               <li className="flex items-center gap-2"><Check className="h-4 w-4 shrink-0 text-turquoise" /> {segment === "emergency" ? "No-cool calls prioritized, 24/7" : "Fast scheduling — often same-day"}</li>
             </ul>
-            <a href={site.phoneHref} className="btn mt-5 w-full !bg-navy-800 !py-3.5 text-sm !text-white hover:!bg-navy-900 sm:text-base">
-              <Phone className="h-4 w-4" /> Can&apos;t wait? Call {site.phoneDisplay}
+            <p className="mt-5 text-center text-xs font-bold uppercase tracking-wider text-slate-400">Can&apos;t wait?</p>
+            <a href={site.phoneHref} className="btn mt-1.5 w-full !bg-navy-800 !py-4 text-sm !text-white hover:!bg-navy-900 sm:text-base">
+              <Phone className="h-4 w-4" /> Call {site.phoneDisplay}
             </a>
             <button onClick={reset} className="mx-auto mt-3 block text-xs font-semibold text-slate-400 hover:text-navy-800">
               ↺ Start over
