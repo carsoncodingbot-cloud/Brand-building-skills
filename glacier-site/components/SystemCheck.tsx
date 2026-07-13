@@ -40,7 +40,6 @@ export default function SystemCheck() {
   const [zip, setZip] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [touched, setTouched] = useState(false);
-  const [copied, setCopied] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const mounted = useRef(false);
 
@@ -123,19 +122,8 @@ export default function SystemCheck() {
   };
 
   const reset = () => {
-    setQi(0); setAnswers({}); setStatus("idle"); setTouched(false); setCopied(false);
+    setQi(0); setAnswers({}); setStatus("idle"); setTouched(false);
     setName(""); setEmail(""); setPhone(""); setZip("");
-  };
-
-  const LANDLORD_TEXT =
-    "AC issue at the house — Glacier Heating & Air gives exact prices in writing before work starts. (866) 665-2210 · CallGlacier.com";
-
-  const copyLandlord = async () => {
-    try {
-      await navigator.clipboard.writeText(LANDLORD_TEXT);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2200);
-    } catch {}
   };
 
   // 16px input font is load-bearing: anything smaller makes iOS Safari
@@ -204,7 +192,7 @@ export default function SystemCheck() {
           <div className="quiz-enter">
             <p className="text-xs font-bold uppercase tracking-wider text-ice-600">Here&apos;s our honest read</p>
             <h3 className="mt-1.5 font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-navy-800 sm:text-xl">
-              {segment === "rent" && "Straight answer: this one's your landlord's call."}
+              {segment === "rent" && "Renting? No problem — we'll work with your landlord."}
               {segment === "emergency" && "You're in the priority lane."}
               {segment === "repair" && "This sounds fixable — let's confirm it cheap."}
               {segment === "replace" && "Time to do the replacement math — honestly."}
@@ -212,7 +200,7 @@ export default function SystemCheck() {
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               {segment === "rent" &&
-                "In Texas, repairs on a rental are the owner's to approve. Send your landlord the message below — or leave your info and we'll coordinate with them directly."}
+                "In Texas the owner approves repairs — so we'll coordinate with your landlord directly and keep you in the loop."}
               {segment === "emergency" &&
                 "No-cool calls jump the line, 24/7 — arrival window plus your exact price in writing before any work begins."}
               {segment === "repair" &&
@@ -234,35 +222,9 @@ export default function SystemCheck() {
               </div>
             )}
 
-            {segment === "rent" && (
-              <div className="mt-4 overflow-hidden rounded-2xl border border-ice-100 bg-ice-50">
-                <div className="flex items-center justify-between gap-3 border-b border-ice-100 bg-white px-4 py-2.5">
-                  <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500">Ready to send your landlord</p>
-                  <button
-                    onClick={copyLandlord}
-                    className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
-                      copied ? "bg-turquoise/15 text-ice-700" : "bg-navy-800 text-white hover:bg-navy-900"
-                    }`}
-                  >
-                    {copied ? (
-                      <><Check className="h-3.5 w-3.5" /> Copied</>
-                    ) : (
-                      <>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
-                          <rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" />
-                        </svg>
-                        Copy text
-                      </>
-                    )}
-                  </button>
-                </div>
-                <p className="px-4 py-3.5 text-sm leading-relaxed text-slate-600">&quot;{LANDLORD_TEXT}&quot;</p>
-              </div>
-            )}
-
             <form onSubmit={submitLead} className="mt-5 rounded-2xl border border-ice-100 bg-ice-50/60 p-4" noValidate>
               <p className="font-[family-name:var(--font-montserrat)] text-sm font-extrabold text-navy-800">
-                {segment === "rent" ? "Rather have us handle it? We'll coordinate with your landlord." : "Where should we send your exact price?"}
+                {segment === "rent" ? "Where can we reach you?" : "Where should we send your exact price?"}
               </p>
               <div className="mt-3.5 grid gap-3">
                 <div>
