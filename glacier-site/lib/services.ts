@@ -8,6 +8,10 @@ export interface Service {
   h1: string;        // page H1
   short: string;     // one-liner for the card
   icon: ServiceIcon;
+  /** Real Glacier job photo backing the homepage card (in /public/services).
+   *  Only set when the library has a genuine match for the service —
+   *  no photo beats a mismatched photo. */
+  photo?: string;
   intro: string;     // page intro paragraph
   features: { title: string; body: string }[];
   faqs: { q: string; a: string }[];
@@ -20,6 +24,7 @@ export const services: Service[] = [
     h1: "Air Conditioning Repair & Installation in San Antonio",
     short: "Fast AC repair, high-efficiency installs, and tune-ups built for brutal South Texas summers.",
     icon: "snowflake",
+    photo: "/services/air-conditioning.jpg",
     intro:
       "When a San Antonio summer hits triple digits, a struggling AC isn't an inconvenience — it's an emergency. Glacier's certified technicians repair, replace, and fine-tune cooling systems so your home stays cold when the Texas heat won't quit.",
     features: [
@@ -40,6 +45,7 @@ export const services: Service[] = [
     h1: "Heating Repair & Furnace Installation in San Antonio",
     short: "Furnace repair, heat pump installs, and tune-ups to keep you warm through every cold snap.",
     icon: "flame",
+    photo: "/services/heating.jpg",
     intro:
       "San Antonio winters are mild until they aren't — and a sudden freeze is exactly when heating systems fail. Glacier keeps furnaces and heat pumps running safely and efficiently so a cold front never catches your family off guard.",
     features: [
@@ -59,6 +65,7 @@ export const services: Service[] = [
     h1: "Indoor Air Quality Services in San Antonio",
     short: "Air duct cleaning, filtration, and humidity control for a healthier, cleaner home.",
     icon: "wind",
+    photo: "/services/indoor-air-quality.jpg",
     intro:
       "San Antonio's cedar season, dust, and humidity don't stay outside. Glacier's indoor air quality solutions remove allergens, balance moisture, and keep the air your family breathes genuinely clean.",
     features: [
@@ -78,6 +85,7 @@ export const services: Service[] = [
     h1: "Ductless Mini-Split Installation in San Antonio",
     short: "Efficient, zoned comfort for additions, garages, and homes without ductwork.",
     icon: "split",
+    photo: "/services/ductless-mini-splits.jpg",
     intro:
       "Hot garage? A converted attic or new addition that never gets comfortable? Ductless mini-splits deliver quiet, energy-efficient, room-by-room comfort — no ductwork required.",
     features: [
@@ -97,6 +105,7 @@ export const services: Service[] = [
     h1: "Commercial HVAC Services in San Antonio",
     short: "Reliable heating and cooling for offices, retail, and light-industrial spaces.",
     icon: "building",
+    photo: "/services/commercial-hvac.jpg",
     intro:
       "Downtime costs money and comfort keeps customers and staff happy. Glacier services and installs commercial HVAC systems across greater San Antonio with fast response and maintenance plans that protect your bottom line.",
     features: [

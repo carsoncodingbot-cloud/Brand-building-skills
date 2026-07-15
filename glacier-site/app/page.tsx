@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { services } from "@/lib/services";
+import { posts } from "@/lib/posts";
 import { serviceIcons, Star, Phone, ChevronRight, Snowflake, Check, Clock, Shield, MapPin, GoogleG, Wrench } from "@/components/Icons";
 import Faq from "@/components/Faq";
 import Reviews from "@/components/Reviews";
@@ -36,7 +37,50 @@ export default function Home() {
       <FaqSection />
       <EmergencyCta />
       <Reviews />
+      <HomeBlog />
     </>
+  );
+}
+
+/* -------------------------------------------------- Blog under reviews */
+function HomeBlog() {
+  return (
+    <section className="bg-white py-16 sm:py-20">
+      <div className="container-x">
+        <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-end">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-ice-600">From the field</p>
+            <h2 className="iced iced-dark mt-2 text-3xl sm:text-4xl">HVAC Tips &amp; Guides</h2>
+            <p className="mt-3 max-w-xl text-slate-600">
+              Straight answers from real San Antonio jobs — every cover photo is our own work.
+            </p>
+          </div>
+          <Link href="/blog" className="btn btn-outline-navy shrink-0">All Guides</Link>
+        </div>
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
+          {posts.slice(0, 3).map((p) => (
+            <Link key={p.slug} href={`/blog/${p.slug}`}
+              className="group overflow-hidden rounded-[var(--radius-card)] bg-white shadow-sm ring-1 ring-ice-100 transition hover:-translate-y-1 hover:shadow-xl">
+              <div className="relative aspect-[1200/630] overflow-hidden">
+                <Image
+                  src={p.cover} alt={p.title} fill sizes="(max-width: 768px) 92vw, 400px"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-5 sm:p-6">
+                <p className="text-xs font-bold uppercase tracking-wider text-ice-600">{p.readMinutes} min read</p>
+                <h3 className="mt-2 font-[family-name:var(--font-montserrat)] text-lg font-extrabold leading-snug text-navy-800 transition group-hover:text-ice-600">
+                  {p.title}
+                </h3>
+                <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-ice-600">
+                  Read the guide <ChevronRight className="h-4 w-4" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -107,6 +151,21 @@ function TrustBar() {
 }
 
 /* --------------------------------------------------------------- Services */
+/** Photo-backed service card: real Glacier job photo under a navy scrim.
+ *  Falls back to the flat card when no genuine photo match exists —
+ *  a mismatched photo costs more trust than no photo. */
+function ServiceCardPhoto({ src, alt }: { src: string; alt: string }) {
+  return (
+    <>
+      <Image
+        src={src} alt={alt} fill sizes="(max-width: 768px) 92vw, 420px"
+        className="object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#00152e]/95 via-navy-800/80 to-navy-800/45" />
+    </>
+  );
+}
+
 function ServicesSection() {
   const [feature, ...rest] = services;
   const FeatureIcon = serviceIcons[feature.icon];
@@ -116,51 +175,53 @@ function ServicesSection() {
         <div className="text-center">
           <h2 className="iced iced-dark text-3xl sm:text-4xl">Our Services</h2>
           <p className="mx-auto mt-4 max-w-2xl text-slate-600">
-            One trusted team for everything that keeps your home comfortable — cooling, heating, air quality, and more.
+            One trusted team for everything that keeps your home comfortable — every photo below is a real Glacier job.
           </p>
         </div>
 
         <Link href={`/services/${feature.slug}`}
-          className="group mt-10 flex flex-col items-center rounded-[var(--radius-card)] bg-navy-800 px-6 py-10 text-center text-white shadow-[0_30px_60px_-30px_rgba(0,43,88,0.6)] transition hover:-translate-y-1">
-          <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-ice-500 text-white">
+          className="group relative mt-10 flex flex-col items-center overflow-hidden rounded-[var(--radius-card)] bg-navy-800 px-6 py-10 text-center text-white shadow-[0_30px_60px_-30px_rgba(0,43,88,0.6)] transition hover:-translate-y-1">
+          {feature.photo && <ServiceCardPhoto src={feature.photo} alt={`Real Glacier job — ${feature.name} install in San Antonio`} />}
+          <span className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-ice-500 text-white shadow-lg">
             <FeatureIcon className="h-8 w-8" />
           </span>
-          <h3 className="iced mt-5 text-2xl font-extrabold uppercase text-white">{feature.name}</h3>
-          <p className="mt-3 max-w-2xl text-white/80">{feature.short}</p>
-          <span className="mt-5 inline-flex items-center gap-1.5 font-bold text-ice-300 group-hover:text-white">
+          <h3 className="iced relative mt-5 text-2xl font-extrabold uppercase text-white">{feature.name}</h3>
+          <p className="relative mt-3 max-w-2xl text-white/90">{feature.short}</p>
+          <span className="relative mt-5 inline-flex items-center gap-1.5 font-bold text-ice-300 group-hover:text-white">
             Learn More <ChevronRight className="h-4 w-4" />
           </span>
         </Link>
 
         <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {rest.map((s, i) => {
+          {rest.map((s) => {
             const Icon = serviceIcons[s.icon];
-            const dark = i % 2 === 1;
             return (
               <Link key={s.slug} href={`/services/${s.slug}`}
-                className={`group flex flex-col rounded-[var(--radius-card)] p-7 text-center shadow-sm transition hover:-translate-y-1 ${
-                  dark ? "bg-navy-800 text-white" : "bg-white ring-1 ring-ice-100"
+                className={`group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] p-7 text-center shadow-sm transition hover:-translate-y-1 ${
+                  s.photo ? "bg-navy-800 text-white" : "bg-white ring-1 ring-ice-100"
                 }`}>
-                <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ice-500 text-white">
+                {s.photo && <ServiceCardPhoto src={s.photo} alt={`Real Glacier job — ${s.name} in San Antonio`} />}
+                <span className="relative mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ice-500 text-white shadow-lg">
                   <Icon className="h-7 w-7" />
                 </span>
-                <h3 className={`iced mt-4 text-lg font-extrabold uppercase ${dark ? "text-white" : "text-navy-800"}`}>{s.name}</h3>
-                <p className={`mt-2 flex-1 text-sm ${dark ? "text-white/80" : "text-slate-600"}`}>{s.short}</p>
-                <span className={`mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-bold ${dark ? "text-ice-300 group-hover:text-white" : "text-ice-600"}`}>
+                <h3 className={`iced relative mt-4 text-lg font-extrabold uppercase ${s.photo ? "text-white" : "text-navy-800"}`}>{s.name}</h3>
+                <p className={`relative mt-2 flex-1 text-sm ${s.photo ? "text-white/90" : "text-slate-600"}`}>{s.short}</p>
+                <span className={`relative mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-bold ${s.photo ? "text-ice-300 group-hover:text-white" : "text-ice-600"}`}>
                   Learn More <ChevronRight className="h-4 w-4" />
                 </span>
               </Link>
             );
           })}
-          {/* Plumbing — sits between Water Heaters and the Emergency card */}
+          {/* Plumbing — the library's one human shot finally has its home */}
           <Link href="/plumbing"
-            className="group flex flex-col rounded-[var(--radius-card)] bg-navy-800 p-7 text-center text-white shadow-sm transition hover:-translate-y-1">
-            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ice-500 text-white">
+            className="group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] bg-navy-800 p-7 text-center text-white shadow-sm transition hover:-translate-y-1">
+            <ServiceCardPhoto src="/services/plumbing.jpg" alt="Glacier technician servicing a pump — real plumbing work in San Antonio" />
+            <span className="relative mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ice-500 text-white shadow-lg">
               <Wrench className="h-7 w-7" />
             </span>
-            <h3 className="iced mt-4 text-lg font-extrabold uppercase text-white">Plumbing</h3>
-            <p className="mt-2 flex-1 text-sm text-white/80">From leaks and clogged drains to water heater installs and fixture upgrades — we keep your home&apos;s plumbing running smoothly.</p>
-            <span className="mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-bold text-ice-300 group-hover:text-white">
+            <h3 className="iced relative mt-4 text-lg font-extrabold uppercase text-white">Plumbing</h3>
+            <p className="relative mt-2 flex-1 text-sm text-white/90">From leaks and clogged drains to water heater installs and fixture upgrades — we keep your home&apos;s plumbing running smoothly.</p>
+            <span className="relative mt-4 inline-flex items-center justify-center gap-1.5 text-sm font-bold text-ice-300 group-hover:text-white">
               Learn More <ChevronRight className="h-4 w-4" />
             </span>
           </Link>
