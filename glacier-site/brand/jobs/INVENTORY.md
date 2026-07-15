@@ -64,7 +64,12 @@ The crown jewel: complete install arc — ductwork → air handler → furnace �
 - b7-28-runtru-tall-stonewall-install.jpg — RunTru tall condenser on stone/rock wall home, drill on top + Fieldpiece vacuum pump in frame. Grade B+ (mid-install authenticity; tools = real-work story; slight clutter keeps it out of hero ads). Group D (installs) / organic "day on the job" gold.
 - b7-29-trane-xl-night-brick.jpg — Trane XL condenser, night flash shot, brick wall, insulated lineset. Grade B- (night lighting limits paid use; good for "we work late" / 24-7 organic angle).
 - Duplicates skipped this batch (already in library): b5-21, b3-13, b4-18 re-uploads.
-- PENDING: second batch of five (old-vs-new Coleman→RunTru furnace collage, Trane XR on new-construction pad, Trane + meter brick wall, Trane XL light brick hero, dual Trane side-by-side) — arrived mid-turn, not yet extractable; catalog next session turn.
+- b7-30-oldnew-coleman-runtru-furnace-collage.jpg — Old Coleman vs new RunTru furnace, baked Old/New labels. Grade A (engagement king; REBUILD labels in brand style before paid use — crop_h rule, same as b5-23). Group E (before/after).
+- b7-31-trane-xr-newconstruction-whitebrick.jpg — Trane XR, new-construction pad, bright sun, white brick. Grade A-.
+- b7-32-trane-meter-brownbrick.jpg — Trane + meter loop, brown brick, greenery. Grade A-.
+- b7-33-trane-xl-lightbrick-hero.jpg — Trane XL portrait, light brick, clean sun. Grade A (new hero-pool member alongside b4-17).
+- b7-34-dual-trane-condensers-brick.jpg — Two Trane systems side by side. Grade A- (two-system/bigger-ticket story).
+- b7-35..38 attic-custom-duct series (trunk-wide, elbow-detail, plenum-rafters-light, overview-flex) — custom sheet-metal duct work in new construction, 'MADE IN USA' stamp visible. Grade A-/B+ as a set. Group C2 (craftsmanship porn) — blog covers, education posts, 'what pro ductwork looks like' organic. Post as carousel, same job.
 
 ## Website placement map (after enhancement)
 - Home "real work" strip: b4-17, b3-14, b5-23
