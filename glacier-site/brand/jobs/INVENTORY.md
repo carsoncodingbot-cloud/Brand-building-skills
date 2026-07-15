@@ -60,6 +60,12 @@ The crown jewel: complete install arc — ductwork → air handler → furnace �
 6. b3-14 — flex-duct network
 7. b2-09 — tech at work (humanizer)
 
+## Batch 7 (2026-07-13, technician uploads)
+- b7-28-runtru-tall-stonewall-install.jpg — RunTru tall condenser on stone/rock wall home, drill on top + Fieldpiece vacuum pump in frame. Grade B+ (mid-install authenticity; tools = real-work story; slight clutter keeps it out of hero ads). Group D (installs) / organic "day on the job" gold.
+- b7-29-trane-xl-night-brick.jpg — Trane XL condenser, night flash shot, brick wall, insulated lineset. Grade B- (night lighting limits paid use; good for "we work late" / 24-7 organic angle).
+- Duplicates skipped this batch (already in library): b5-21, b3-13, b4-18 re-uploads.
+- PENDING: second batch of five (old-vs-new Coleman→RunTru furnace collage, Trane XR on new-construction pad, Trane + meter brick wall, Trane XL light brick hero, dual Trane side-by-side) — arrived mid-turn, not yet extractable; catalog next session turn.
+
 ## Website placement map (after enhancement)
 - Home "real work" strip: b4-17, b3-14, b5-23
 - /our-services AC: b4-16, b1-04, b5-24
