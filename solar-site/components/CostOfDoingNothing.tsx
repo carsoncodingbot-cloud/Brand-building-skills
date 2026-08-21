@@ -118,7 +118,7 @@ export default function CostOfDoingNothing() {
           house? That&apos;s exactly what we put in writing — before anyone visits.
         </p>
 
-        <Link href="/quote" className="btn btn-primary mt-5 w-full">See what staying vs. owning looks like for my house →</Link>
+        <Link href="/quote" className="btn btn-primary mt-5 w-full">Run staying vs. owning for my house →</Link>
         <p className="mt-3 text-center text-[0.65rem] leading-relaxed text-white/50">
           Assumes 5% average annual rate increases — conservative next to recent history: SCE&apos;s October
           2025 increase alone was ~13%, with more filed through 2028. Your written quote states every

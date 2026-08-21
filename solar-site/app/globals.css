@@ -41,6 +41,15 @@
 
 html {
   scroll-behavior: smooth;
+  /* Navy behind the page: iOS rubber-band overscroll shows brand, not white. */
+  background-color: var(--color-navy-800);
+  /* No gray tap-flash on iOS — buttons carry their own pressed states. */
+  -webkit-tap-highlight-color: transparent;
+  /* Hard stop on sideways scroll/zoom-out: any accidental overflow is clipped
+     instead of widening the layout viewport. `clip` (unlike `hidden`) creates
+     no scroll container, so position: sticky keeps working. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -48,7 +57,29 @@ body {
   color: var(--foreground);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* Text selection in brand gold — the detail nobody notices consciously. */
+::selection {
+  background: #f5a623;
+  color: #0b1d36;
+}
+
+/* Each section clips its own sideways overflow so pre-reveal slide-in states
+   (translate-x before the IntersectionObserver fires) never widen the page.
+   `clip` keeps position: sticky children working. */
+section {
+  overflow-x: clip;
+}
+
+/* Long unbreakable tokens (emails, URLs) wrap instead of forcing min-widths
+   wider than small phones. Only kicks in when a line would overflow. */
+p, h1, h2, h3, h4, a, span, li, dd, dt {
+  overflow-wrap: break-word;
 }
 
 /* --------------------------------------------------------------------------
@@ -95,7 +126,11 @@ body {
   padding: 0.9rem 1.75rem;
   font-size: 0.95rem;
   transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-  white-space: nowrap;
+  /* Long labels wrap into a balanced two-line pill instead of forcing the
+     layout wider than the viewport (the classic mobile zoom-out bug). */
+  white-space: normal;
+  text-align: center;
+  text-wrap: balance;
   cursor: pointer;
 }
 .btn:active { transform: translateY(1px); }

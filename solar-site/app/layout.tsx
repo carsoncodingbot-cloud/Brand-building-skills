@@ -60,6 +60,9 @@ export const viewport: Viewport = {
   // Stops iOS Safari's input-focus auto-zoom (which sticks after submit and
   // leaves the page zoomed in). Pinch-zoom still works on iOS 10+.
   maximumScale: 1,
+  // Never let the page open or pinch below 100% — paired with the
+  // overflow-x clip in globals.css this kills the zoomed-out white gutter.
+  minimumScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
