@@ -49,9 +49,13 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-ice-200/70 sm:flex-row">
-          <p>
+          <p className="max-w-2xl">
             © {new Date().getFullYear()} {site.name}. All rights reserved.{" "}
             <Link href="/privacy" className="text-ice-300 hover:underline">Privacy Policy</Link>
+            <span className="mt-1 block text-xs text-ice-200/50">
+              Program benefits require qualification and are confirmed in writing. Savings depend on your usage,
+              utility, and rate plan — your written quote states its assumptions.
+            </span>
           </p>
           <div className="flex gap-3">
             <SocialLink href={site.social.facebook} label="Facebook" d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z" />

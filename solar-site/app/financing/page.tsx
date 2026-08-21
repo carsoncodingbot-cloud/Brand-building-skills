@@ -42,7 +42,7 @@ export default function FinancingPage() {
       <FaqJsonLd faqs={faqs} />
       <PageHero
         title="Financing, In Plain Daylight"
-        subtitle="Solar financing is where good deals go bad — dealer fees, escalators, liens. Here's how we do it instead: every structure compared honestly, every number in writing, no pressure clock."
+        subtitle="Every homeowner already has a power payment — the only question is whether it ever ends. Financing is where good solar deals go bad, so here's how we do it instead: every structure compared honestly, every number in writing, no pressure clock."
         breadcrumb={[{ name: "Home", href: "/" }, { name: "Financing", href: "/financing" }]}
       />
 

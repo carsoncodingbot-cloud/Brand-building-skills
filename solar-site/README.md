@@ -8,8 +8,8 @@ with the solar skin.
 ## Swap in the real company (one file)
 
 Everything branded is centralized in **`lib/site.ts`** — name, legal name,
-domain, phone (currently an unroutable 555 placeholder so previews can't ring
-a stranger), email, address, CSLB license, socials, and the GoHighLevel
+legal name, phone (currently an unroutable 555 placeholder so previews
+can't ring a stranger), email, address, CSLB license, socials, and the GoHighLevel
 webhook. Swap those values and every page, schema block, click-to-call, and
 footer updates.
 

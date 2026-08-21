@@ -83,26 +83,29 @@ export const GoogleG = ({ className }: { className?: string }) => (
  *  Pass a height class + `w-auto` to keep the 1:1 proportions. */
 export const DaylightMark = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 64 64" className={className} aria-hidden role="img" fill="none">
-    {/* rays */}
-    <g stroke="#f5a623" strokeWidth="3" strokeLinecap="round">
-      <path d="M32 8v6" />
-      <path d="M14.7 15.7l4.2 4.2" />
-      <path d="M49.3 15.7l-4.2 4.2" />
-      <path d="M8 33h6" />
-      <path d="M50 33h6" />
+    {/* rays: radial hierarchy — tall crown ray, shorter flanks, horizon rays */}
+    <g stroke="#f5a623" strokeLinecap="round">
+      <path d="M32 6.5v7" strokeWidth="3.2" />
+      <path d="M17.6 12.4l3.8 5" strokeWidth="2.7" />
+      <path d="M46.4 12.4l-3.8 5" strokeWidth="2.7" />
+      <path d="M8.5 24.5l6 2.6" strokeWidth="2.7" />
+      <path d="M55.5 24.5l-6 2.6" strokeWidth="2.7" />
     </g>
-    {/* rising sun */}
-    <path d="M18 38a14 14 0 0 1 28 0z" fill="url(#dlsun)" />
-    {/* panel */}
-    <g stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="13" y="42" width="38" height="13" rx="2.4" />
-      <path d="M25.7 42v13M38.3 42v13" />
+    {/* rising sun with a light-core gradient */}
+    <path d="M17.5 37.5a14.5 14.5 0 0 1 29 0z" fill="url(#dlsun)" />
+    {/* horizon line the sun rests on */}
+    <path d="M11 37.5h42" stroke="#f5a623" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+    {/* panel — quiet, precise, a breath below the horizon */}
+    <g stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="14" y="43.5" width="36" height="12" rx="3" />
+      <path d="M26 43.5v12M38 43.5v12" />
     </g>
     <defs>
-      <linearGradient id="dlsun" x1="32" y1="24" x2="32" y2="38" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#ffd075" />
-        <stop offset="1" stopColor="#f5a623" />
-      </linearGradient>
+      <radialGradient id="dlsun" cx="0.5" cy="1" r="1">
+        <stop offset="0.25" stopColor="#ffdf9e" />
+        <stop offset="0.7" stopColor="#f8b53a" />
+        <stop offset="1" stopColor="#ef8412" />
+      </radialGradient>
     </defs>
   </svg>
 );

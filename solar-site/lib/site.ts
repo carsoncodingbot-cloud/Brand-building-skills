@@ -19,7 +19,7 @@ export const site = {
   // ring a stranger. Swap for the real tracking number before launch.
   phoneDisplay: "(951) 555-0187",
   phoneHref: "tel:+19515550187",
-  email: "hello@godaylightsolar.com",
+  email: "hello@daylightsolar.ai",
   address: {
     street: "3600 Lime St",                     // PLACEHOLDER
     city: "Riverside",
@@ -39,7 +39,7 @@ export const site = {
   priceRange: "$$",
 
   // ---- Web ----
-  url: "https://godaylightsolar.com",           // PLACEHOLDER — your real domain
+  url: "https://daylightsolar.ai",
   bookingUrl: "/contact",
   social: {
     facebook: "https://www.facebook.com/",
@@ -58,6 +58,12 @@ export const site = {
   // text instantly. REQUIRED before driving traffic: submissions go straight
   // to the confirmation page, so until this is set they reach no one.
   ghlWebhook: "" as string,
+
+  // ---- Programs (PLACEHOLDER amounts — tune to the real business before ads) ----
+  programs: {
+    heroDonation: "$500",     // donated in the customer's name (Heroes Program)
+    priceLockDays: 30,        // how long a written quote stays valid
+  },
 } as const;
 
 export const NAV_SERVICES = [

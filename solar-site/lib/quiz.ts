@@ -105,7 +105,7 @@ export function quizLeadPayload(
     timeline: QUIZ_LABELS.timing[answers.timing] ?? "-",
     ownership: QUIZ_LABELS.own[answers.own] ?? "-",
     segment: quizSegment(answers),
-    source: "godaylightsolar.com — 60-Second Solar Reality Check",
+    source: "daylightsolar.ai — 60-Second Solar Reality Check",
     page,
     submitted_at: new Date().toISOString(),
   };

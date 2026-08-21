@@ -1,5 +1,5 @@
 User-Agent: *
 Allow: /
 
-Host: https://godaylightsolar.com
-Sitemap: https://godaylightsolar.com/sitemap.xml
+Host: https://daylightsolar.ai
+Sitemap: https://daylightsolar.ai/sitemap.xml

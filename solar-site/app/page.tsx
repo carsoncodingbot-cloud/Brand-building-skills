@@ -27,9 +27,11 @@ export default function Home() {
       <FaqJsonLd faqs={HOME_FAQS} />
       <Hero />
       <TrustBar />
+      <DaylightDeal />
       <RateMath />
       <ServicesSection />
       <StandardCta />
+      <Programs />
       <LocalService />
       <FaqSection />
       <RescueCta />
@@ -55,7 +57,7 @@ function Hero() {
               {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5" />)}
             </div>
             <span className="font-[family-name:var(--font-montserrat)] text-xs font-bold uppercase tracking-wider text-ice-200 sm:text-sm">
-              The Inland Empire&apos;s Straight-Answer Solar Company
+              Riverside · Moreno Valley · The Inland Empire
             </span>
           </div>
           <h1 className="iced iced-light mt-4 text-3xl leading-tight sm:text-4xl lg:text-5xl">
@@ -85,6 +87,12 @@ function Hero() {
 
         {/* Right — the 60-second check, reviews right under it */}
         <div className="mx-auto w-full max-w-md lg:max-w-none">
+          <div className="mb-3 flex items-center justify-center gap-2 rounded-full bg-white/10 px-4 py-2 text-center ring-1 ring-turquoise/40 backdrop-blur-sm">
+            <Sun className="h-4 w-4 shrink-0 text-turquoise" />
+            <p className="text-[0.7rem] font-bold uppercase tracking-wider text-white sm:text-xs">
+              The Daylight Deal: every number in writing · {site.programs.priceLockDays}-day price lock
+            </p>
+          </div>
           <SystemCheck />
           <div className="mt-4">
             <RotatingReviews />
@@ -146,9 +154,10 @@ function RateMath() {
         </div>
         <div className="mx-auto mt-8 max-w-3xl rounded-2xl border border-turquoise/30 bg-gold/5 p-5 text-center">
           <p className="text-sm leading-relaxed text-slate-700">
-            <b className="text-navy-800">What actually fights this structure:</b> generate your own power in the day
-            (solar), shift it into the expensive window (storage), and move flexible loads off-peak. Whether that
-            pencils for <i>your</i> house is a design question — and the answer belongs in writing.
+            <b className="text-navy-800">Here&apos;s the reframe that matters:</b> you&apos;re already on a solar
+            payment plan — it&apos;s just called an electric bill, it goes up every year, and after 25 years of
+            paying it you own nothing. The design question is whether redirecting that same payment into equipment
+            you own pencils for <i>your</i> house — and the answer belongs in writing.
             <span className="mt-2 block text-xs text-slate-500">Figures are 2026 SCE residential values and change with rate cases. City-utility customers (Riverside RPU, Colton, Banning) have different — often friendlier — math.</span>
           </p>
         </div>
@@ -222,7 +231,21 @@ function ServicesSection() {
 function StandardCta() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-ice-100 via-ice-500 to-navy-700 pt-16 pb-20">
-      <div className="container-x relative grid items-center gap-10 lg:grid-cols-2">
+      {/* The wrapped van — brand identity render, floating on the gradient */}
+      <div className="container-x relative">
+        <Reveal from="right" className="relative mx-auto max-w-4xl">
+          <div className="pointer-events-none absolute inset-x-16 bottom-3 h-10 rounded-[50%] bg-black/30 blur-2xl" aria-hidden />
+          <img
+            src="/van.webp"
+            alt="Daylight Solar wrapped Sprinter service van"
+            width={1400}
+            height={860}
+            className="relative mx-auto h-auto w-full drop-shadow-[0_30px_45px_rgba(5,14,29,0.4)]"
+          />
+        </Reveal>
+      </div>
+
+      <div className="container-x relative mt-10 grid items-center gap-10 lg:grid-cols-2">
         <div className="text-white">
           <p className="font-[family-name:var(--font-montserrat)] text-lg font-bold uppercase tracking-wide text-ice-100">
             Every quote we write follows
@@ -413,6 +436,153 @@ function HomeBlog() {
               </div>
             </Link>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/* ------------------------------------------------- The Daylight Deal */
+function DaylightDeal() {
+  const STACK = [
+    { t: "Cash price AND financed price, side by side", b: "The gap between them is the dealer fee everyone else hides inside a “low monthly payment.” On our quote, it’s printed." },
+    { t: "Designed for the utility that actually bills you", b: "SCE’s NEM 3.0, Riverside’s RPU, Moreno Valley Utility, Colton, Banning — the math changes at the city line. Your design follows your bill’s rules." },
+    { t: "25-year math with visible assumptions", b: "Every savings projection states its assumed utility rates, year by year. “Up to” is not a number." },
+    { t: "No escalator — in bold print", b: "Payments that climb every year for 25 years are how this industry mints regret. Our default structures don’t escalate, ever." },
+    { t: "The Honest Verdict", b: "If solar doesn’t pencil for your house, we say so — in writing — and you keep the full analysis. A company that can’t say no can’t be trusted saying yes." },
+    { t: `Locked for ${site.programs.priceLockDays} days`, b: "A real offer survives the night. Our numbers are good tomorrow, next week, and next month — countdown clocks are for deals that can’t survive daylight." },
+  ];
+  return (
+    <section className="bg-gradient-to-b from-white to-ice-50 py-16 sm:py-24" id="deal">
+      <div className="container-x">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-brand">The Daylight Deal</p>
+          <h2 className="iced iced-dark mt-2 text-3xl sm:text-4xl">Six Promises. Zero Fine-Print Games.</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-slate-600">
+            Other companies stack incentives. We stack the protections that make a 25-year decision safe —
+            because in this market, the paperwork you can read <i>is</i> the incentive.
+          </p>
+        </div>
+
+        <div className="mt-12 grid items-start gap-10 lg:grid-cols-[1.15fr_1fr]">
+          {/* the stack */}
+          <div className="space-y-4">
+            {STACK.map((it, i) => (
+              <Reveal key={it.t} from="up" delay={Math.min(i, 5) * 60}>
+                <div className="flex items-start gap-4 rounded-2xl border border-ice-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-turquoise to-red-brand text-white">
+                    <Check className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <h3 className="font-[family-name:var(--font-montserrat)] font-extrabold text-navy-800">{it.t}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-slate-600">{it.b}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* the worked example nobody else will print */}
+          <Reveal from="right" className="lg:sticky lg:top-28">
+            <div className="overflow-hidden rounded-3xl bg-navy-800 text-white shadow-[0_30px_60px_-24px_rgba(5,14,29,0.6)] ring-1 ring-white/10">
+              <div className="border-b border-white/10 bg-navy-900 px-6 py-4">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-turquoise">Why the two numbers matter</p>
+                <h3 className="mt-1 font-[family-name:var(--font-montserrat)] text-xl font-extrabold">Same system. Two quotes.</h3>
+              </div>
+              <div className="grid grid-cols-2 divide-x divide-white/10">
+                <div className="p-5 text-center">
+                  <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-white/60">Quoted as</p>
+                  <p className="mt-1 font-[family-name:var(--font-montserrat)] text-sm font-bold text-white">“Cash price”</p>
+                  <p className="mt-3 font-[family-name:var(--font-montserrat)] text-3xl font-900 font-extrabold text-turquoise">$22,400</p>
+                  <p className="mt-1 text-xs text-white/70">the system’s real price</p>
+                </div>
+                <div className="p-5 text-center">
+                  <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-white/60">Quoted as</p>
+                  <p className="mt-1 font-[family-name:var(--font-montserrat)] text-sm font-bold text-white">“Just $148/mo!”</p>
+                  <p className="mt-3 font-[family-name:var(--font-montserrat)] text-3xl font-900 font-extrabold text-white">$29,900</p>
+                  <p className="mt-1 text-xs text-white/70">same hardware, financed price</p>
+                </div>
+              </div>
+              <div className="mx-6 rounded-2xl bg-red-brand/15 p-4 text-center ring-1 ring-red-brand/40">
+                <p className="font-[family-name:var(--font-montserrat)] text-2xl font-extrabold text-white">$7,500</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-white/80">the dealer fee hiding inside the “low payment”</p>
+              </div>
+              <div className="p-6">
+                <p className="text-sm leading-relaxed text-white/85">
+                  We print both numbers on every quote — and we’ll help you demand them from every
+                  other company too. That one comparison exposes more bad deals than any review site.
+                </p>
+                <Link href="/quote" className="btn btn-primary mt-5 w-full">Get my two numbers →</Link>
+                <p className="mt-3 text-center text-[0.65rem] leading-relaxed text-white/50">
+                  Illustrative example based on typical Inland Empire pricing and commonly reported solar-loan
+                  dealer fees of 20–30%. Your written quote shows your real figures.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------------------------------------- Programs */
+function Programs() {
+  const CARDS = [
+    {
+      icon: Shield,
+      kicker: "Heroes Priority Program",
+      title: "For those who show up for everyone else",
+      body: "Active military, veterans, first responders, teachers, and nurses get priority install scheduling — and we donate " + site.programs.heroDonation + " in your name to the school, station, or unit you choose.",
+      foot: "Verified at consult · stacks with any written quote",
+    },
+    {
+      icon: Wrench,
+      kicker: "Solar Rescue Credit",
+      title: "Orphaned system? Your diagnosis pays you back",
+      body: "If your installer vanished, our full system audit and production report is credited 100% toward any repair or upgrade we do. You learn the truth about your system either way.",
+      foot: "Applies to systems we didn’t install · no lectures included",
+    },
+    {
+      icon: FileText,
+      kicker: "The Bill-Beat Pledge",
+      title: "If we can’t beat your bill, we’ll say so",
+      body: "If an honestly designed system can’t deliver a payment below your current average electric cost, we tell you to wait — in writing — and what would have to change for the math to work.",
+      foot: "The no-sale verdict, guaranteed on paper",
+    },
+  ];
+  return (
+    <section className="bg-white py-16 sm:py-24" id="programs">
+      <div className="container-x">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-ice-600">Programs you may qualify for</p>
+          <h2 className="iced iced-dark mt-2 text-3xl sm:text-4xl">More Than A Quote</h2>
+          <p className="mt-4 text-slate-600">
+            Tell us what applies to you in the 60-second check and we match you automatically — no coupon codes, no hoops.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {CARDS.map((c, i) => {
+            const Icon = c.icon;
+            return (
+              <Reveal key={c.kicker} from="up" delay={i * 80}>
+                <div className="flex h-full flex-col rounded-[var(--radius-card)] border border-ice-100 bg-gradient-to-b from-white to-ice-50 p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-ice-500 to-navy-800 text-white shadow-lg"><Icon className="h-6 w-6" /></span>
+                  <p className="mt-4 text-xs font-bold uppercase tracking-wider text-red-brand">{c.kicker}</p>
+                  <h3 className="mt-1.5 font-[family-name:var(--font-montserrat)] text-lg font-extrabold leading-snug text-navy-800">{c.title}</h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{c.body}</p>
+                  <p className="mt-4 border-t border-ice-100 pt-3 text-[0.7rem] font-semibold uppercase tracking-wider text-slate-400">{c.foot}</p>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+        <div className="mt-8 text-center">
+          <Link href="/quote" className="btn btn-primary">See which programs I qualify for</Link>
+          <p className="mx-auto mt-4 max-w-xl text-xs text-slate-400">
+            Program benefits require qualification and are confirmed in your written quote. Availability may vary by location and home.
+          </p>
         </div>
       </div>
     </section>
