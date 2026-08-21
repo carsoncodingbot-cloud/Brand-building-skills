@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Daylight Solar — design tokens
+   Vertical skin per HOME-SERVICE-BRAND-MACHINE §2.1: same token ROLES as the
+   Glacier reference build, solar values. Dark authority base (midnight navy),
+   cool trust tone (daylight sky), hot action accent (sun orange), gold accent.
+   ========================================================================== */
+@theme {
+  --color-navy-950: #050e1d;
+  --color-navy-900: #081527;
+  --color-navy-800: #0b1d36; /* primary navy — navbar, dark cards */
+  --color-navy-700: #10294b;
+  --color-navy-600: #163561;
+
+  --color-red-brand: #e8650a; /* primary CTA — sun orange */
+  --color-red-brandhover: #c95608;
+
+  --color-ice-700: #0c5f96;
+  --color-ice-600: #1272b4; /* trust blue — links, icon chips */
+  --color-ice-500: #1e8fd9;
+  --color-ice-400: #4fabe4;
+  --color-ice-300: #8fcdf0;
+  --color-ice-200: #cfe9fa;
+  --color-ice-100: #e7f4fd; /* light section bg */
+  --color-ice-50: #f3f9fe;
+
+  --color-turquoise: #f5a623; /* sun-gold accent — checks, progress, glints */
+  --color-gold: #f5a623;      /* stars */
+
+  --font-heading: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  --font-body: var(--font-opensans), "Open Sans", system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f2038;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* --------------------------------------------------------------------------
+   Signature "lit" headline — chunky Montserrat with layered golden-hour glow.
+   (Same classes the whole component library uses; solar values.)
+   -------------------------------------------------------------------------- */
+.iced {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.98;
+}
+.iced-light {
+  color: #ffffff;
+  text-shadow:
+    0 1px 0 #ffe3b3,
+    0 2px 0 #ffcf80,
+    0 3px 0 #f5a623,
+    0 4px 0 #e8650a,
+    0 6px 14px rgba(232, 101, 10, 0.5);
+}
+.iced-dark {
+  color: #0b1d36;
+  text-shadow:
+    0 1px 0 #ffe9c4,
+    0 2px 0 #ffd894,
+    0 3px 8px rgba(245, 166, 35, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-radius: 9999px;
+  padding: 0.9rem 1.75rem;
+  font-size: 0.95rem;
+  transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--color-red-brand);
+  color: #fff;
+  box-shadow: 0 10px 22px -8px rgba(232, 101, 10, 0.6);
+}
+.btn-primary:hover { background: var(--color-red-brandhover); }
+
+.btn-outline-light {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+}
+.btn-outline-light:hover { background: rgba(255, 255, 255, 0.12); }
+
+.btn-outline-navy {
+  background: transparent;
+  color: var(--color-navy-800);
+  border: 2px solid var(--color-navy-800);
+}
+.btn-outline-navy:hover { background: var(--color-navy-800); color: #fff; }
+
+/* --------------------------------------------------------------------------
+   Layout helpers
+   -------------------------------------------------------------------------- */
+.container-x {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-x { padding-inline: 2rem; }
+}
+
+/* Golden-hour hero texture: sun glow + Inland Empire foothill silhouettes.
+   Same role as Glacier's .hero-mountains; every band is code, nothing stock. */
+.hero-mountains {
+  background-image:
+    radial-gradient(ellipse 60% 45% at 72% 18%, rgba(245, 166, 35, 0.32) 0%, rgba(245, 166, 35, 0.1) 45%, rgba(245, 166, 35, 0) 70%),
+    linear-gradient(180deg, rgba(5, 14, 29, 0) 0%, rgba(5, 14, 29, 0.75) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 600' preserveAspectRatio='xMidYMax slice'%3E%3Cpath d='M0 600 L0 400 Q180 330 360 360 T720 300 T1080 350 T1440 290 L1440 600 Z' fill='%23103260' fill-opacity='0.55'/%3E%3Cpath d='M0 600 L0 470 Q240 410 480 440 T960 400 T1440 430 L1440 600 Z' fill='%230b2447' fill-opacity='0.7'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center bottom;
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: floatY 5s ease-in-out infinite; }
+
+/* Multi-step funnel — silky step entrance */
+@keyframes stepIn {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.animate-step { animation: stepIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-step { animation: none; }
+}
+
+/* Scroll-reveal (used by components/Reveal.tsx) — slow, silky ease-out */
+.reveal { opacity: 0; transition: opacity 1s ease, transform 1.25s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; transform: translateZ(0); backface-visibility: hidden; }
+.reveal[data-reveal="right"] { transform: translate3d(56px, 0, 0); }
+.reveal[data-reveal="left"]  { transform: translate3d(-56px, 0, 0); }
+.reveal[data-reveal="up"]    { transform: translate3d(0, 40px, 0); }
+.reveal[data-visible="true"] { opacity: 1; transform: translate3d(0, 0, 0); }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+
+/* quiz funnel screen transition */
+@keyframes quizIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.quiz-enter { animation: quizIn 0.35s ease-out both; }
+
+/* rotating review fade */
+@keyframes reviewIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.review-enter { animation: reviewIn 0.45s ease-out both; }
