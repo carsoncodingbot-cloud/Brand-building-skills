@@ -8,11 +8,14 @@ import type { NextConfig } from "next";
 const isExport = process.env.EXPORT === "true";
 // Served from the root of the production domain, so no basePath.
 
+const basePath = process.env.BASE_PATH || "";
+
 const nextConfig: NextConfig = {
   ...(isExport
     ? {
         output: "export",
         trailingSlash: true,
+        ...(basePath ? { basePath } : {}),
       }
     : {}),
   images: {

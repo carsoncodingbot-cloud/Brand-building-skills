@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://godaylightsolar.com
+Sitemap: https://godaylightsolar.com/sitemap.xml

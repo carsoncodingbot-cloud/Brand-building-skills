@@ -70,7 +70,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         <div className="container-x grid gap-12 lg:grid-cols-[1.6fr_1fr]">
           <article>
             <img
-              src={p.cover}
+              src={`${process.env.BASE_PATH || ""}${p.cover}`}
               alt={p.title}
               width={1200}
               height={630}

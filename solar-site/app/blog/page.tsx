@@ -34,7 +34,7 @@ export default function BlogIndex() {
             {posts.map((p) => (
               <article key={p.slug} className="flex h-full flex-col overflow-hidden rounded-2xl border border-ice-100 bg-gradient-to-b from-white to-ice-50 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
                 <Link href={`/blog/${p.slug}`} className="block">
-                  <img src={p.cover} alt={p.title} width={1200} height={630} className="aspect-[1200/630] w-full object-cover" loading="lazy" />
+                  <img src={`${process.env.BASE_PATH || ""}${p.cover}`} alt={p.title} width={1200} height={630} className="aspect-[1200/630] w-full object-cover" loading="lazy" />
                 </Link>
                 <div className="flex flex-1 flex-col p-6">
                 <p className="text-xs font-bold uppercase tracking-wider text-ice-600">
