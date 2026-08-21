@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site, NAV_SERVICES, NAV_QUICK } from "@/lib/site";
-import { DaylightMark, ChevronDown, ChevronRight, Phone, Star, GoogleG } from "@/components/Icons";
+import { ChevronDown, ChevronRight, Phone, Star, GoogleG } from "@/components/Icons";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -36,16 +36,14 @@ export default function Header() {
       }`}
     >
       <div className="container-x flex h-24 items-center justify-between">
-        <Link href="/" onClick={onLogoClick} className="flex items-center gap-3" aria-label={site.name}>
-          <DaylightMark className="h-12 w-auto shrink-0 text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.25)] sm:h-14" />
-          <span className="leading-none">
-            <span className="block font-[family-name:var(--font-montserrat)] text-2xl font-900 font-extrabold uppercase tracking-tight text-white sm:text-[1.7rem]">
-              Daylight
-            </span>
-            <span className="mt-0.5 block text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-turquoise sm:text-[0.78rem]">
-              Solar
-            </span>
-          </span>
+        <Link href="/" onClick={onLogoClick} className="flex items-center" aria-label={site.name}>
+          <img
+            src="/brand/logo-light.webp"
+            alt={site.name}
+            width={2124}
+            height={408}
+            className="h-11 w-auto drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)] sm:h-[3.25rem]"
+          />
         </Link>
 
         {/* Desktop nav */}

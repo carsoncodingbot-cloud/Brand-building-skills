@@ -13,6 +13,9 @@ export interface Service {
    *  photo-free until the real install library exists. No photo beats a
    *  fake photo, every time. */
   photo?: string;
+  /** Illustrative brand rendering (in /public/photos) — ambience art for the
+   *  service page, always presented as a visualization, never as job proof. */
+  art?: string;
   intro: string;     // page intro paragraph
   features: { title: string; body: string }[];
   faqs: { q: string; a: string }[];
@@ -25,6 +28,7 @@ export const services: Service[] = [
     h1: "Home Solar Panel Installation in Riverside & the Inland Empire",
     short: "Right-sized rooftop systems designed off your actual usage — with every number in writing before you sign.",
     icon: "sun",
+    art: "/photos/install-detail.webp",
     intro:
       "Inland Empire summers run the AC five months a year, and SCE bills the hottest hours of the day at the highest rates in the company's history. A properly designed solar system flips that math: you generate power in the exact hours you burn it. We size every system off twelve months of your real usage — never a guess, never a template — and you see the full price, the payment, and the year-one savings in writing before anything gets signed.",
     features: [
@@ -46,6 +50,7 @@ export const services: Service[] = [
     h1: "Home Battery Storage for SCE Customers — Riverside, Moreno Valley & Beyond",
     short: "Store your midday solar, spend it during 4–9pm peak rates, and keep the lights on when the grid goes down.",
     icon: "battery",
+    art: "/photos/battery-garage.webp",
     intro:
       "Under NEM 3.0, the power your panels export at noon earns pennies while the power you buy back at 6pm costs a quarter or more per kilowatt-hour. A battery closes that gap: your own midday production covers your own expensive evening. It's the single biggest reason solar math still works in SCE territory — and it's why we design storage-first, not as an afterthought upsell at the kitchen table.",
     features: [

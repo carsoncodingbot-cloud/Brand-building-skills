@@ -7,6 +7,7 @@ import { serviceIcons, Star, Phone, ChevronRight, Sun, Check, Clock, Shield, Map
 import Faq from "@/components/Faq";
 import Reviews from "@/components/Reviews";
 import SystemCheck from "@/components/SystemCheck";
+import CostOfDoingNothing from "@/components/CostOfDoingNothing";
 import RotatingReviews from "@/components/RotatingReviews";
 import { FaqJsonLd } from "@/components/JsonLd";
 
@@ -29,6 +30,7 @@ export default function Home() {
       <TrustBar />
       <DaylightDeal />
       <RateMath />
+      <PhotoBand />
       <ServicesSection />
       <StandardCta />
       <Programs />
@@ -65,7 +67,7 @@ function Hero() {
           </h1>
           <p className="mt-4 max-w-xl text-base text-white/90 sm:text-lg">
             SCE&apos;s rates jumped again — and the 4–9pm window is priced exactly when your AC works hardest.
-            Four quick taps and we&apos;ll run what solar and storage would really do for your house:
+            Sixty seconds of taps and we&apos;ll run what solar and storage would really do for your house:
             <b className="text-white"> every number in writing, before anyone visits.</b>
           </p>
 
@@ -162,6 +164,33 @@ function RateMath() {
           </p>
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------- Cinematic photo band */
+function PhotoBand() {
+  return (
+    <section className="relative overflow-hidden">
+      <img
+        src="/photos/rooftop-golden-hour.webp"
+        alt="Illustrative visualization: all-black solar panels on a Spanish-tile Inland Empire home at golden hour"
+        className="h-[26rem] w-full object-cover sm:h-[30rem]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-900/25 to-transparent" />
+      <div className="container-x absolute inset-x-0 bottom-0 pb-10">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-turquoise">Tile roofs. Triple-digit summers. This is home.</p>
+        <h2 className="iced iced-light mt-2 max-w-2xl text-3xl sm:text-4xl">
+          Designed For The Roofs We Grew Up Under
+        </h2>
+        <p className="mt-3 max-w-xl text-white/85">
+          Tile-specific mounts, heat-rated hardware, and layouts drawn from your actual usage —
+          because an Inland Empire roof is not a template.
+        </p>
+      </div>
+      <span className="absolute right-4 top-4 rounded-full bg-navy-900/60 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-wider text-white/80 backdrop-blur-sm">
+        Visualization
+      </span>
     </section>
   );
 }
@@ -483,43 +512,9 @@ function DaylightDeal() {
             ))}
           </div>
 
-          {/* the worked example nobody else will print */}
+          {/* the consequence they can drag to — their bill, their horizon */}
           <Reveal from="right" className="lg:sticky lg:top-28">
-            <div className="overflow-hidden rounded-3xl bg-navy-800 text-white shadow-[0_30px_60px_-24px_rgba(5,14,29,0.6)] ring-1 ring-white/10">
-              <div className="border-b border-white/10 bg-navy-900 px-6 py-4">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-turquoise">Why the two numbers matter</p>
-                <h3 className="mt-1 font-[family-name:var(--font-montserrat)] text-xl font-extrabold">Same system. Two quotes.</h3>
-              </div>
-              <div className="grid grid-cols-2 divide-x divide-white/10">
-                <div className="p-5 text-center">
-                  <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-white/60">Quoted as</p>
-                  <p className="mt-1 font-[family-name:var(--font-montserrat)] text-sm font-bold text-white">“Cash price”</p>
-                  <p className="mt-3 font-[family-name:var(--font-montserrat)] text-3xl font-900 font-extrabold text-turquoise">$22,400</p>
-                  <p className="mt-1 text-xs text-white/70">the system’s real price</p>
-                </div>
-                <div className="p-5 text-center">
-                  <p className="text-[0.65rem] font-extrabold uppercase tracking-wider text-white/60">Quoted as</p>
-                  <p className="mt-1 font-[family-name:var(--font-montserrat)] text-sm font-bold text-white">“Just $148/mo!”</p>
-                  <p className="mt-3 font-[family-name:var(--font-montserrat)] text-3xl font-900 font-extrabold text-white">$29,900</p>
-                  <p className="mt-1 text-xs text-white/70">same hardware, financed price</p>
-                </div>
-              </div>
-              <div className="mx-6 rounded-2xl bg-red-brand/15 p-4 text-center ring-1 ring-red-brand/40">
-                <p className="font-[family-name:var(--font-montserrat)] text-2xl font-extrabold text-white">$7,500</p>
-                <p className="text-xs font-semibold uppercase tracking-wider text-white/80">the dealer fee hiding inside the “low payment”</p>
-              </div>
-              <div className="p-6">
-                <p className="text-sm leading-relaxed text-white/85">
-                  We print both numbers on every quote — and we’ll help you demand them from every
-                  other company too. That one comparison exposes more bad deals than any review site.
-                </p>
-                <Link href="/quote" className="btn btn-primary mt-5 w-full">Get my two numbers →</Link>
-                <p className="mt-3 text-center text-[0.65rem] leading-relaxed text-white/50">
-                  Illustrative example based on typical Inland Empire pricing and commonly reported solar-loan
-                  dealer fees of 20–30%. Your written quote shows your real figures.
-                </p>
-              </div>
-            </div>
+            <CostOfDoingNothing />
           </Reveal>
         </div>
       </div>

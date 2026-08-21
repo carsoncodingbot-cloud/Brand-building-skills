@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { site } from "@/lib/site";
-import { Phone, Check, Shield, DaylightMark } from "@/components/Icons";
-import { QUIZ_QUESTIONS, QUIZ_LABELS, quizSegment, quizLeadPayload } from "@/lib/quiz";
+import { Phone, Check, Shield, X, FileText } from "@/components/Icons";
+import {
+  QUIZ_QUESTIONS, QUIZ_LABELS, quizSegment, quizLeadPayload, type BillUpload,
+} from "@/lib/quiz";
 
 /**
  * The 60-Second Solar Reality Check as a self-contained white card.
@@ -13,15 +15,16 @@ import { QUIZ_QUESTIONS, QUIZ_LABELS, quizSegment, quizLeadPayload } from "@/lib
  *
  * The three-act funnel, tuned for lead capture:
  *  1. QUESTIONS — one per screen, tap-cards, zero typing, progress bar.
+ *     Six NEPQ-ordered micro-commitments: bill → utility → shade → goal
+ *     → timing → ownership.
  *  2. FORM PAGE — personalized honest read + their answers echoed as
- *     chips + name / email / phone / ZIP. ONE exit: the orange submit CTA.
- *     Submits the fully-labeled lead to the GHL inbound webhook
- *     (site.ghlWebhook) so automations fire instantly, then goes STRAIGHT
- *     to confirmation — the visitor is never bounced into another app.
- *     Until the webhook URL is set, submissions only land in the visitor's
- *     localStorage ("dls-leads") — wire the webhook before driving traffic.
- *  3. CONFIRMATION PAGE — "received" state that echoes EVERYTHING back
- *     (request on file: bill, goal, timeline, property, contact, ZIP),
+ *     chips + name / email / phone / street address / ZIP, plus an
+ *     OPTIONAL utility-bill upload (photo or PDF). Images are downscaled
+ *     client-side and shipped inline in the webhook payload when small
+ *     enough; otherwise we flag the upload for manual follow-up. ONE
+ *     exit: the orange submit CTA. Until site.ghlWebhook is set,
+ *     submissions only land in the visitor's localStorage ("dls-leads").
+ *  3. CONFIRMATION PAGE — "received" state that echoes EVERYTHING back,
  *     what-happens-next timeline, and only now the call option.
  */
 
@@ -29,17 +32,53 @@ const cap = (s?: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
 const fmtPhone = (digits: string) =>
   digits.length >= 10 ? `(${digits.slice(-10, -7)}) ${digits.slice(-7, -4)}-${digits.slice(-4)}` : digits;
 
+/** Downscale an image file to a webhook-friendly JPEG base64 (no prefix). */
+async function compressImage(file: File): Promise<string | null> {
+  try {
+    const url = URL.createObjectURL(file);
+    const img = await new Promise<HTMLImageElement>((res, rej) => {
+      const i = new Image();
+      i.onload = () => res(i);
+      i.onerror = rej;
+      i.src = url;
+    });
+    const MAX = 1400;
+    const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(img.width * scale);
+    canvas.height = Math.round(img.height * scale);
+    canvas.getContext("2d")!.drawImage(img, 0, 0, canvas.width, canvas.height);
+    URL.revokeObjectURL(url);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.72);
+    return dataUrl.split(",")[1] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+const readAsBase64 = (file: File) =>
+  new Promise<string | null>((res) => {
+    const r = new FileReader();
+    r.onload = () => res(typeof r.result === "string" ? r.result.split(",")[1] ?? null : null);
+    r.onerror = () => res(null);
+    r.readAsDataURL(file);
+  });
+
 export default function SystemCheck() {
-  // qi = 0..3 question index, 4 = form page
+  // qi = 0..5 question index, 6 = form page
   const [qi, setQi] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [zip, setZip] = useState("");
+  const [bill, setBill] = useState<BillUpload | null>(null);
+  const [billBusy, setBillBusy] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [touched, setTouched] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const mounted = useRef(false);
 
   // On each page transition (question → form → confirmation), glide the
@@ -70,16 +109,46 @@ export default function SystemCheck() {
   const nameOk = name.trim().length >= 2;
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   const phoneOk = phoneDigits.length >= 10;
+  const addressOk = address.trim().length >= 5;
   const zipOk = /^\d{5}$/.test(zip.trim());
-  const formOk = nameOk && emailOk && phoneOk && zipOk;
+  const formOk = nameOk && emailOk && phoneOk && addressOk && zipOk;
+
+  const onBillFile = async (f: File | undefined | null) => {
+    if (!f) return;
+    setBillBusy(true);
+    const isImage = f.type.startsWith("image/");
+    let base64: string | null = null;
+    let note = "";
+    if (isImage) {
+      base64 = await compressImage(f);
+      note = base64
+        ? "photo attached — compressed in-browser"
+        : "photo selected but could not be processed — request it by text";
+    } else if (f.type === "application/pdf" && f.size <= 800_000) {
+      base64 = await readAsBase64(f);
+      note = base64 ? "PDF attached" : "PDF selected but unreadable — request it by text";
+    } else {
+      note = `file "${f.name}" too large to send inline — request it by text`;
+    }
+    // ~1MB of base64 is the safe ceiling for a single webhook POST.
+    if (base64 && base64.length > 1_400_000) {
+      base64 = null;
+      note = `file "${f.name}" too large to send inline — request it by text`;
+    }
+    setBill({ filename: f.name, mime: f.type || "unknown", base64: base64 ?? undefined, note });
+    setBillBusy(false);
+  };
 
   const submitLead = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
     if (!formOk || status !== "idle") return;
     setStatus("sending");
-    const contact = { name: name.trim(), email: email.trim(), phone: phoneDigits, zip: zip.trim() };
-    const payload = quizLeadPayload(answers, contact, window.location.pathname);
+    const contact = {
+      name: name.trim(), email: email.trim(), phone: phoneDigits,
+      address: address.trim(), zip: zip.trim(),
+    };
+    const payload = quizLeadPayload(answers, contact, window.location.pathname, bill);
     if (site.ghlWebhook) {
       const body = JSON.stringify(payload);
       try {
@@ -89,18 +158,20 @@ export default function SystemCheck() {
         try { await fetch(site.ghlWebhook, { method: "POST", mode: "no-cors", body }); } catch {}
       }
     }
-    // Straight to the confirmation page. Keep a local copy as a safety net.
+    // Straight to the confirmation page. Keep a local copy as a safety net
+    // (without the heavy base64 so we never blow the localStorage quota).
     try {
       const k = "dls-leads";
+      const { utility_bill_base64: _omit, ...light } = payload as Record<string, unknown>;
       const prior = JSON.parse(localStorage.getItem(k) || "[]");
-      localStorage.setItem(k, JSON.stringify([...prior, payload].slice(-10)));
+      localStorage.setItem(k, JSON.stringify([...prior, light].slice(-10)));
     } catch {}
     setStatus("sent");
   };
 
   const reset = () => {
     setQi(0); setAnswers({}); setStatus("idle"); setTouched(false);
-    setName(""); setEmail(""); setPhone(""); setZip("");
+    setName(""); setEmail(""); setPhone(""); setAddress(""); setZip(""); setBill(null);
   };
 
   // 16px input font is load-bearing: anything smaller makes iOS Safari
@@ -111,7 +182,13 @@ export default function SystemCheck() {
     }`;
   const labelCls = "mb-1.5 block text-[0.65rem] font-extrabold uppercase tracking-wider text-slate-500";
 
-  const answerChips = [QUIZ_LABELS.bill[answers.bill], QUIZ_LABELS.goal[answers.goal], QUIZ_LABELS.timing[answers.timing]]
+  const answerChips = [
+    QUIZ_LABELS.bill[answers.bill],
+    QUIZ_LABELS.utility[answers.utility],
+    QUIZ_LABELS.shade[answers.shade],
+    QUIZ_LABELS.goal[answers.goal],
+    QUIZ_LABELS.timing[answers.timing],
+  ]
     .filter(Boolean)
     .map(cap);
 
@@ -120,7 +197,7 @@ export default function SystemCheck() {
       {/* header strip */}
       <div className="flex items-center justify-between gap-3 bg-navy-800 px-5 py-3 sm:px-6">
         <p className="flex items-center gap-2 font-[family-name:var(--font-montserrat)] text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-white sm:text-xs">
-          <DaylightMark className="h-5 w-auto shrink-0 text-white" />
+          <img src="/brand/mark.webp" alt="" width={40} height={40} className="h-5 w-auto shrink-0" />
           Free 60-Second Solar Reality Check
         </p>
         <p className="shrink-0 text-[0.65rem] font-bold uppercase tracking-wider text-turquoise sm:text-xs">
@@ -171,6 +248,7 @@ export default function SystemCheck() {
             <p className="text-xs font-bold uppercase tracking-wider text-ice-600">Here&apos;s our honest read</p>
             <h3 className="mt-1.5 font-[family-name:var(--font-montserrat)] text-lg font-extrabold text-navy-800 sm:text-xl">
               {segment === "rent" && "Renting? Solar's your landlord's call — here's your play."}
+              {segment === "shade" && "Heavy shade changes the math. Let's find out how much."}
               {segment === "small" && "Straight talk: solar might not pencil for you. Let's check."}
               {segment === "priority" && "You're in the priority lane. Let's run your real numbers."}
               {segment === "battery" && "Backup power changes the design — in a good way."}
@@ -179,6 +257,8 @@ export default function SystemCheck() {
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               {segment === "rent" &&
                 "Panels need the owner's signature, so we'll show you what the numbers look like for your building — something worth forwarding to your landlord. No pressure, no games."}
+              {segment === "shade" &&
+                "Most companies will sell panels to a shaded roof and let you find out later. We won't. We'll pull satellite imagery of your actual roof, model the shade hour by hour, and tell you in writing whether solar earns its keep — or whether trimming, a different roof plane, or waiting is the smarter call."}
               {segment === "small" &&
                 "With a bill under $150, solar is sometimes a great move and sometimes not worth it — it depends on your utility, your rate plan, and where the bill is heading. We'll run the real math and tell you straight, even if the answer is 'keep your money.'"}
               {segment === "priority" &&
@@ -219,6 +299,13 @@ export default function SystemCheck() {
                     value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls(emailOk)}
                   />
                 </div>
+                <div>
+                  <label htmlFor="dls-address" className={labelCls}>Street address — the roof we&apos;re running numbers on</label>
+                  <input
+                    id="dls-address" type="text" name="street-address" autoComplete="street-address" placeholder="123 Magnolia Ave"
+                    value={address} onChange={(e) => setAddress(e.target.value)} className={inputCls(addressOk)}
+                  />
+                </div>
                 <div className="grid grid-cols-[1.6fr_1fr] gap-3">
                   <div>
                     <label htmlFor="dls-phone" className={labelCls}>Mobile number</label>
@@ -235,15 +322,49 @@ export default function SystemCheck() {
                     />
                   </div>
                 </div>
+
+                {/* optional utility-bill upload — the accuracy accelerator */}
+                <div>
+                  <span className={labelCls}>Utility bill <span className="normal-case text-slate-400">(optional — makes your numbers exact, not estimated)</span></span>
+                  <input
+                    ref={fileRef} type="file" accept="image/*,.pdf" className="hidden"
+                    onChange={(e) => { void onBillFile(e.target.files?.[0]); e.target.value = ""; }}
+                  />
+                  {!bill ? (
+                    <button
+                      type="button" onClick={() => fileRef.current?.click()} disabled={billBusy}
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-ice-300 bg-white px-4 py-3.5 text-sm font-bold text-ice-700 transition hover:border-turquoise hover:text-navy-800 disabled:opacity-60"
+                    >
+                      <FileText className="h-4 w-4" />
+                      {billBusy ? "Processing…" : "Snap or upload a recent bill"}
+                    </button>
+                  ) : (
+                    <div className="flex items-center justify-between gap-3 rounded-xl border border-turquoise/50 bg-white px-4 py-3">
+                      <span className="flex min-w-0 items-center gap-2 text-sm font-bold text-navy-800">
+                        <Check className="h-4 w-4 shrink-0 text-turquoise" />
+                        <span className="truncate">{bill.filename}</span>
+                      </span>
+                      <button type="button" onClick={() => setBill(null)} aria-label="Remove file"
+                        className="shrink-0 text-slate-400 hover:text-red-brand">
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  )}
+                  <p className="mt-1.5 text-[0.68rem] leading-snug text-slate-400">
+                    A photo of page 1 is perfect. With your real usage on file, your quote is built on your
+                    actual kilowatt-hours — not a guess.
+                  </p>
+                </div>
               </div>
               {touched && !formOk && (
                 <p className="mt-2 text-xs font-semibold text-red-brand">
-                  {!nameOk ? "Add your name" : !emailOk ? "That email doesn't look right" : !phoneOk ? "That phone number looks short" : "ZIP should be 5 digits"} — takes two seconds.
+                  {!nameOk ? "Add your name" : !emailOk ? "That email doesn't look right" : !addressOk ? "Add the street address" : !phoneOk ? "That phone number looks short" : "ZIP should be 5 digits"} — takes two seconds.
                 </p>
               )}
-              <button type="submit" disabled={status === "sending"} className="btn btn-primary mt-4 w-full !py-4 text-sm disabled:opacity-70 sm:text-base">
+              <button type="submit" disabled={status === "sending" || billBusy} className="btn btn-primary mt-4 w-full !py-4 text-sm disabled:opacity-70 sm:text-base">
                 {status === "sending" ? "Sending…"
                   : segment === "rent" ? "Send me the numbers →"
+                  : segment === "shade" ? "Check my roof honestly →"
                   : segment === "small" ? "Run my honest math →"
                   : segment === "priority" ? "Get my priority numbers →"
                   : segment === "battery" ? "Design my backup plan →"
@@ -289,10 +410,13 @@ export default function SystemCheck() {
               <dl className="divide-y divide-ice-100 text-sm">
                 {[
                   ["Monthly bill", cap(QUIZ_LABELS.bill[answers.bill])],
+                  ["Utility", cap(QUIZ_LABELS.utility[answers.utility])],
+                  ["Roof shade", cap(QUIZ_LABELS.shade[answers.shade])],
                   ["Goal", cap(QUIZ_LABELS.goal[answers.goal])],
                   ["Timeline", cap(QUIZ_LABELS.timing[answers.timing])],
                   ["Property", cap(QUIZ_LABELS.own[answers.own])],
-                  ["Service area", zip ? `${zip} · Inland Empire, CA` : "Inland Empire, CA"],
+                  ["Address", address ? `${address.trim()}, ${zip}` : zip ? `${zip} · Inland Empire, CA` : ""],
+                  ["Utility bill", bill ? (bill.base64 ? "Attached ✓ — quote uses your real usage" : "Noted — we'll request it by text") : ""],
                   ["Contact", `${name.trim()} · ${fmtPhone(phoneDigits)}`],
                   ["Email", email.trim()],
                 ].filter(([, v]) => v).map(([k, v]) => (
@@ -309,7 +433,9 @@ export default function SystemCheck() {
               <ol className="mt-3 space-y-2.5">
                 {[
                   "Your request is with our team right now",
-                  "A consultant texts you to confirm your address & utility",
+                  bill?.base64
+                    ? "We build your usage profile straight from your bill"
+                    : "A consultant texts you to confirm your address & usage",
                   "You get your full numbers in writing — price, payment, payback — before any home visit",
                 ].map((step, i) => (
                   <li key={step} className="flex items-start gap-3">

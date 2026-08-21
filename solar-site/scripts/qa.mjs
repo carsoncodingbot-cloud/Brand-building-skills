@@ -1,16 +1,19 @@
 // Daylight Solar QA harness
 // 1. Every route in the sitemap loads (status 200, no Next error page)
-// 2. EVERY funnel path (4 bills × 4 goals × 3 timings × 3 ownerships = 144)
-//    is exercised end-to-end: questions → form (correct segment) → submit →
-//    confirmation echoes all four answers + contact.
+// 2. Funnel v2 (6 questions) exercised end-to-end:
+//    - full 144-path matrix over bill × goal × timing × own (utility=sce, shade=full)
+//    - 16-path sweep over utility × shade (fixed strong-lead answers)
+//    - a real utility-bill upload path (file attach → echo "Attached")
+//    Each path: questions → form (correct segment) → submit → confirmation
+//    echoes answers + contact, localStorage payload sane.
 // 3. Desktop + mobile screenshots of the money pages.
 import { chromium } from "playwright";
 import http from "http";
-import { createReadStream, existsSync, statSync } from "fs";
+import { createReadStream, existsSync, statSync, writeFileSync } from "fs";
 import { join, extname } from "path";
 
 const ROOT = "/home/user/Brand-building-skills/solar-site/out";
-const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".png": "image/png", ".svg": "image/svg+xml", ".txt": "text/plain", ".xml": "text/xml", ".ico": "image/x-icon", ".woff2": "font/woff2", ".json": "application/json" };
+const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".png": "image/png", ".svg": "image/svg+xml", ".txt": "text/plain", ".xml": "text/xml", ".ico": "image/x-icon", ".woff2": "font/woff2", ".json": "application/json", ".webp": "image/webp" };
 const server = http.createServer((req, res) => {
   let p = decodeURIComponent(new URL(req.url, "http://x").pathname);
   let f = join(ROOT, p);
@@ -41,13 +44,10 @@ for (const r of routes) {
 }
 console.log(`routes: ${routes.length} checked, ${failures.length} failures`);
 
-// ---------- 2. exhaustive funnel matrix ----------
-const bills = ["under150", "150to300", "300to500", "over500"];
-const goals = ["bill", "backup", "both", "curious"];
-const timings = ["asap", "months", "research"];
-const owns = ["own", "rent", "manage"];
+// ---------- 2. funnel matrix ----------
 const expectedSegment = (a) => {
   if (a.own === "rent") return "rent";
+  if (a.shade === "heavy") return "shade";
   if (a.bill === "under150") return "small";
   if (a.timing === "asap") return "priority";
   if (a.goal === "backup" || a.goal === "both") return "battery";
@@ -55,75 +55,106 @@ const expectedSegment = (a) => {
 };
 const SEG_HEAD = {
   rent: "Renting? Solar's your landlord's call",
+  shade: "Heavy shade changes the math",
   small: "solar might not pencil",
   priority: "priority lane",
   battery: "Backup power changes the design",
   planner: "Get the math now",
 };
-// question option index by key
+// question option index by key — order: bill, utility, shade, goal, timing, own
 const OPT = {
   bill: { under150: 0, "150to300": 1, "300to500": 2, over500: 3 },
+  utility: { sce: 0, rpu: 1, muni: 2, notsure: 3 },
+  shade: { full: 0, some: 1, heavy: 2, notsure: 3 },
   goal: { bill: 0, backup: 1, both: 2, curious: 3 },
   timing: { asap: 0, months: 1, research: 2 },
   own: { own: 0, rent: 1, manage: 2 },
 };
 const CHIP = {
   bill: { under150: "under $150/mo", "150to300": "$150-300/mo", "300to500": "$300-500/mo", over500: "$500+/mo" },
+  utility: { sce: "SCE", rpu: "Riverside RPU", muni: "MoVal/Colton/Banning utility", notsure: "utility unsure" },
+  shade: { full: "full sun", some: "some shade", heavy: "heavy shade", notsure: "shade unchecked" },
   goal: { bill: "kill the bill", backup: "outage backup", both: "bill + backup", curious: "just exploring" },
   timing: { asap: "ASAP", months: "next few months", research: "researching" },
   own: { own: "homeowner", rent: "renter", manage: "property manager" },
 };
 
-let tested = 0;
 const fpage = await browser.newPage();
-for (const bill of bills) for (const goal of goals) for (const timing of timings) for (const own of owns) {
-  const a = { bill, goal, timing, own };
+const runPath = async (a, opts = {}) => {
   await fpage.goto(BASE + "/quote/", { waitUntil: "domcontentloaded" });
   const card = fpage.locator("section .max-w-xl").first();
   const clickOpt = async (idx) => {
     const btns = card.locator("div.quiz-enter .grid > button");
     await btns.nth(idx).click();
   };
-  try {
-    await clickOpt(OPT.bill[bill]);
-    await clickOpt(OPT.goal[goal]);
-    await clickOpt(OPT.timing[timing]);
-    await clickOpt(OPT.own[own]);
-    // form page: verify segment headline
-    const h = await card.locator("h3").first().textContent();
-    const seg = expectedSegment(a);
-    if (!h.toLowerCase().includes(SEG_HEAD[seg].toLowerCase())) {
-      failures.push(`FUNNEL ${JSON.stringify(a)}: seg=${seg} but headline="${h}"`);
-      continue;
-    }
-    // fill + submit
-    await fpage.fill("#dls-name", "Test Homeowner");
-    await fpage.fill("#dls-email", "test@example.com");
-    await fpage.fill("#dls-phone", "(951) 555-0100");
-    await fpage.fill("#dls-zip", "92503");
-    await card.locator('button[type="submit"]').click();
-    await fpage.waitForSelector("text=you're in", { timeout: 4000 });
-    // confirmation echo: all four labels present
-    const conf = await card.textContent();
-    for (const q of ["bill", "goal", "timing", "own"]) {
-      const want = CHIP[q][a[q]];
-      if (!conf.toLowerCase().includes(want.toLowerCase())) {
-        failures.push(`ECHO ${JSON.stringify(a)}: missing "${want}"`);
-      }
-    }
-    // localStorage payload sanity
-    const stored = await fpage.evaluate(() => JSON.parse(localStorage.getItem("dls-leads") || "[]"));
-    const last = stored[stored.length - 1];
-    if (!last || last.segment !== seg || last.zip !== "92503") {
-      failures.push(`PAYLOAD ${JSON.stringify(a)}: ${JSON.stringify(last)}`);
-    }
-    await fpage.evaluate(() => localStorage.clear());
-    tested++;
-  } catch (e) {
-    failures.push(`FUNNEL ${JSON.stringify(a)}: ${e.message.split("\n")[0]}`);
+  await clickOpt(OPT.bill[a.bill]);
+  await clickOpt(OPT.utility[a.utility]);
+  await clickOpt(OPT.shade[a.shade]);
+  await clickOpt(OPT.goal[a.goal]);
+  await clickOpt(OPT.timing[a.timing]);
+  await clickOpt(OPT.own[a.own]);
+  // form page: verify segment headline
+  const h = await card.locator("h3").first().textContent();
+  const seg = expectedSegment(a);
+  if (!h.toLowerCase().includes(SEG_HEAD[seg].toLowerCase())) {
+    failures.push(`FUNNEL ${JSON.stringify(a)}: seg=${seg} but headline="${h}"`);
+    return;
   }
+  await fpage.fill("#dls-name", "Test Homeowner");
+  await fpage.fill("#dls-email", "test@example.com");
+  await fpage.fill("#dls-address", "4100 Main St");
+  await fpage.fill("#dls-phone", "(951) 555-0100");
+  await fpage.fill("#dls-zip", "92503");
+  if (opts.uploadFile) {
+    await fpage.setInputFiles('input[type="file"]', opts.uploadFile);
+    await fpage.waitForSelector("text=" + opts.uploadName, { timeout: 4000 });
+  }
+  await card.locator('button[type="submit"]').click();
+  await fpage.waitForSelector("text=you're in", { timeout: 4000 });
+  const conf = await card.textContent();
+  for (const q of ["bill", "utility", "shade", "goal", "timing", "own"]) {
+    const want = CHIP[q][a[q]];
+    if (!conf.toLowerCase().includes(want.toLowerCase())) {
+      failures.push(`ECHO ${JSON.stringify(a)}: missing "${want}"`);
+    }
+  }
+  if (!conf.includes("4100 Main St")) failures.push(`ECHO ${JSON.stringify(a)}: missing street address`);
+  if (opts.uploadFile && !conf.includes("Attached")) failures.push(`ECHO ${JSON.stringify(a)}: bill upload not echoed`);
+  const stored = await fpage.evaluate(() => JSON.parse(localStorage.getItem("dls-leads") || "[]"));
+  const last = stored[stored.length - 1];
+  if (!last || last.segment !== seg || last.zip !== "92503" || last.street_address !== "4100 Main St") {
+    failures.push(`PAYLOAD ${JSON.stringify(a)}: ${JSON.stringify(last)}`);
+  }
+  if (opts.uploadFile) {
+    if (last.utility_bill_attached !== "yes") failures.push(`PAYLOAD upload flag: ${JSON.stringify(last)}`);
+    if ("utility_bill_base64" in last) failures.push(`PAYLOAD: base64 leaked into localStorage`);
+  }
+  await fpage.evaluate(() => localStorage.clear());
+  return true;
+};
+
+let tested = 0, total = 0;
+// full matrix over the original four dimensions
+for (const bill of Object.keys(OPT.bill)) for (const goal of Object.keys(OPT.goal))
+for (const timing of Object.keys(OPT.timing)) for (const own of Object.keys(OPT.own)) {
+  total++;
+  try { if (await runPath({ bill, utility: "sce", shade: "full", goal, timing, own })) tested++; }
+  catch (e) { failures.push(`FUNNEL ${bill}/${goal}/${timing}/${own}: ${e.message.split("\n")[0]}`); }
 }
-console.log(`funnel paths: ${tested}/144 passed end-to-end`);
+// utility × shade sweep on a strong lead
+for (const utility of Object.keys(OPT.utility)) for (const shade of Object.keys(OPT.shade)) {
+  total++;
+  try { if (await runPath({ bill: "300to500", utility, shade, goal: "both", timing: "months", own: "own" })) tested++; }
+  catch (e) { failures.push(`FUNNEL utility=${utility} shade=${shade}: ${e.message.split("\n")[0]}`); }
+}
+// bill-upload path
+const tmpBill = "/tmp/claude-0/-home-user-Brand-building-skills/0f9620df-4d2c-581d-82ac-c0f49a3f1175/scratchpad/fake-bill.png";
+writeFileSync(tmpBill, Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAFElEQVR4nGP8//8/AzbAxIALjEwJAKCoAxL4ZtcSAAAAAElFTkSuQmCC", "base64"));
+total++;
+try { if (await runPath({ bill: "over500", utility: "sce", shade: "full", goal: "bill", timing: "asap", own: "own" }, { uploadFile: tmpBill, uploadName: "fake-bill.png" })) tested++; }
+catch (e) { failures.push(`FUNNEL upload path: ${e.message.split("\n")[0]}`); }
+
+console.log(`funnel paths: ${tested}/${total} passed end-to-end`);
 
 // ---------- 3. screenshots ----------
 const SHOTS = "/tmp/claude-0/-home-user-Brand-building-skills/0f9620df-4d2c-581d-82ac-c0f49a3f1175/scratchpad/shots";

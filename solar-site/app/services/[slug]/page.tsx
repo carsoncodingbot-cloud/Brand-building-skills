@@ -71,6 +71,20 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
 
+      {/* Illustrative brand art — ambience, never job proof */}
+      {s.art && (
+        <section className="bg-white pt-10">
+          <div className="container-x">
+            <div className="relative overflow-hidden rounded-[var(--radius-card)] shadow-[0_30px_60px_-24px_rgba(11,29,54,0.45)]">
+              <img src={s.art} alt={`${s.name} — illustrative visualization`} className="h-56 w-full object-cover sm:h-80 lg:h-96" />
+              <span className="absolute bottom-3 right-4 rounded-full bg-navy-900/60 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-wider text-white/80 backdrop-blur-sm">
+                Visualization
+              </span>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Intro + sticky booking card */}
       <section className="bg-white py-16 sm:py-20">
         <div className="container-x grid gap-10 lg:grid-cols-[1.4fr_1fr]">

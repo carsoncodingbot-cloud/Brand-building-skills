@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { site, NAV_SERVICES } from "@/lib/site";
 import { tier1Cities } from "@/lib/cities";
-import { DaylightMark } from "@/components/Icons";
 
 export default function Footer() {
   return (
@@ -13,13 +12,7 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand / contact */}
           <div>
-            <div className="flex items-center gap-2.5">
-              <DaylightMark className="h-11 w-auto text-white" />
-              <span className="leading-none">
-                <span className="block font-[family-name:var(--font-montserrat)] text-xl font-extrabold uppercase tracking-tight">Daylight</span>
-                <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-turquoise">Solar</span>
-              </span>
-            </div>
+            <img src="/brand/logo-light.webp" alt={site.name} width={2124} height={408} className="h-10 w-auto" />
             <p className="mt-5 text-sm text-ice-200/80">{site.license}</p>
             <p className="mt-4 text-sm font-semibold">Straight answers on solar, batteries, and your electric bill — anywhere in the Inland&nbsp;Empire.</p>
             <dl className="mt-4 space-y-1 text-sm">
