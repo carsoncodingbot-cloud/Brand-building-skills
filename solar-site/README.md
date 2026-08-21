@@ -33,11 +33,22 @@ EXPORT=true npm run build   # static export → out/
 
 ## The funnel
 
-`components/SystemCheck.tsx` — the 60-Second Solar Reality Check. Four graded
-questions (bill / goal / timing / ownership), five segments (priority, battery,
-planner, small-bill honest read, renter), three-act flow: questions → honest
-read + capture → confirmation echo. Payload spec in `lib/quiz.ts`
-(`quizLeadPayload`) — pre-labeled JSON for GHL workflow mapping.
+`components/SystemCheck.tsx` — the 60-Second Solar Reality Check. Six graded
+questions in NEPQ order (bill / utility / shade / goal / timing / ownership),
+six segments (priority, battery, planner, small-bill honest read, heavy-shade
+honest read, renter), three-act flow: questions → honest read + capture
+(name / email / phone / street address / ZIP + optional utility-bill upload,
+compressed in-browser and shipped inline in the webhook payload when small
+enough) → confirmation echo. Payload spec in `lib/quiz.ts` (`quizLeadPayload`)
+— pre-labeled JSON for GHL workflow mapping, incl. `utility_bill_base64`.
+
+## Brand assets
+
+`public/brand/` — logo-light.webp (navy backgrounds), logo-dark.webp (light
+backgrounds), mark.webp (sun emblem); `app/icon.png` favicon. Sources +
+production pipeline notes in `brand/`. `public/photos/` are ILLUSTRATIVE brand
+renders — always labeled "Visualization" in the UI, never presented as job
+proof (Honesty Law).
 
 ## Content model
 
