@@ -1,207 +1,121 @@
 # Southern Garage — Marketing Plan
 
-Built from [brand-context.md](brand-context.md) using the `brand-positioning`, `brand-messaging`, `google-ads`, `meta-ads`, `email-marketing`, and `ugc-strategy` skills.
+Built from [brand-context.md](brand-context.md), which summarizes **Playbook v1.0** (the internal brand & content system). The Playbook already governs creative production, voice, compliance, Meta ads, and the lead funnel. **This plan does not restate it — it fills the gaps around it.** Every item below inherits the three pillars: Honesty Law, Offer Doctrine, Voice Doctrine.
 
 ---
 
-## 1. Positioning
+## 1. What the Playbook already covers (leave it alone)
 
-### Category
-- **Stated category**: Auto repair shop
-- **Actual category**: "Who do I trust with my vehicle?" — customers compare Southern Garage against the dealership, the national chain, and the buddy who wrenches on weekends.
-- **Opportunity category**: *The hometown shop with dealership-grade skill.* Repair pays the bills; the custom shop is the proof of craft that no chain can match.
+| System | Playbook section |
+|--------|-----------------|
+| Visual identity, canvas skeleton, badge governance | §2–3 |
+| Copy doctrine, anti-AI checklist, CTA science | §5 |
+| Claims & compliance gates | §6 |
+| Spokesperson & reel production | §7 |
+| Meta lead forms + GHL + speed-to-lead SMS | §8 |
+| Ad testing, placements, series targeting | §9 |
+| Scoreboard (the Four Numbers) | §10 |
+| Asset intake | §11 |
 
-### Competitive landscape
-**Axis 1**: Transactional ← → Relationship-driven
-**Axis 2**: Commodity work ← → Craftsmanship
-
-- **Dealerships** sit at transactional/high-skill: capable, expensive, impersonal.
-- **National chains** sit at transactional/commodity: convenient, forgettable, rotating staff.
-- **Other independents** sit at relationship/commodity: trusted but unremarkable, invisible online.
-- **Unclaimed territory**: relationship-driven craftsmanship — *"people who know your name and do work worth photographing."* That's Southern Garage.
-
-### Positioning statement
-> For vehicle owners around [metro] who are tired of being upsold and talked down to, **Southern Garage** is the independent shop that fixes it right the first time and explains it straight — because the same hands that repair your daily driver build award-worthy custom trucks.
-
-### Proof points (the moat)
-1. Custom builds on the floor customers can see — visible proof of skill.
-2. Photo/video documentation of every repair: "we show you the old part."
-3. Written warranty on parts and labor (match or beat the chains).
-4. Same crew year after year — no rotating strangers.
-5. Straight-answer estimates: quote before work, call before anything changes.
+The machine creates demand on Meta and converts it by text within five minutes. What it doesn't yet do: **capture the demand that already exists, hold the leads that don't close this week, and compound trust in public.** That's this plan.
 
 ---
 
-## 2. Messaging Framework
+## 2. Positioning (one paragraph, doctrine-compliant)
 
-### 01 — Core message
-*Southern Garage helps working folks keep their vehicles running — and their dream trucks becoming real — by doing honest, craftsman-grade work and explaining it straight.*
+> For property owners within our install radius who want a real steel building without the quote runaround, Southern Garage is the builder whose word is checkable — the whole number up front, the monthly beside it, one crew on one invoice, and a badge that only ever touches unedited photos of work we performed.
 
-### 02 — Value proposition
-Southern Garage is an independent auto shop for people who depend on their vehicles and are done with dealership prices and chain-store shrugs. We diagnose it right, quote it honest, fix it once, and back it with a written warranty — and when you're ready to build something special, the custom shop is right through the same door.
-
-### 03 — Tagline options
-| Tagline | Style | Rationale |
-|---------|-------|-----------|
-| **Fixed right. Said straight.** ✅ *recommended* | Functional/emotional | Nails both halves of the promise — quality and honesty — in five words. |
-| Your truck's in good hands. | Emotional | Warm and reassuring, but generic enough that a chain could say it. |
-| Honest work. Southern pride. | Emotional | Strong regional identity; risks reading as sentiment over substance. |
-| Where handshakes still mean something. | Aspirational | Evocative and differentiating, but doesn't say what the business does. |
-| From oil changes to dream builds. | Functional | Communicates the full service range; useful as a supporting line rather than the tagline. |
-
-### 04 — Messaging hierarchy
-
-**Level 1 — Brand headline**
-> The shop that fixes it right and tells it straight.
-
-**Level 2 — Supporting statement**
-> Southern Garage is [metro]'s independent auto shop — honest repairs on the vehicles your life runs on, and custom builds worth showing off. No upsells, no runaround, no surprises on the invoice.
-
-**Level 3 — Key messages**
-
-1. **"We fix it right the first time."**
-   Dealership-grade diagnostics without the dealership markup. Every repair is backed by a written parts-and-labor warranty.
-   *Proof: warranty terms in writing; comeback rate tracked and published.*
-
-2. **"You'll never be surprised by the bill."**
-   Straight-answer estimates before we touch a bolt, a phone call before anything changes, and your old parts back if you want them.
-   *Proof: photo documentation sent with every repair order.*
-
-3. **"The same hands build show trucks."**
-   The crew fixing your brakes builds lifted trucks and frame-off restorations in the next bay. That level of craft goes into every oil change.
-   *Proof: custom build gallery; builds visible in the shop.*
-
-4. **"We're your neighbors, not a franchise."**
-   Locally owned, same faces every visit, and we answer the phone. Your money stays in the community that we live in too.
-   *Proof: owner's name on the door; years in business; local sponsorships.*
-
-**Level 4 — Proof point bank**
-- Written warranty on parts and labor
-- Photo/video sent with every repair explaining what was done and why
-- [X] years serving [county/metro]
-- [X]+ five-star Google reviews
-- Custom builds featured at [local shows/events]
-- ASE-certified technicians (if applicable — verify before use)
-- Family owned and operated
-- Loaner/shuttle or after-hours drop-off (if applicable)
-
-### 05 — Audience-specific messaging
-
-**Daily drivers (primary):** Lead with trust and no-surprise pricing. Land hardest: warranty, photo documentation, "call before anything changes." Avoid: gearhead jargon, custom-shop content that makes routine service look expensive.
-
-**Custom/enthusiast (secondary):** Lead with craft and the build gallery. Land hardest: build photos, process transparency, owner involvement. Avoid: discount language — this audience buys on skill, not price.
-
-### 06 — Messaging by channel
-| Channel | Headline approach | Tone | Length |
-|---------|------------------|------|--------|
-| Website hero | "Fixed right. Said straight." + service CTA | Warm, confident | Short |
-| Google Business Profile | Trust + services + area served | Plain, factual | Short |
-| Facebook/Instagram | Behind-the-scenes craft, customer stories | Casual, proud | Short–medium |
-| Email/SMS | Service reminders, seasonal tips, build reveals | Neighborly | Short |
-| Paid search ads | Problem + trust ("Brake repair, quoted straight") | Direct | Very short |
-| Shop signage/invoices | Warranty and honesty promises | Plain | Very short |
-
-### 07 — Things not to say
-- **No unprovable claims** — "best in town," "#1 rated" without a source.
-- **No hillbilly caricature** — Southern pride, never Southern stereotype. No "y'all fix it cheap" copy.
-- **No price-leader talk** — "cheapest oil change" attracts one-visit price shoppers and undercuts the craftsmanship position.
-- **No dealership-bashing by name** — position against the *experience* ("no upsells, no runaround"), not against named competitors.
-- **No jargon walls** — plain English is the brand; save the torque specs for the enthusiasts who ask.
+Messaging is already governed by §5. The only addition: the same claims must survive off-Meta — the website, Google profile, and email below carry identical numbers, photos, and language as the ads (Package Gate applies everywhere, not just per-campaign).
 
 ---
 
-## 3. Channel Plan
+## 3. The gaps, in priority order
 
-Priority order reflects a local service business: owned trust signals first, demand capture second, demand creation third.
+### 3.1 Google Business Profile + Search — capture existing demand (highest ROI gap)
 
-### 3.1 Google Business Profile + reviews (highest priority, ~free)
-The #1 driver of local repair customers is the Google Maps pack.
-- Claim/complete the profile: services, hours, photos of the shop and crew, service area, booking link.
-- Post weekly (a build photo, a seasonal tip, an offer).
-- **Review engine**: after every completed repair order, send an SMS with a direct review link. Target: +15 reviews/month. Respond to every review — especially critical ones — in the brand voice (own it, fix it, invite them back).
-- Photo documentation already promised in messaging doubles as review fuel: happy customers with evidence leave better reviews.
+Meta interrupts people who weren't looking. Meanwhile people typing "steel building [city]", "30x40 garage price", "metal shop builder near me" are **ready now** and currently landing on broker networks.
 
-### 3.2 Website — southerngarage.com (foundation, week 1–4)
-The exact-match .com is already owned — a major head start for local SEO, ads, and credibility. Build one fast, mobile-first site on it: hero (headline + click-to-call + booking), services with plain-English pricing ranges, warranty page, custom build gallery, reviews embed, about-the-crew page. Local SEO basics: service + city pages ("Brake repair in [city]"), schema markup, GBP link.
+- **GBP**: claim/complete for the shop's real location. Categories: metal building supplier / garage builder / construction company. Photos: badge-eligible camera-roll originals only — the Honesty Law is a *ranking advantage* here, since real geotagged job photos outperform stock. Weekly post = the hero canvas from each completed series.
+- **Google Search campaigns**: (1) spec-led — "30x40 garage price", size + city terms, ad copy in Dims format ("30' × 50' × 12' — slab, steel, insulation. One number."); (2) category — "steel building builder [metro]"; (3) brand defense — "southern garage". Location: install radius only. Conversion = call + a text-first landing action (see 3.2). Negative keywords: kits, DIY, plans, jobs, rent.
+- **Local SEO on southerngarage.com**: one page per install city *only where a job record exists* (Location Gate applied to SEO — a city page without a job is a claim we can't verify). Each page: real build photos from that job, the package's whole number, text CTA.
+- Budget to start: ~$1,500/mo search. Score with the same per-creative scorecard: CPL, cost per qualified lead (ZIP in radius), speed-to-first-touch.
 
-### 3.3 Google Ads — Search (demand capture, month 2+)
-- **Campaigns**: (1) Emergency/high-intent — "brake repair near me," "check engine light," "transmission shop [city]"; (2) Service-specific — AC, alignment, diesel; (3) Custom — "lift kit install [city]," "truck customization," "classic car restoration [region]."
-- Location targeting: 25-mile radius; call extensions + call tracking; conversion tracking on calls (60s+), booking form, direction requests.
-- Ad copy pattern: *problem + trust*, e.g. "Brake Repair, Quoted Straight — Written Warranty. Family Owned. Book Today."
-- Starting budget: ~$1,500/mo, weighted 70% repair / 30% custom.
-- Negative keywords: "cheap," "free," "DIY," "parts," "salary," "jobs."
+### 3.2 southerngarage.com — make the site an extension of the funnel
 
-### 3.4 Meta Ads — Facebook/Instagram (demand creation, month 3+)
-- **Awareness/retargeting only** — Meta doesn't catch people mid-breakdown; it builds the name they remember when the check-engine light comes on.
-- Creative: 15–30s build time-lapses, "we show you the old part" explainers, customer handoff moments. Radius-targeted.
-- Retarget site visitors and customer list with seasonal service offers.
-- Custom-build lead campaign: gallery carousel → "Tell us about your build" lead form.
-- Starting budget: ~$600/mo.
+The buyer texts from the couch at 9pm; the site must not demand a phone call or a long form.
 
-### 3.5 Email + SMS (retention, month 2+)
-- Every repair order captures email/phone at write-up (POS integration).
-- **Automated flows**: post-service thank-you + review ask (day 1), service-due reminders keyed to mileage/date (oil, tires, inspection), 6-month win-back.
-- **Monthly newsletter**: one seasonal tip, one build update, one customer story. Neighborly voice, 2-minute read.
-- Retention math: a repeat customer costs ~$0 to re-book vs. $30–60 acquisition via ads — flows are the highest-ROI item in this plan.
+- Hero: masthead in the canvas system's Statement format + **"Text us your city"** button (SMS deep-link to (205) 941-6115) + the whole-number/monthly price band for the flagship package.
+- Build gallery: badge-carrying photos only, each captioned with size, city (off the job record), and date — the gallery *is* the proof-point bank.
+- Pricing page: current package prices with effective dates (Asset Intake already maintains these — publish from the same source of truth so no stale number ships).
+- Financing language identical to §6 ("as low as $—/mo with approved financing — payment varies"). Absolutes ban applies to web copy.
+- Every page footer mirrors the canvas footer bar: phone, domain — same skeleton, same trust.
 
-### 3.6 UGC + community (ongoing, ~free)
-- Ask every custom-build customer for photo/video rights at contract time; reveal posts tag the owner.
-- "First start" and delivery-day videos are the shop's best-performing organic content — film them by default.
-- Community anchors: sponsor a local team, host a fall cars-and-coffee at the shop, wrench-night with the high school shop class. Local press covers these; chains can't copy them.
+### 3.3 Long-cycle nurture — the leads that don't close in week one
+
+Speed-to-lead wins the first hour. But a $15–25K building decision often takes months ("concrete season" is real scarcity — use it honestly).
+
+- **GHL long-tail sequence** after the speed-to-lead window: day 3 (the wish-list anchor — "quote the dream, trim from there"), week 2 (a real build story from their ZIP's region), monthly thereafter (one completed build, one price band, one exit ramp). Voice Doctrine throughout — permission-giving beats chasing; "no harm if it just sits in a drawer" is the retention strategy.
+- **Quarterly price-effective-date email**: when package pricing updates, tell the open pipeline the old number's expiry honestly — that's the price-lock moat working as scarcity, no countdown timers needed.
+- List hygiene: leads only from owned forms; no purchased lists (fails the spirit of the Honesty Law and deliverability at once).
+
+### 3.4 Public proof — reviews and owner-generated content
+
+The badge governs *our* photos; reviews are the customer's half of verifiability.
+
+- Post-install text (from the same rep thread the buyer already trusts): direct Google review link. Real customers only — §6 already bans synthetic people; the same rule makes review-gating or incentivized reviews off-limits.
+- Ask at handoff for photo/tag rights; a customer's own phone photo of their building, reshared with credit, is the one content type the anti-AI checklist can't even theoretically flag.
+- Respond to every review in the Miner register — detached, specific, no exclamation points.
+
+### 3.5 YouTube / long-form (later, opportunistic)
+
+Build-timeline videos (footage already produced under §7 SOPs) cut to 3–8 minutes: "30x50 in [city] — slab to keys." Search-driven, evergreen, and it pre-answers the exact questions the speed-to-lead text gets. Only start once 3.1–3.4 are running.
 
 ---
 
 ## 4. 90-Day Rollout
 
-**Days 1–30 — Foundation**
-- [ ] Claim + fully build Google Business Profile
-- [ ] Launch website (hero, services, warranty, gallery, booking)
-- [ ] Install call tracking + GA4 + conversion tracking
-- [ ] Turn on post-service review SMS
-- [ ] Start capturing email/phone on every repair order
-- [ ] Photograph 10 best past builds for the gallery
+**Days 1–30 — Capture**
+- [ ] GBP claimed, categorized, loaded with badge-eligible photos
+- [ ] Site: text-first hero, gallery with job-record captions, published package pricing
+- [ ] Call tracking + GA4; conversions defined (SMS click, call ≥60s, form)
+- [ ] Post-install review text added to the GHL pipeline
 
-**Days 31–60 — Demand capture**
-- [ ] Launch Google Search campaigns (repair + custom)
-- [ ] Launch post-service and service-reminder email/SMS flows
-- [ ] First monthly newsletter
-- [ ] Begin weekly GBP posts + 3x/week organic social
+**Days 31–60 — Search**
+- [ ] Google Search campaigns live (spec, category, brand)
+- [ ] First install-city pages (job-record cities only)
+- [ ] Long-tail nurture sequence live in GHL
+- [ ] Weekly GBP post rhythm (hero canvas per completed series)
 
-**Days 61–90 — Demand creation**
-- [ ] Launch Meta awareness + retargeting campaigns
-- [ ] Launch custom-build lead form campaign
-- [ ] Host first shop event (cars-and-coffee)
-- [ ] First-quarter review: CPL by campaign, review velocity, repeat-rate baseline; reallocate budget to winners
+**Days 61–90 — Compound**
+- [ ] Review velocity target: every completed install asked, ≥60% response
+- [ ] First quarterly price-effective-date email
+- [ ] 72-hour-rule applied to search ads same as Meta; kill/keep by CPL
+- [ ] Quarter review against the Four Numbers; reallocate between Meta and Search by cost per *qualified* lead
 
 ---
 
-## 5. Budget (starting, monthly)
+## 5. Budget (incremental, monthly — Meta spend already exists)
 
 | Item | Monthly |
 |------|---------|
-| Google Ads | $1,500 |
-| Meta Ads | $600 |
-| Email/SMS platform + review tool | $150 |
-| Website hosting + call tracking | $100 |
-| Content (photo/video, can start DIY) | $250 |
-| **Total** | **~$2,600** |
+| Google Search ads | $1,500 |
+| Call tracking + review tooling | $150 |
+| Site work (amortized) | $250 |
+| **Total new spend** | **~$1,900** |
 
-Break-even check: at a $450 average repair order and ~$40 blended cost per new customer, ads pay back on the *first* visit — before any repeat business, which is where the real margin lives.
+At a $15K+ average ticket, one incremental closed build per quarter pays for the entire program several times over — which is exactly the kind of whole-number claim the scoreboard can verify.
 
 ---
 
-## 6. Measurement
+## 6. Measurement — same scoreboard, wider inputs
 
-**North-star**: monthly repair orders and custom-build pipeline value.
+No new metrics. Search, GBP, site, and nurture all report into the existing Four Numbers and per-creative scorecard:
 
-| Metric | Baseline | 90-day target |
-|--------|----------|---------------|
-| Google reviews (count / avg) | measure | +45 / ≥4.8 |
-| GBP calls + direction requests | measure | +50% |
-| Website booking/call conversions | 0 | 40/mo |
-| Cost per new repair customer | — | ≤$50 |
-| Custom-build inquiries | measure | 6/quarter |
-| Email/SMS list | ~0 | 500 contacts |
-| Repeat-customer rate | measure | establish baseline |
+| Source | Feeds |
+|--------|-------|
+| Search campaigns | CPL, cost per qualified lead (ZIP in radius), close rate by source |
+| GBP | Calls, direction requests, review count/rating |
+| Site | SMS-click conversions, pricing-page → text rate |
+| Nurture | Reactivated leads per month, days-to-close on long-cycle deals |
 
-Review monthly. Kill or fix any paid campaign that misses CPL targets for two consecutive months; double down on what's working before adding new channels.
+Autopsy rule applies: nothing gets rebuilt because it tanked without the numbers first.

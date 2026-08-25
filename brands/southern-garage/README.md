@@ -1,21 +1,20 @@
-# Southern Garage — Marketing Package
+# Southern Garage Co. — Marketing Package
 
-A worked example of this repo's brand-building skills applied to a real-world style client: **Southern Garage**, an independent auto repair and custom shop.
+Marketing working files for **Southern Garage Co. — American Steel Builders** (southerngarage.com · (205) 941-6115): custom steel buildings — slab, steel, insulation, one crew, one invoice.
+
+## Source of truth
+
+The brand is governed by an internal document: **"The Southern Garage Content Machine" — Playbook v1.0** (brand system, design laws, copy doctrine, compliance gates, production SOPs, Meta + GHL funnel). It is marked confidential and is deliberately **not** committed to this repo. The files here summarize it and build around it; where they disagree, the Playbook wins.
 
 ## Contents
 
 | File | Built with | What it covers |
 |------|-----------|----------------|
-| [brand-context.md](brand-context.md) | `brand-context` | Foundation brand DNA — identity, audience, positioning, personality, values, goals |
-| [marketing-plan.md](marketing-plan.md) | `brand-positioning`, `brand-messaging`, `google-ads`, `meta-ads`, `email-marketing`, `ugc-strategy` | Positioning, full messaging framework, channel-by-channel marketing plan, 90-day rollout, budget, and measurement |
+| [brand-context.md](brand-context.md) | `brand-context` | The Playbook distilled into the foundation file every other skill in this repo reads first — identity, audience, doctrine, visual system, scoreboard |
+| [marketing-plan.md](marketing-plan.md) | `brand-positioning`, `google-ads`, `email-marketing`, `ugc-strategy` | The gaps around the Playbook: Google Search + GBP demand capture, the text-first website, long-cycle GHL nurture, public proof (reviews), rollout, budget, measurement |
 
-## Assumptions
+## Ground rules for any new work in this folder
 
-The brief provided only the business name. This package assumes:
-
-- **Business type**: Independent auto repair shop with a custom/restoration side business (trucks, classics, off-road builds)
-- **Market**: A mid-size Southern US metro and its surrounding counties
-- **Stage**: Established locally (word-of-mouth reputation) but with no deliberate marketing to date
-- **Goal**: Grow repair bookings and build a pipeline for higher-margin custom work
-
-If the real Southern Garage differs (different services, market, or stage), update `brand-context.md` first — every downstream document flows from it.
+1. **Honesty Law**: no claim, photo, or price ships without written verification. Real builds only; AI-touched imagery is labeled "concept only" and never carries the badge.
+2. **Offer Doctrine**: whole number first, monthly bridge, mechanism over adjective, real scarcity only.
+3. **Voice Doctrine**: detached, unhurried, permission-giving. Text-first CTA.
