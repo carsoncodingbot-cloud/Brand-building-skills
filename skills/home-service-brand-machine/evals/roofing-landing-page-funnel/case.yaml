@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: roofing-landing-page-funnel
+expected_outcome: |
+  A single self-contained HTML landing page for Summit Roofing with a
+  working multi-question capture funnel (questions -> contact form ->
+  confirmation state), capture-first CTA discipline (no phone CTA before
+  the form in the funnel flow), roofing-specific fear-killer copy, a
+  coherent 4-role palette, mobile-ready inputs (>=16px font), and zero
+  fabricated trust signals (no invented review counts, ratings, years in
+  business, or stock/AI imagery).

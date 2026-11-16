@@ -104,6 +104,7 @@ Skills cross-reference each other:
 | [influencer-marketing](skills/influencer-marketing/) | Influencer strategy — tier selection, vetting, outreach, brief templates, contracts, performance tracking, seeding programs, and FTC compliance. |
 | [meta-ads](skills/meta-ads/) | Meta advertising on Facebook and Instagram — campaign structure, audience targeting, creative strategy, retargeting, budget scaling, and ROAS optimization. |
 | [google-ads](skills/google-ads/) | Google Ads across Search, Shopping, Performance Max, and Display — keyword strategy, Quality Score, bidding, ad copy, conversion tracking, and optimization. |
+| [home-service-brand-machine](skills/home-service-brand-machine/) | Complete operating system for local home-service brands (HVAC, plumbing, roofing, steel buildings, and more) — capture-first funnel, real-photo design system, Hormozi-grade copy, local SEO, ad creative, lead economics, and a mandatory 9+ ship gate. |
 <!-- SKILLS:END -->
 
 ## Getting Started

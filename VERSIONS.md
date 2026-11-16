@@ -1,5 +1,12 @@
 # Versions
 
+## 1.3.0 — 2026-11-16
+
+### Skills Added
+- `home-service-brand-machine` — Operating system for local home-service brands: capture-first funnel, real-photo design system, copy, local SEO, ad creative factory, lead economics, and the 9+ Gate scorecard. Includes `scripts/enhance_photos.py` and eval cases.
+
+---
+
 ## 1.2.0 — 2026-06-11
 
 ### Skills Added
