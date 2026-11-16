@@ -1,4 +1,4 @@
-import { SITE, PHOTOS, TYPES, SIZES, STATES, STATES_INDEXABLE, STEPS, FAQ_CORE, POSTS } from './data.mjs';
+import { SITE, PHOTOS, TYPES, SIZES, STATES, REGIONS, STATES_INDEXABLE, STEPS, FAQ_CORE, POSTS } from './data.mjs';
 import { esc, vf, abs, num, ARROW, elev, photo, planSVG, page, breadcrumbs, crumbLD, faqLD, faqBlock, quizCard, ctaBand, sizeRow, localBusinessLD } from './lib.mjs';
 
 const veh = (s) => Math.floor(s.l / 20) * Math.floor(s.w / 10);
@@ -52,9 +52,27 @@ const insideNumber = (paper = true) => `<section class="sec${paper ? ' sec--pape
 const processSection = (dark2 = false) => `<section class="sec${dark2 ? ' sec--dark2' : ''}"><div class="wrap"><div class="sh${rv}"><div><div class="eyebrow">How it works</div><h2>Six steps. You can sit out most of them.</h2></div></div>
 <div class="steps${rv}">${STEPS.map(([h, p]) => `<div class="step"><h3>${h}</h3><p>${h === 'Delivered & installed' ? `${p} Typical lead time ${vf('[4–6 / 6–8] weeks')}.` : p}</p></div>`).join('')}</div></div></section>`;
 
-const areasSection = () => `<section class="sec sec--dark2" id="areas"><div class="wrap areas"><div class="${rv.trim()}"><div class="eyebrow">Service areas</div><h2>Do we install where you are?</h2><p class="lead" style="margin-top:18px">Type your ZIP. We’ll tell you straight — yes or no — before you fill out anything.</p>
+const stateBySlug = (slug) => STATES.find((s) => s.slug === slug);
+const areasSection = () => `<section class="sec sec--dark2" id="areas"><div class="wrap areas"><div class="${rv.trim()}"><div class="eyebrow">Service areas</div><h2>Do we install where you are?</h2><p class="lead" style="margin-top:18px">We deliver and install in ${STATES.length} states. Type your ZIP and we’ll tell you straight — yes or no — before you fill out anything.</p>
 <div class="zip" data-zip-main><label for="zipin">Your ZIP code</label><form class="zip__row" data-zip><input id="zipin" inputmode="numeric" maxlength="5" placeholder="e.g. 35045" autocomplete="postal-code"><button class="btn" type="submit">Check</button></form><div class="zip__res" aria-live="polite"></div></div></div>
-<div class="${rv.trim()}"><div class="states">${STATES.map((s) => `<a class="st" data-state="${s.ab}" href="/service-areas/#${s.slug}"><span>${s.name}<small>Steel buildings in ${s.name}</small></span>${ARROW}</a>`).join('')}</div><p class="note">${vf('State list is from the current site — confirm against where you actually install.')}</p></div></div></section>`;
+<div class="regions ${rv.trim()}">${REGIONS.map(([n, slugs]) => `<div class="region"><h3>${n}</h3>${slugs.map((sl) => { const s = stateBySlug(sl); return `<a class="st" data-state="${s.ab}" href="/service-areas/#${s.slug}"><span>${s.name}</span>${ARROW}</a>`; }).join('')}</div>`).join('')}</div></div></section>`;
+
+// "Design it in 3D" — the owner's real 3D design tool (it was buried in the old nav)
+const threeD = () => `<section class="sec"><div class="wrap split"><div class="${rv.trim()}"><div class="eyebrow">3D design tool</div><h2>Design it in 3D. See it before you buy.</h2><p class="lead" style="margin-top:18px">Choose your size and style, then customize colors, doors, windows and add-ons — and see your building before it’s built. Prefer to talk it through? A builder is a call away.</p>
+<div class="phero__cta"><a class="btn btn--lg" href="${SITE.designToolUrl}" rel="noopener" target="_blank">Open the 3D design tool ${ARROW}</a><a class="btn btn--ghost btn--lg" href="/#sg-quote">Just get a price</a></div></div>
+<div class="anat${rv}" style="display:grid;place-items:center;padding:clamp(28px,4vw,56px)"><div style="width:min(100%,420px);color:var(--orange)">${elev('steel-garages', 'elev elev--xl')}</div></div></div></section>`;
+
+// "Ask every builder" — six questions; our answers only (no claims about anyone else)
+const quoteCheck = () => `<section class="sec sec--paper" id="quote-check"><div class="wrap"><div class="sh${rv}"><div><div class="eyebrow">The quote check</div><h2>Ask every builder these six questions.</h2></div><p class="lead">Compare any steel building quote on the same page. Here are our answers.</p></div>
+<div class="qc${rv}">${[
+  ['Is the slab in the number?', 'Yes — bundle a 4″ slab with an 8″ × 8″ turn-down footing on the same invoice.'],
+  ['Is delivery included?', 'Yes. Delivery and install by our own crew.'],
+  ['Who installs it?', 'The same crew that built your slab. One crew, one invoice.'],
+  ['How long is the price good?', `${SITE.priceLockMonths} months, locked in writing.`],
+  ['When do I pay?', vf('10–17% to order; the balance once installed.')],
+  ['Are the plans engineered for my site?', vf('Yes — engineered to your ZIP code’s wind and load requirements.')],
+].map(([q, a], i) => `<div class="qc__row"><span class="qc__n n">${String(i + 1).padStart(2, '0')}</span><b>${q}</b><p>${a}</p></div>`).join('')}</div>
+<p class="note">Want the longer list? <a href="/blog/questions-to-ask-before-buying-a-steel-building/" class="o" style="font-weight:800">10 questions to ask before you buy a steel building →</a></p></div></section>`;
 
 const reviewsSlot = () => `<section class="sec"><div class="wrap"><div class="sh${rv}"><div><div class="eyebrow">Proof</div><h2>What owners say, in their own words.</h2></div></div>
 <div class="slot${rv}"><h3>Real Google reviews go here</h3><p>This section shows your actual Google reviews, pulled live from your Business Profile — name, stars, date and text exactly as posted. Nothing here is written, rewritten or rotated by us. The current site’s hard-coded review list and “just ordered” alerts are not carried over.</p></div></div></section>`;
@@ -85,7 +103,7 @@ add({ path: '/', quiz: true, ld: [localBusinessLD(), { '@context': 'https://sche
 <div class="hero__facts"><div><b class="n">${SITE.priceLockMonths} mo</b><small>Price locked in writing</small></div><div><b>1 crew</b><small>Slab to install</small></div><div><b>1 invoice</b><small>One whole number</small></div></div></div>${quizCard()}</div></section>
 ${strip()}${pickerSection('30x50')}
 <section class="sec sec--dark2" id="buildings"><div class="wrap"><div class="sh${rv}"><div><div class="eyebrow">What we build</div><h2>Steel built for how you use it.</h2></div><p class="lead">Six building types, each drawn up for your site and delivered by our own crew.</p></div>${typeTiles()}</div></section>
-${insideNumber(true)}${processSection(false)}${areasSection()}${reviewsSlot()}${postsTeaser()}${faqSection(FAQ_CORE, true)}${ctaBand()}` });
+${insideNumber(true)}${threeD()}${quoteCheck()}${processSection(false)}${areasSection()}${reviewsSlot()}${postsTeaser()}${faqSection(FAQ_CORE, true)}${ctaBand()}` });
 
 // ---- Buildings hub ----
 add({ path: '/steel-buildings/', quiz: true, ld: [crumbLD([['Home', '/'], ['Steel buildings', '/steel-buildings/']])],
@@ -131,7 +149,7 @@ ${faqSection(faq, true, `${s.w}×${s.l}: your questions.`)}${ctaBand()}` });
 add({ path: '/sizes-and-prices/', quiz: true, ld: [crumbLD([['Home', '/'], ['Sizes & Prices', '/sizes-and-prices/']])],
   title: 'Steel Building Sizes & Prices | Southern Garage Co.', desc: 'Every steel building size we build — 30×35 to 30×100 and 40×60 — priced as one whole number with slab, steel, doors, delivery and install.',
   body: `${interiorHero({ trail: [['Home', '/'], ['Sizes & Prices', '/sizes-and-prices/']], h1: 'Sizes &amp; prices.', lead: 'One whole number per size — slab, steel, doors, delivery and install — with the monthly beside it.', quiz: true })}
-${pickerSection('30x50')}<section class="sec sec--dark2"><div class="wrap"><div class="stable${rv}"><div class="srow srow--h"><span>Size</span><span>Floor area</span><span>Doors in package</span><span>Whole number</span><span></span></div>${SIZES.map(sizeRow).join('')}</div><p class="note">${vf('Prices effective [date]. Publish from the same sheet your ads use so no stale number ships. *As low as $[—]/mo with approved financing — payment varies.')}</p><p class="note">Need another size, height, roof style or door setup? Every building is custom. <a href="/#sg-quote" class="o" style="font-weight:800">Get the whole number →</a></p></div></section>${insideNumber(true)}${ctaBand()}` });
+${pickerSection('30x50')}<section class="sec sec--dark2"><div class="wrap"><div class="stable${rv}"><div class="srow srow--h"><span>Size</span><span>Floor area</span><span>Doors in package</span><span>Whole number</span><span></span></div>${SIZES.map(sizeRow).join('')}</div><p class="note">${vf('Prices effective [date]. Publish from the same sheet your ads use so no stale number ships. *As low as $[—]/mo with approved financing — payment varies.')}</p><p class="note">Need another size, height, roof style or door setup? Every building is custom. <a href="/#sg-quote" class="o" style="font-weight:800">Get the whole number →</a></p></div></section>${insideNumber(true)}${quoteCheck()}${ctaBand()}` });
 
 // ---- How it's built ----
 const specs = [['What does “gauge” mean?', FAQ_CORE[0][1]], ['What is a clear-span building?', FAQ_CORE[1][1]], ['What’s a turn-down footing?', FAQ_CORE[2][1]], ['Regular, A-frame or vertical roof?', FAQ_CORE[3][1]],
@@ -148,8 +166,8 @@ add({ path: '/financing/', ld: [crumbLD([['Home', '/'], ['Financing', '/financin
 <section class="sec sec--dark2"><div class="wrap"><div class="sh"><div><div class="eyebrow">How payment works</div><h2>When you pay.</h2></div></div><dl class="kv"><div><dt>To order</dt><dd>${vf('10–17% deposit')}</dd></div><div><dt>After install</dt><dd>${vf('Final payment once installed')}</dd></div><div><dt>Price lock</dt><dd>${SITE.priceLockMonths} months, in writing</dd></div></dl><p class="note">${vf('Deposit and payment-timing terms are from the current site’s contact page — confirm before publishing.')}</p></div></section>${ctaBand()}` });
 
 // ---- Service areas ----
-add({ path: '/service-areas/', quiz: false, ld: [crumbLD([['Home', '/'], ['Service areas', '/service-areas/']])], title: 'Steel Building Service Areas | Southern Garage Co.', desc: `Southern Garage delivers and installs steel buildings across ${STATES.map((s) => s.name).join(', ')}. Check your ZIP.`,
-  body: `${interiorHero({ trail: [['Home', '/'], ['Service areas', '/service-areas/']], h1: 'Where we install.', lead: 'We deliver and install steel buildings across the states below. Type your ZIP to find out for sure.' })}${areasSection()}
+add({ path: '/service-areas/', quiz: false, ld: [crumbLD([['Home', '/'], ['Service areas', '/service-areas/']])], title: 'Steel Building Service Areas | Southern Garage Co.', desc: `Southern Garage delivers and installs custom steel buildings in ${STATES.length} states, from Texas to the Carolinas. Check your ZIP.`,
+  body: `${interiorHero({ trail: [['Home', '/'], ['Service areas', '/service-areas/']], h1: 'Where we install.', lead: `We deliver and install steel buildings in ${STATES.length} states. Type your ZIP to find out for sure.` })}${areasSection()}
 <section class="sec"><div class="wrap">${STATES.map((s) => `<div class="split rv" id="${s.slug}" style="padding:28px 0;border-top:1px solid var(--line)"><div><h3>${s.name}</h3></div><div><p>Steel garages, workshops, barns and carports delivered and installed in ${s.name}. ${vf('[Add real local detail here: counties served, recent job cities, local photos.]')}</p><a href="/steel-buildings/${s.slug}/" class="o" style="font-weight:800">${s.name} steel buildings →</a></div></div>`).join('')}</div></section>${ctaBand()}` });
 
 // ---- State pages (noindex until real local content exists) ----

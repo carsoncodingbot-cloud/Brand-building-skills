@@ -27,7 +27,8 @@ export const SITE = {
 };
 
 const CDN = 'https://assets.cdn.filesafe.space/u7qOZfVZ1CzSkoPHQviC/media/';
-export const LOGO = CDN + '6966f027b912775c887096b0.png';       // white plate lockup, 1200x345
+export const LOGO = '/brand/logo.png';       // dark-background lockup, transparent (no white plate). Swap in the sealed master file when you have it.
+export const LOGO_ASPECT = 1269 / 480;
 // PHOTO MANIFEST — swap `src` for verified real-job photos (job record: size, city, date) and set verified:true.
 // `fp` is the focal point so crops never cut the building. Nothing else in the site needs to change.
 const P = (id, fp, alt, extra = {}) => ({ src: CDN + id, fp, alt, verified: false, ...extra });
@@ -104,15 +105,22 @@ export const REDIRECTS = [
   ['/30x100-steel-garage-overview-', '/steel-buildings/30x100/'], ['/40x60-steel-garages', '/steel-buildings/40x60/'],
   ['/30x30-steel-garages', '/steel-buildings/30x35/'], ['/30x20-raised-center-barn', '/steel-barns/'],
   ['/alabama', '/steel-buildings/alabama/'], ['/alabama-803069', '/steel-buildings/alabama/'], ['/texas', '/steel-buildings/texas/'],
-  ['/louisiana', '/steel-buildings/louisiana/'], ['/arkansas', '/steel-buildings/arkansas/'], ['/kansas', '/service-areas/'], ['/location1', '/service-areas/'],
+  ['/louisiana', '/steel-buildings/louisiana/'], ['/kansas', '/steel-buildings/kansas/'], ['/arkansas', '/service-areas/'], ['/location1', '/service-areas/'],
   ['/dealerprogram', '/dealer-program/'], ['/about', '/about/'], ['/contact', '/contact/'],
 ];
 
-// ---------- States (state pages ship noindex until real local content exists) ----------
+// ---------- States: the 16 states Southern Garage installs in (confirmed by the owner) ----------
 export const STATES = [
-  { slug: 'alabama', name: 'Alabama', ab: 'AL' }, { slug: 'georgia', name: 'Georgia', ab: 'GA' }, { slug: 'tennessee', name: 'Tennessee', ab: 'TN' },
-  { slug: 'texas', name: 'Texas', ab: 'TX' }, { slug: 'oklahoma', name: 'Oklahoma', ab: 'OK' }, { slug: 'louisiana', name: 'Louisiana', ab: 'LA' },
-  { slug: 'arkansas', name: 'Arkansas', ab: 'AR' }, { slug: 'north-carolina', name: 'North Carolina', ab: 'NC' },
+  { slug: 'alabama', name: 'Alabama', ab: 'AL' }, { slug: 'georgia', name: 'Georgia', ab: 'GA' }, { slug: 'florida', name: 'Florida', ab: 'FL' }, { slug: 'louisiana', name: 'Louisiana', ab: 'LA' },
+  { slug: 'north-carolina', name: 'North Carolina', ab: 'NC' }, { slug: 'south-carolina', name: 'South Carolina', ab: 'SC' }, { slug: 'virginia', name: 'Virginia', ab: 'VA' }, { slug: 'west-virginia', name: 'West Virginia', ab: 'WV' },
+  { slug: 'tennessee', name: 'Tennessee', ab: 'TN' }, { slug: 'kentucky', name: 'Kentucky', ab: 'KY' }, { slug: 'ohio', name: 'Ohio', ab: 'OH' }, { slug: 'indiana', name: 'Indiana', ab: 'IN' },
+  { slug: 'texas', name: 'Texas', ab: 'TX' }, { slug: 'oklahoma', name: 'Oklahoma', ab: 'OK' }, { slug: 'kansas', name: 'Kansas', ab: 'KS' }, { slug: 'missouri', name: 'Missouri', ab: 'MO' },
+];
+export const REGIONS = [
+  ['Deep South & Gulf', ['alabama', 'georgia', 'florida', 'louisiana']],
+  ['Carolinas & Mid-Atlantic', ['north-carolina', 'south-carolina', 'virginia', 'west-virginia']],
+  ['Tennessee Valley & Midwest', ['tennessee', 'kentucky', 'ohio', 'indiana']],
+  ['South Central & Plains', ['texas', 'oklahoma', 'kansas', 'missouri']],
 ];
 export const STATES_INDEXABLE = false;   // flip to true once each state page has real, state-specific content (jobs, counties, photos)
 
@@ -137,6 +145,20 @@ export const FAQ_CORE = [
 
 // ---------- Blog (real, defensible content only — no prices, no invented stats) ----------
 export const POSTS = [
+  { slug: 'questions-to-ask-before-buying-a-steel-building', seo: '10 Questions to Ask Before You Buy a Steel Building', title: '10 questions to ask before you buy a steel building', date: '2026-11-16', read: 6,
+    desc: 'A checklist for comparing steel building quotes: what is included, who installs, when you pay — and what a straight answer sounds like.',
+    body: `<p>Steel building quotes look alike and are not. Use these ten questions to compare them, and write the answers down. A good builder will be glad you asked.</p>
+<h2>1. Is the slab in the number?</h2><p>The concrete is a major cost and the line most quotes leave out. A straight answer names the thickness and footing — for us, a 4″ slab with an 8″ × 8″ turn-down footing — and says whether it is on the same invoice.</p>
+<h2>2. Is delivery included?</h2><p>Ask for delivery to your exact address, not “delivery available.”</p>
+<h2>3. Who installs it?</h2><p>The company that sold it, or a stranger they hand you to? One crew from slab to install means one party accountable.</p>
+<h2>4. What gauge are the frame and panels?</h2><p>Lower numbers are thicker steel. Ask for the frame and the panel gauge separately. <a href="/blog/steel-gauge-explained/">Here is what the numbers mean.</a></p>
+<h2>5. Are the plans engineered for my site?</h2><p>Wind and snow loads depend on where you build. Plans engineered for your ZIP are what an inspector wants to see.</p>
+<h2>6. What roof load and wind rating are standard?</h2><p>You should get numbers, not adjectives.</p>
+<h2>7. How long is the price good — in writing?</h2><p>A quote that expires tomorrow is a sales tactic. A price locked in writing for months is a commitment.</p>
+<h2>8. When do I pay what?</h2><p>Ask for the deposit to order and when the balance is due. Paying the balance after install keeps the builder’s incentives where yours are.</p>
+<h2>9. What is not included?</h2><p>Permits, site prep, electrical and gravel are common exclusions. Ask directly and get the answer in writing.</p>
+<h2>10. What is the real lead time, and who do I call?</h2><p>Ask for a date range and a person’s name and number — not a ticket queue.</p>
+<p>Want to see ours? <a href="/#sg-quote">Get your whole number in about 30 seconds</a>, or <a href="/sizes-and-prices/">browse sizes and prices</a>.</p>` },
   { slug: 'how-much-does-a-steel-garage-cost', seo: 'How Much Does a Steel Garage Cost? What Moves the Price', title: 'How much does a steel garage cost? What actually moves the price', date: '2026-11-16', read: 6,
     desc: 'What really drives the price of a steel garage — size, gauge, roof, slab, doors, delivery and code — and the questions that expose an incomplete quote.',
     body: `<p>Two quotes for the “same” steel garage can be thousands of dollars apart, and the cheaper one is often the more expensive one by the time it is built. The price of a steel building is not one number — it is a stack of decisions. Here is what actually moves it.</p>

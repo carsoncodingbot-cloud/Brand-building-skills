@@ -1,4 +1,4 @@
-import { SITE, LOGO, PHOTOS, TYPES, SIZES, STATES, STATES_INDEXABLE } from './data.mjs';
+import { SITE, LOGO, LOGO_ASPECT, PHOTOS, TYPES, SIZES, STATES, STATES_INDEXABLE, REGIONS } from './data.mjs';
 
 export const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 export const vf = (t) => (SITE.preview ? `<span class="vf">${t}</span>` : t);
@@ -54,7 +54,7 @@ function header(path) {
   return `<header class="hdr" id="hdr">
 ${SITE.preview ? `<div class="proto">REDESIGN PREVIEW — photos are from the current site and are <b>not yet verified as real jobs</b>. Items in <span class="vf">dashed yellow</span> need confirming before launch.</div>` : ''}
 <div class="wrap hdr__bar">
-<a class="logo" href="/" aria-label="${esc(SITE.name)} — home"><img src="${LOGO}" alt="${esc(SITE.name)} — ${esc(SITE.tagline)}" width="174" height="50"></a>
+<a class="logo" href="/" aria-label="${esc(SITE.name)} — home"><img src="${LOGO}" alt="${esc(SITE.name)} — ${esc(SITE.tagline)}" width="${Math.round(50 * LOGO_ASPECT)}" height="50"></a>
 <nav class="nav" aria-label="Primary"><ul>
 <li class="nav__item has-mega"><button type="button" aria-expanded="false" aria-controls="m-b">Buildings<svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></button>
 <div class="mega mega--b" id="m-b"><div class="mega__col"><p class="mega__h">What we build</p><div class="mega__links">${types}</div></div>
@@ -71,7 +71,7 @@ ${nav.slice(1).map(([n, h]) => `<li class="nav__item"><a href="${h}"${path === h
 <div class="hdr__cta"><a class="hdr__tel" href="${SITE.phoneHref}"><small>Talk to a builder</small>${SITE.phone}</a><a class="btn btn--sm" href="/#sg-quote">Get My Price</a></div>
 <button class="burger" type="button" id="burger" aria-label="Open menu" aria-expanded="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg></button>
 </div></header>
-<div class="drawer" id="drawer" aria-hidden="true"><div class="drawer__top"><img src="${LOGO}" alt="${esc(SITE.name)}" height="42"><button type="button" id="closeDrawer" aria-label="Close menu">✕</button></div>
+<div class="drawer" id="drawer" aria-hidden="true"><div class="drawer__top"><img src="${LOGO}" alt="${esc(SITE.name)}" width="${Math.round(42 * LOGO_ASPECT)}" height="42"><button type="button" id="closeDrawer" aria-label="Close menu">✕</button></div>
 <details><summary>Buildings</summary>${TYPES.map((t) => `<a href="/${t.slug}/">${t.short}</a>`).join('')}</details>
 <a class="drawer__big" href="/sizes-and-prices/">Sizes &amp; Prices</a>
 <details><summary>Service Areas</summary>${STATES.map((s) => `<a href="/service-areas/#${s.slug}">${s.name}</a>`).join('')}<a href="/service-areas/">All service areas</a></details>
@@ -84,11 +84,12 @@ function footer() {
   const col = (h, links) => `<div><h4>${h}</h4>${links.map(([n, u]) => `<a href="${u}">${n}</a>`).join('')}</div>`;
   return `<footer class="ftr"><div class="wrap">
 <div class="ftr__grid">
-<div class="ftr__brand"><img src="${LOGO}" alt="${esc(SITE.name)} — ${esc(SITE.tagline)}" width="188" height="54" loading="lazy"><a class="ftr__tel" href="${SITE.phoneHref}">${SITE.phone}</a><address>${SITE.street}<br>${SITE.city}, ${SITE.region}<br>${vf(SITE.hours)}</address></div>
+<div class="ftr__brand"><img src="${LOGO}" alt="${esc(SITE.name)} — ${esc(SITE.tagline)}" width="${Math.round(54 * LOGO_ASPECT)}" height="54" loading="lazy"><a class="ftr__tel" href="${SITE.phoneHref}">${SITE.phone}</a><address>${SITE.street}<br>${SITE.city}, ${SITE.region}<br>${vf(SITE.hours)}</address></div>
 ${col('Buildings', TYPES.map((t) => [t.short, `/${t.slug}/`]))}
 ${col('Sizes', [...SIZES.map((s) => [`${s.w}′ × ${s.l}′`, `/steel-buildings/${s.slug}/`]), ['All sizes & prices', '/sizes-and-prices/']])}
 ${col('Company', [['About', '/about/'], ['How it’s built', '/how-its-built/'], ['Financing', '/financing/'], ['Service areas', '/service-areas/'], ['Blog', '/blog/'], ['Dealer program', '/dealer-program/'], ['Contact', '/contact/']])}
 </div>
+<div class="ftr__states"><h4>We install in</h4><p>${STATES.map((s) => `<a href="/service-areas/#${s.slug}">${s.name}</a>`).join('')}</p></div>
 <div class="ftr__legal"><p>© ${new Date().getFullYear()} ${SITE.legal} All rights reserved. Prices shown are effective on the date listed. Financing is subject to approved credit; payment varies. By requesting a price you agree ${SITE.name} may contact you by phone, text or email about your quote; consent is not a condition of purchase; message and data rates may apply; reply STOP to opt out.</p><p><a href="#" data-sg-popup>Ask a builder</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/sitemap.xml">Sitemap</a></p></div>
 </div></footer>`;
 }
@@ -113,7 +114,7 @@ export const sizeRow = (s) => `<a class="srow" href="/steel-buildings/${s.slug}/
 // ---------- "Building Experts" popup (markup; behavior in /assets/popup.js) ----------
 export const popupMarkup = () => `<div class="pop" id="sg-pop" role="dialog" aria-modal="true" aria-labelledby="pop-h" aria-hidden="true" hidden>
 <div class="pop__scrim" data-close></div>
-<div class="pop__card"><div class="pop__hdr"><img src="${LOGO}" alt="${esc(SITE.name)}" height="40"><div><b>Building Experts</b><small>Standing by · Straight answers · Zero pressure</small></div><button type="button" class="pop__x" data-close aria-label="Close">✕</button></div>
+<div class="pop__card"><div class="pop__hdr"><img src="${LOGO}" alt="${esc(SITE.name)}" width="${Math.round(40 * LOGO_ASPECT)}" height="40"><div><b>Building Experts</b><small>Standing by · Straight answers · Zero pressure</small></div><button type="button" class="pop__x" data-close aria-label="Close">✕</button></div>
 <div class="pop__body"><div class="pop__main"><h2 id="pop-h">Got questions about your project?</h2>
 <p class="pop__lead">Whether it’s “what size do I need?” or “how does install actually work?” — we’ve got real answers.</p>
 <p class="pop__rate" hidden><b></b><span></span></p>
@@ -134,13 +135,13 @@ export function page({ path, title, desc, body, ld = [], noindex = false, quiz =
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${url}">${robots}
-<meta property="og:type" content="website"><meta property="og:site_name" content="${esc(SITE.name)}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}">${ogImage ? `<meta property="og:image" content="${ogImage}">` : ''}
-<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#100D0A"><link rel="icon" href="${LOGO}">
+<meta property="og:type" content="website"><meta property="og:site_name" content="${esc(SITE.name)}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}"><meta property="og:image" content="${ogImage || abs('/og.png')}"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#100D0A"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/montserrat-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css">
 ${ldAll}
 <script>document.documentElement.classList.add('js')</script>
 </head><body class="${bodyClass}">
+<a class="skip" href="#top">Skip to content</a>
 ${header(path)}
 <main id="top">${body}</main>
 ${footer()}
@@ -153,6 +154,6 @@ ${popup ? `<script src="/assets/popup.js" defer></script>` : ''}
 </body></html>`.replaceAll(quiz ? 'href="/#sg-quote"' : '\u0000', 'href="#sg-quote"');
 }
 
-export const localBusinessLD = () => ({ '@context': 'https://schema.org', '@type': 'HomeAndConstructionBusiness', '@id': abs('/#business'), name: SITE.name, alternateName: `${SITE.name} — ${SITE.tagline}`, url: abs('/'), logo: LOGO, image: LOGO, telephone: '+1-205-941-6115',
+export const localBusinessLD = () => ({ '@context': 'https://schema.org', '@type': 'HomeAndConstructionBusiness', '@id': abs('/#business'), name: SITE.name, alternateName: `${SITE.name} — ${SITE.tagline}`, url: abs('/'), logo: abs(LOGO), image: abs('/og.png'), telephone: '+1-205-941-6115',
   description: 'Custom steel garages, workshops, barns and carports — slab, steel, delivery and install on one invoice.',
   address: { '@type': 'PostalAddress', streetAddress: SITE.street, addressLocality: SITE.city, addressRegion: SITE.region, addressCountry: 'US' }, areaServed: STATES.map((s) => ({ '@type': 'State', name: s.name })), sameAs: [SITE.facebook] });
