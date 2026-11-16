@@ -9,3 +9,4 @@ node_modules/
 skills-lock.json
 .next/
 out/
+skills/*-workspace/
