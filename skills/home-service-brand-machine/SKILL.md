@@ -77,10 +77,13 @@ real review data, photo library). Fill the two skin tables: the FEAR table
 the fear) and the PALETTE table (dark authority base + cool trust tone + hot
 action accent + neutral). Never start pixels before the skin is decided.
 
-### Phase 1 — Design system (read `references/design-system.md`)
+### Phase 1 — Design system (read `references/design-system.md`, then
+`references/elite-bar.md`)
 Tokens, typography, the iced-heading treatment, the frame law, card systems,
 scrim recipes, mobile laws. Build shared components first so pages cannot
-drift off-brand.
+drift off-brand. The elite-bar reference sets the ceiling: the
+study-the-leaders protocol, the cinematic/motion layer, and the conversion
+stack — the build target is category-killing, not merely correct.
 
 ### Phase 2 — The funnel (read `references/conversion-funnel.md`)
 Build the 4-question check (questions → form page → confirmation echo) as ONE
@@ -134,6 +137,7 @@ builds go generic:
 |---|---|
 | `references/build-order.md` | Phase 0 intake, phase 3 page sequence, launch + replication checklists |
 | `references/design-system.md` | Any visual/layout/component work |
+| `references/elite-bar.md` | Phase 1 (the ceiling: leaders protocol, motion layer, conversion stack) and ALWAYS before delivery — it holds the mandatory 9+ Gate scorecard |
 | `references/conversion-funnel.md` | Building or editing the capture funnel |
 | `references/copywriting.md` | Writing any headline, page copy, ad text, or script |
 | `references/creative-factory.md` | Photos, social posts, ad renders |
@@ -146,6 +150,16 @@ builds go generic:
   stretch, blended CLAHE, half-strength gray-world white balance, gentle
   saturation and unsharp. Run it on every raw job photo before web or ad use:
   `python3 enhance_photos.py <raw_dir> <out_dir>`.
+
+## The ship gate
+
+Nothing is delivered without running the **9+ Gate** in
+`references/elite-bar.md` §5 — a ten-dimension scorecard (1-second clarity,
+funnel friction, capture discipline, trust density, alive-ness, mobile
+luxury, copy teeth, honesty, speed, distinctiveness). Average below 9, or
+any dimension below 8, means the build goes back to work. Include the
+scorecard in the delivery summary: the founder pays for the standard, so
+show the standard being enforced.
 
 ## Posture
 
