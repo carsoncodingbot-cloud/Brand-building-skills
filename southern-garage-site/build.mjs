@@ -14,6 +14,7 @@ const css = readFileSync(join(root, 'src/site.css'), 'utf8').replace('/*QUIZ_CSS
 writeFileSync(join(dist, 'assets/site.css'), css);
 writeFileSync(join(dist, 'assets/site.js'), readFileSync(join(root, 'src/site.js'), 'utf8'));
 writeFileSync(join(dist, 'assets/quiz.js'), readFileSync(join(root, 'src/quiz.js'), 'utf8'));
+writeFileSync(join(dist, 'assets/popup.js'), readFileSync(join(root, 'src/popup.js'), 'utf8'));
 
 const states = Object.fromEntries(STATES.map((s) => [s.ab, s.name]));
 const out = (path, html) => { const f = path.endsWith('.html') ? join(dist, path) : join(dist, path, 'index.html'); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, html); };

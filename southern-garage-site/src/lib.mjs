@@ -89,7 +89,7 @@ ${col('Buildings', TYPES.map((t) => [t.short, `/${t.slug}/`]))}
 ${col('Sizes', [...SIZES.map((s) => [`${s.w}′ × ${s.l}′`, `/steel-buildings/${s.slug}/`]), ['All sizes & prices', '/sizes-and-prices/']])}
 ${col('Company', [['About', '/about/'], ['How it’s built', '/how-its-built/'], ['Financing', '/financing/'], ['Service areas', '/service-areas/'], ['Blog', '/blog/'], ['Dealer program', '/dealer-program/'], ['Contact', '/contact/']])}
 </div>
-<div class="ftr__legal"><p>© ${new Date().getFullYear()} ${SITE.legal} All rights reserved. Prices shown are effective on the date listed. Financing is subject to approved credit; payment varies. By requesting a price you agree ${SITE.name} may contact you by phone, text or email about your quote; consent is not a condition of purchase; message and data rates may apply; reply STOP to opt out.</p><p><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/sitemap.xml">Sitemap</a></p></div>
+<div class="ftr__legal"><p>© ${new Date().getFullYear()} ${SITE.legal} All rights reserved. Prices shown are effective on the date listed. Financing is subject to approved credit; payment varies. By requesting a price you agree ${SITE.name} may contact you by phone, text or email about your quote; consent is not a condition of purchase; message and data rates may apply; reply STOP to opt out.</p><p><a href="#" data-sg-popup>Ask a builder</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/sitemap.xml">Sitemap</a></p></div>
 </div></footer>`;
 }
 
@@ -110,8 +110,23 @@ export const ctaBand = (h = 'Get your whole number — in about 30 seconds.', p 
 
 export const sizeRow = (s) => `<a class="srow" href="/steel-buildings/${s.slug}/"><b class="n">${s.w}′ × ${s.l}′ × ${s.h}′</b><span class="n">${num(s.w * s.l)} sq ft</span><span>${s.doors}</span><span class="price">${vf('$[price] + tax')}</span><span class="go">View ${ARROW}</span></a>`;
 
+// ---------- "Building Experts" popup (markup; behavior in /assets/popup.js) ----------
+export const popupMarkup = () => `<div class="pop" id="sg-pop" role="dialog" aria-modal="true" aria-labelledby="pop-h" aria-hidden="true" hidden>
+<div class="pop__scrim" data-close></div>
+<div class="pop__card"><div class="pop__hdr"><img src="${LOGO}" alt="${esc(SITE.name)}" height="40"><div><b>Building Experts</b><small>Standing by · Straight answers · Zero pressure</small></div><button type="button" class="pop__x" data-close aria-label="Close">✕</button></div>
+<div class="pop__body"><div class="pop__main"><h2 id="pop-h">Got questions about your project?</h2>
+<p class="pop__lead">Whether it’s “what size do I need?” or “how does install actually work?” — we’ve got real answers.</p>
+<p class="pop__rate" hidden><b></b><span></span></p>
+<ul class="pop__benes"><li>Current pricing for your ZIP</li><li>How delivery &amp; install works</li><li>Honest advice, zero pressure</li></ul>
+<div class="pop__inst" hidden><p>Recent installs</p><div class="pop__thumbs"></div></div>
+<form novalidate><div class="pop__f"><input name="name" placeholder="Name" autocomplete="name"><input name="email" type="email" placeholder="Email" autocomplete="email"><input name="phone" type="tel" inputmode="tel" placeholder="Phone" autocomplete="tel"><input name="zip" inputmode="numeric" maxlength="5" placeholder="ZIP code" autocomplete="postal-code"></div>
+<div class="pop__err" role="alert"></div><button class="btn btn--lg pop__cta" type="submit">Secure my quote now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
+<p class="pop__ps"><b>P.S.</b> Ask any builder what’s <em>not</em> in their number. Ours covers the slab, steel, delivery and install.</p>
+<p class="pop__fine">By submitting, you agree we may call or text you about your quote. Consent is not a condition of purchase.</p></div>
+<div class="pop__done" hidden><h3>You’re all set.</h3><p>We’ve got your info and we’ll reach out shortly with your exact pricing. Talk soon.</p><a class="btn" href="${SITE.phoneHref}">Need it faster? Call ${SITE.phone}</a></div></div></div></div>`;
+
 // ---------- Page shell ----------
-export function page({ path, title, desc, body, ld = [], noindex = false, quiz = false, ogImage = null, bodyClass = '', preset = null, states = {} }) {
+export function page({ path, title, desc, body, ld = [], noindex = false, quiz = false, ogImage = null, bodyClass = '', preset = null, states = {}, popup = true }) {
   const url = abs(path);
   const robots = noindex ? '<meta name="robots" content="noindex,follow">' : '';
   const ldAll = ld.map((o) => `<script type="application/ld+json">${JSON.stringify(o)}</script>`).join('\n');
@@ -129,9 +144,11 @@ ${ldAll}
 ${header(path)}
 <main id="top">${body}</main>
 ${footer()}
+${popup ? popupMarkup() : ''}
 ${quiz ? `<div class="stickybar" id="sgq-sticky"><span>Your price in ~30 seconds — locked ${SITE.priceLockMonths} months</span><a href="#sg-quote" id="sgq-stickybtn">Show My Price</a></div>` : ''}
-<script>window.SG_CONFIG=${JSON.stringify({ webhook: SITE.ghlWebhook, phone: SITE.phone, phoneHref: SITE.phoneHref, preset, states })}</script>
+<script>window.SG_CONFIG=${JSON.stringify({ webhook: SITE.ghlWebhook, phone: SITE.phone, phoneHref: SITE.phoneHref, preset, states, popup: SITE.popup })}</script>
 ${quiz ? `<script src="/assets/quiz.js" defer></script>` : ''}
+${popup ? `<script src="/assets/popup.js" defer></script>` : ''}
 <script src="/assets/site.js" defer></script>
 </body></html>`.replaceAll(quiz ? 'href="/#sg-quote"' : '\u0000', 'href="#sg-quote"');
 }

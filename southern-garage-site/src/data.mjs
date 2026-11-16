@@ -22,6 +22,8 @@ export const SITE = {
   rtoUrl: 'https://ezpaybuildings.net/DealerContractForm.aspx?d=6941',
   designToolUrl: 'https://southerngarageco.sensei3d.com',
   facebook: 'https://www.facebook.com/profile.php?id=61576593310422',
+  // Popup extras render ONLY when real: set rating/ratingCount from your Google profile, and installs to real job-photo URLs.
+  popup: { rating: null, ratingCount: null, installs: [], autoOpenMs: 7000 },
 };
 
 const CDN = 'https://assets.cdn.filesafe.space/u7qOZfVZ1CzSkoPHQviC/media/';
