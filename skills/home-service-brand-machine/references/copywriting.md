@@ -77,8 +77,11 @@ Every service page is a landing page, structured:
 
 Hook line that stands alone above the fold → mechanism/agitation in 2–3
 short, air-separated paragraphs → offer restated as the reader's
-self-interest → stacked contact block (phone / domain). Ship one long, one
-medium, one short — the platform matches length to reader. Headlines ≤ ~40
+self-interest → stacked contact block. The contact block carries BOTH the
+phone number AND the bare domain in every variant, including the short
+ones — the domain is the retargeting/organic trail for readers who won't
+call; dropping it from short variants is the most common slip. Ship one
+long, one medium, one short — the platform matches length to reader. Headlines ≤ ~40
 characters restating MECHANISM, not slogan. Descriptions close the loop and
 compress risk-reversal ("say no anytime"). Deliver copy variants in code
 blocks so the founder can copy-paste cleanly.
